@@ -65,3 +65,14 @@ export function renderErrorSvg(username: string): string {
   <text x="200" y="95" font-family="Arial, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Check the username and try again</text>
 </svg>`;
 }
+
+export function renderRateLimitSvg(username: string, resetAt: Date): string {
+  const timeStr = resetAt.toISOString().substring(11, 16) + ' UTC';
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="120" viewBox="0 0 400 120">
+  <rect width="400" height="120" rx="12" fill="#0f172a"/>
+  <rect x="1" y="1" width="398" height="118" rx="11" fill="none" stroke="#334155" stroke-width="1"/>
+  <text x="200" y="45" font-family="Arial, sans-serif" font-size="14" fill="#f59e0b" text-anchor="middle">Rate limited — retry after ${timeStr}</text>
+  <text x="200" y="70" font-family="Arial, sans-serif" font-size="12" fill="#94a3b8" text-anchor="middle">@${username}</text>
+  <text x="200" y="95" font-family="Arial, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">GitHub API rate limit exceeded</text>
+</svg>`;
+}

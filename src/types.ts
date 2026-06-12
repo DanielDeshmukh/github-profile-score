@@ -75,3 +75,10 @@ export interface CacheProvider {
   exists(key: string): Promise<boolean>;
   ttl(key: string): Promise<number>;
 }
+
+export class GitHubRateLimitError extends Error {
+  constructor(public readonly resetAt: Date) {
+    super('GitHub API rate limit exceeded');
+    this.name = 'GitHubRateLimitError';
+  }
+}

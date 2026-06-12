@@ -5,6 +5,7 @@ import { deduplicate } from '../utils/deduplicator.js';
 import { RateLimitError } from '../utils/errors.js';
 import { withRetry } from '../utils/retry.js';
 import type { GitHubProfile, GitHubRepo, GitHubEvent } from '../types.js';
+import { GitHubRateLimitError } from '../types.js';
 
 const log = createChildLogger('github-fetcher');
 
@@ -45,6 +46,10 @@ export class GitHubFetcher {
 
         if (res.status === 404) {
           throw new Error('NOT_FOUND');
+        }
+        if ((res.status === 403 || res.status === 429) && remaining === '0') {
+          const resetTimestamp = reset ? parseInt(reset, 10) : Math.floor(Date.now() / 1000) + 60;
+          throw new GitHubRateLimitError(new Date(resetTimestamp * 1000));
         }
         if (res.status === 403 || res.status === 429) {
           const retryAfter = res.headers.get('retry-after');

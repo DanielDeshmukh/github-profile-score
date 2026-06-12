@@ -8,6 +8,7 @@ If this project saves you time, consider giving it a star. It helps others find 
 
 [![Star this repo](https://img.shields.io/github/stars/DanielDeshmukh/github-profile-score?style=social)](https://github.com/DanielDeshmukh/github-profile-score)
 
+[![CI](https://github.com/DanielDeshmukh/github-profile-score/actions/workflows/ci.yml/badge.svg)](https://github.com/DanielDeshmukh/github-profile-score/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-green)](https://nodejs.org/)
 [![Redis](https://img.shields.io/badge/Cache-Redis-red)](https://redis.io/)
@@ -200,6 +201,39 @@ Returns the full JSON score payload.
 
 ### `GET /score/:username/html`
 Full HTML report with dimension breakdown, fix callouts, and comparison percentiles.
+
+### `GET /score/:username/plan`
+Returns a prioritized improvement plan sorted by points available.
+
+```json
+{
+  "username": "octocat",
+  "total": 39,
+  "grade": "F",
+  "improvements": [
+    {
+      "dimension": "community",
+      "current_score": 4,
+      "max_score": 20,
+      "points_available": 16,
+      "callout": "Contribute to open source by submitting PRs and filing issues on other projects.",
+      "priority": 1
+    },
+    {
+      "dimension": "documentation",
+      "current_score": 5,
+      "max_score": 20,
+      "points_available": 15,
+      "callout": "Your documentation score is low. Use readme-craft to generate a production-ready README.",
+      "priority": 2
+    }
+  ]
+}
+```
+
+- Dimensions where score equals max are omitted (nothing to improve)
+- Sorted descending by `points_available`
+- `priority` is 1-indexed rank
 
 ### `GET /health`
 Liveness check. Returns Redis connection status and GitHub API rate limit remaining.

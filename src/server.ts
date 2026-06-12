@@ -9,7 +9,7 @@ import { createCache, CACHE_KEYS, CACHE_TTL } from './cache/index.js';
 import { GitHubFetcher } from './fetcher/index.js';
 import { score } from './scorer/HeuristicScorer.js';
 import { generateCallouts } from './ai/index.js';
-import { renderSvg, renderErrorSvg } from './renderer/SvgRenderer.js';
+import { renderSvg, renderErrorSvg, renderRateLimitSvg } from './renderer/SvgRenderer.js';
 import { renderHtml } from './renderer/HtmlRenderer.js';
 import { renderJson } from './renderer/JsonRenderer.js';
 import { rateLimiter } from './middleware/rateLimiter.js';
@@ -18,6 +18,7 @@ import { usernameValidator } from './middleware/usernameValidator.js';
 import { requestLogger } from './middleware/requestLogger.js';
 import { escapeHtml } from './utils/escapeHtml.js';
 import type { CacheProvider, ScoreResult } from './types.js';
+import { GitHubRateLimitError } from './types.js';
 
 const log = createChildLogger('server');
 
@@ -54,7 +55,11 @@ export async function buildApp(): Promise<express.Express> {
       res.send(renderSvg(result));
     } catch (err) {
       res.set({ 'Content-Type': 'image/svg+xml', 'Cache-Control': 'no-cache' });
-      res.status(err instanceof Error && 'statusCode' in err ? (err as { statusCode: number }).statusCode : 500).send(renderErrorSvg(username));
+      if (err instanceof GitHubRateLimitError) {
+        res.status(429).send(renderRateLimitSvg(username, err.resetAt));
+      } else {
+        res.status(err instanceof Error && 'statusCode' in err ? (err as { statusCode: number }).statusCode : 500).send(renderErrorSvg(username));
+      }
     }
   });
 
@@ -67,9 +72,13 @@ export async function buildApp(): Promise<express.Express> {
       res.set({ 'Cache-Control': 'public, max-age=300' });
       res.json(renderJson(result));
     } catch (err) {
-      const status = err instanceof Error && 'statusCode' in err ? (err as { statusCode: number }).statusCode : 500;
-      const message = status === 500 ? 'Internal server error' : (err instanceof Error ? err.message : 'Unknown error');
-      res.status(status).json({ error: message });
+      if (err instanceof GitHubRateLimitError) {
+        res.status(429).json({ error: 'rate_limited', retry_after: err.resetAt.toISOString() });
+      } else {
+        const status = err instanceof Error && 'statusCode' in err ? (err as { statusCode: number }).statusCode : 500;
+        const message = status === 500 ? 'Internal server error' : (err instanceof Error ? err.message : 'Unknown error');
+        res.status(status).json({ error: message });
+      }
     }
   });
 
@@ -82,8 +91,51 @@ export async function buildApp(): Promise<express.Express> {
       res.set({ 'Content-Type': 'text/html', 'Cache-Control': 'public, max-age=3600' });
       res.send(renderHtml(result));
     } catch (err) {
-      const status = err instanceof Error && 'statusCode' in err ? (err as { statusCode: number }).statusCode : 500;
-      res.status(status).send(`<h1>Error: ${escapeHtml(err instanceof Error ? err.message : 'Unknown error')}</h1>`);
+      if (err instanceof GitHubRateLimitError) {
+        res.status(429).json({ error: 'rate_limited', retry_after: err.resetAt.toISOString() });
+      } else {
+        const status = err instanceof Error && 'statusCode' in err ? (err as { statusCode: number }).statusCode : 500;
+        res.status(status).send(`<h1>Error: ${escapeHtml(err instanceof Error ? err.message : 'Unknown error')}</h1>`);
+      }
+    }
+  });
+
+  app.get('/score/:username/plan', usernameParam, async (req, res) => {
+    const username = req.params.username as string;
+    const refresh = req.query.refresh === '1';
+
+    try {
+      const result = await getCachedOrCompute(username, refresh);
+      const improvements = (Object.entries(result.dimensions) as [string, { score: number; max: number; callout: string | null }][])
+        .filter(([_, dim]) => dim.score < dim.max)
+        .map(([dimension, dim]) => ({
+          dimension,
+          current_score: dim.score,
+          max_score: dim.max,
+          points_available: dim.max - dim.score,
+          callout: dim.callout,
+        }))
+        .sort((a, b) => b.points_available - a.points_available)
+        .map((item, index) => ({
+          ...item,
+          priority: index + 1,
+        }));
+
+      res.set({ 'Cache-Control': 'public, max-age=300' });
+      res.json({
+        username: result.username,
+        total: result.total,
+        grade: result.grade,
+        improvements,
+      });
+    } catch (err) {
+      if (err instanceof GitHubRateLimitError) {
+        res.status(429).json({ error: 'rate_limited', retry_after: err.resetAt.toISOString() });
+      } else {
+        const status = err instanceof Error && 'statusCode' in err ? (err as { statusCode: number }).statusCode : 500;
+        const message = status === 500 ? 'Internal server error' : (err instanceof Error ? err.message : 'Unknown error');
+        res.status(status).json({ error: message });
+      }
     }
   });
 
