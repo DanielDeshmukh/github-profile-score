@@ -16,6 +16,7 @@ interface RateLimitState {
 
 export class GitHubFetcher {
   private rateLimit: RateLimitState = { remaining: 5000, reset: 0 };
+  private searchRateLimit: RateLimitState = { remaining: 30, reset: 0 };
   private circuitBreaker = new CircuitBreaker(5, 30000);
 
   private getHeaders(accept?: string): Record<string, string> {
@@ -28,8 +29,11 @@ export class GitHubFetcher {
   }
 
   private async request<T>(url: string, options?: { headers?: Record<string, string> }): Promise<T> {
-    if (this.rateLimit.remaining < 10) {
-      const waitSeconds = Math.max(0, this.rateLimit.reset - Math.floor(Date.now() / 1000));
+    const isSearchEndpoint = url.includes('/search/');
+    const activeRateLimit = isSearchEndpoint ? this.searchRateLimit : this.rateLimit;
+
+    if (activeRateLimit.remaining < 10) {
+      const waitSeconds = Math.max(0, activeRateLimit.reset - Math.floor(Date.now() / 1000));
       if (waitSeconds > 0) {
         throw new RateLimitError(waitSeconds);
       }
@@ -41,8 +45,8 @@ export class GitHubFetcher {
 
         const remaining = res.headers.get('x-ratelimit-remaining');
         const reset = res.headers.get('x-ratelimit-reset');
-        if (remaining) this.rateLimit.remaining = parseInt(remaining, 10);
-        if (reset) this.rateLimit.reset = parseInt(reset, 10);
+        if (remaining) activeRateLimit.remaining = parseInt(remaining, 10);
+        if (reset) activeRateLimit.reset = parseInt(reset, 10);
 
         if (res.status === 404) {
           throw new Error('NOT_FOUND');
