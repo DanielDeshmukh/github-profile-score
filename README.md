@@ -6,7 +6,7 @@
 
 If this project saves you time, consider giving it a star. It helps others find it.
 
-[![Star this repo](https://img.shields.io/github/stars/USERNAME/github-profile-score?style=social)](https://github.com/USERNAME/github-profile-score)
+[![Star this repo](https://img.shields.io/github/stars/DanielDeshmukh/github-profile-score?style=social)](https://github.com/DanielDeshmukh/github-profile-score)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-green)](https://nodejs.org/)
@@ -36,8 +36,8 @@ Deploy in under 5 minutes — no cloning required.
 
 | Platform | Deploy Button |
 |----------|---------------|
-| **Railway** | [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new?template=https://github.com/USERNAME/github-profile-score) |
-| **Render** | [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/USERNAME/github-profile-score) |
+| **Railway** | [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new?template=https://github.com/DanielDeshmukh/github-profile-score) |
+| **Render** | [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/DanielDeshmukh/github-profile-score) |
 
 > **Note:** `NVIDIA_API_KEY` is optional. Without it, you'll get generic improvement suggestions instead of AI-personalized ones.
 
@@ -138,7 +138,7 @@ Each dimension scores **0–20 points** (total: 100).
 ### Quick Start with Docker
 
 ```bash
-git clone https://github.com/USERNAME/github-profile-score.git
+git clone https://github.com/DanielDeshmukh/github-profile-score.git
 cd github-profile-score
 cp .env.example .env
 # Edit .env and add your GITHUB_TOKEN
@@ -148,7 +148,7 @@ docker compose up
 ### Quick Start without Docker
 
 ```bash
-git clone https://github.com/USERNAME/github-profile-score.git
+git clone https://github.com/DanielDeshmukh/github-profile-score.git
 cd github-profile-score
 npm install
 cp .env.example .env
