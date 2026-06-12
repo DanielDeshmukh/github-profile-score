@@ -68,7 +68,8 @@ export async function buildApp(): Promise<express.Express> {
       res.json(renderJson(result));
     } catch (err) {
       const status = err instanceof Error && 'statusCode' in err ? (err as { statusCode: number }).statusCode : 500;
-      res.status(status).json({ error: err instanceof Error ? err.message : 'Unknown error' });
+      const message = status === 500 ? 'Internal server error' : (err instanceof Error ? err.message : 'Unknown error');
+      res.status(status).json({ error: message });
     }
   });
 
