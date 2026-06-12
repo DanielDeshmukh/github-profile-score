@@ -13,13 +13,14 @@ function calculateGrade(total: number): ScoreResult['grade'] {
   return 'F';
 }
 
-export function score(
+export async function score(
   profile: GitHubProfile,
   repos: GitHubRepo[],
   events: GitHubEvent[],
   threshold: number = 14,
-): ScoreResult {
-  const activityResult = activity.score(repos, events);
+  commitCount?: number,
+): Promise<ScoreResult> {
+  const activityResult = activity.score(repos, events, commitCount);
   const qualityResult = quality.score(repos);
   const documentationResult = documentation.score(repos);
   const diversityResult = diversity.score(repos);

@@ -72,14 +72,14 @@ function generatePlan(result: ScoreResult) {
 }
 
 describe('Plan endpoint logic', () => {
-  it('should sort improvements by points_available descending', () => {
+  it('should sort improvements by points_available descending', async () => {
     const profile = createMockProfile();
     const repos = [
       createMockRepo({ id: 1, name: 'lib', topics: ['library'] }),
       createMockRepo({ id: 2, name: 'tool', topics: ['cli'] }),
       createMockRepo({ id: 3, name: 'app', topics: ['web'] }),
     ];
-    const result = score(profile, repos, []);
+    const result = await score(profile, repos, []);
     const plan = generatePlan(result);
 
     for (let i = 1; i < plan.improvements.length; i++) {
@@ -89,10 +89,10 @@ describe('Plan endpoint logic', () => {
     }
   });
 
-  it('should calculate points_available correctly', () => {
+  it('should calculate points_available correctly', async () => {
     const profile = createMockProfile();
     const repos = [createMockRepo()];
-    const result = score(profile, repos, []);
+    const result = await score(profile, repos, []);
     const plan = generatePlan(result);
 
     for (const item of plan.improvements) {
@@ -100,7 +100,7 @@ describe('Plan endpoint logic', () => {
     }
   });
 
-  it('should omit dimensions where score equals max', () => {
+  it('should omit dimensions where score equals max', async () => {
     const profile = createMockProfile();
     const repos = [
       createMockRepo({ id: 1, name: 'lib', topics: ['library'] }),
@@ -109,7 +109,7 @@ describe('Plan endpoint logic', () => {
       createMockRepo({ id: 4, name: 'api', topics: ['api'] }),
       createMockRepo({ id: 5, name: 'research', language: 'Jupyter Notebook' }),
     ];
-    const result = score(profile, repos, []);
+    const result = await score(profile, repos, []);
     const plan = generatePlan(result);
 
     for (const item of plan.improvements) {
@@ -117,10 +117,10 @@ describe('Plan endpoint logic', () => {
     }
   });
 
-  it('should have 1-indexed priority', () => {
+  it('should have 1-indexed priority', async () => {
     const profile = createMockProfile();
     const repos = [createMockRepo()];
-    const result = score(profile, repos, []);
+    const result = await score(profile, repos, []);
     const plan = generatePlan(result);
 
     expect(plan.improvements[0].priority).toBe(1);
@@ -129,10 +129,10 @@ describe('Plan endpoint logic', () => {
     }
   });
 
-  it('should include dimension, current_score, max_score, points_available, callout', () => {
+  it('should include dimension, current_score, max_score, points_available, callout', async () => {
     const profile = createMockProfile();
     const repos = [createMockRepo()];
-    const result = score(profile, repos, []);
+    const result = await score(profile, repos, []);
     const plan = generatePlan(result);
 
     for (const item of plan.improvements) {
