@@ -169,14 +169,15 @@ async function getCachedOrCompute(username: string, refresh: boolean): Promise<S
     return { ...cached, cached: true, cache_age_seconds: ttl > 0 ? CACHE_TTL.SCORE - ttl : 0 };
   }
 
-  const [profile, repos, events] = await Promise.all([
+  const [profile, repos, events, commitCount] = await Promise.all([
     fetcher.fetchProfile(username),
     fetcher.fetchRepos(username),
     fetcher.fetchEvents(username),
+    fetcher.fetchCommitCount(username),
   ]);
 
   const config = getConfig();
-  const result = score(profile, repos, events, config.SCORE_THRESHOLD);
+  const result = await score(profile, repos, events, config.SCORE_THRESHOLD, commitCount);
 
   await generateCallouts(result);
 

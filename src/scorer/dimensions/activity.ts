@@ -7,9 +7,9 @@ interface ActivitySignals {
   daysSinceLastPush: number;
 }
 
-function extractSignals(_repos: GitHubRepo[], events: GitHubEvent[]): ActivitySignals {
+function extractSignals(_repos: GitHubRepo[], events: GitHubEvent[], commitCount?: number): ActivitySignals {
   const commitEvents = events.filter((e) => e.type === 'PushEvent');
-  const commitsLast90Days = commitEvents.reduce((sum, e) => {
+  const commitsLast90Days = commitCount ?? commitEvents.reduce((sum, e) => {
     const count = (e.payload as { size?: number }).size ?? 0;
     return sum + count;
   }, 0);
@@ -47,16 +47,16 @@ function extractSignals(_repos: GitHubRepo[], events: GitHubEvent[]): ActivitySi
   return { commitsLast90Days, longestStreak, daysSinceLastPush };
 }
 
-export function score(repos: GitHubRepo[], events: GitHubEvent[]): { score: number; reason: string } {
-  const signals = extractSignals(repos, events);
+export function score(repos: GitHubRepo[], events: GitHubEvent[], commitCount?: number): { score: number; reason: string } {
+  const signals = extractSignals(repos, events, commitCount);
 
-  const commitScore = normalize(signals.commitsLast90Days, 0, 200, 8);
+  const commitScore = normalize(signals.commitsLast90Days, 0, 200, 10);
   const streakScore = normalize(signals.longestStreak, 0, 30, 6);
 
-  let recencyScore = 6;
-  if (signals.daysSinceLastPush <= 7) recencyScore = 6;
-  else if (signals.daysSinceLastPush <= 30) recencyScore = 4;
-  else if (signals.daysSinceLastPush <= 90) recencyScore = 2;
+  let recencyScore = 4;
+  if (signals.daysSinceLastPush <= 7) recencyScore = 4;
+  else if (signals.daysSinceLastPush <= 30) recencyScore = 3;
+  else if (signals.daysSinceLastPush <= 90) recencyScore = 1;
   else recencyScore = 0;
 
   const total = commitScore + streakScore + recencyScore;

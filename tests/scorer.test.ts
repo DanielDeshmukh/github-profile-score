@@ -59,12 +59,12 @@ function createMockEvent(overrides: Partial<GitHubEvent> = {}): GitHubEvent {
 }
 
 describe('HeuristicScorer', () => {
-  it('should score a profile and return valid result', () => {
+  it('should score a profile and return valid result', async () => {
     const profile = createMockProfile();
     const repos = [createMockRepo()];
     const events = [createMockEvent()];
 
-    const result = score(profile, repos, events);
+    const result = await score(profile, repos, events);
 
     expect(result).toHaveProperty('username', 'testuser');
     expect(result).toHaveProperty('total');
@@ -75,7 +75,7 @@ describe('HeuristicScorer', () => {
     expect(['A', 'B', 'C', 'D', 'F']).toContain(result.grade);
   });
 
-  it('should calculate grade correctly for high-activity profile', () => {
+  it('should calculate grade correctly for high-activity profile', async () => {
     const profile = createMockProfile({ public_repos: 100, followers: 1000 });
     const repos = Array.from({ length: 50 }, (_, i) =>
       createMockRepo({
@@ -98,14 +98,14 @@ describe('HeuristicScorer', () => {
       })
     );
 
-    const result = score(profile, repos, events);
+    const result = await score(profile, repos, events);
 
     expect(result.total).toBeGreaterThanOrEqual(40);
     expect(result.total).toBeLessThanOrEqual(100);
     expect(['A', 'B', 'C', 'D', 'F']).toContain(result.grade);
   });
 
-  it('should return low score for empty profile', () => {
+  it('should return low score for empty profile', async () => {
     const profile = createMockProfile({
       public_repos: 0,
       followers: 0,
@@ -114,18 +114,18 @@ describe('HeuristicScorer', () => {
     const repos: GitHubRepo[] = [];
     const events: GitHubEvent[] = [];
 
-    const result = score(profile, repos, events);
+    const result = await score(profile, repos, events);
 
     expect(result.total).toBeLessThan(50);
     expect(['D', 'F']).toContain(result.grade);
   });
 
-  it('should have all five dimensions', () => {
+  it('should have all five dimensions', async () => {
     const profile = createMockProfile();
     const repos = [createMockRepo()];
     const events = [createMockEvent()];
 
-    const result = score(profile, repos, events);
+    const result = await score(profile, repos, events);
 
     expect(result.dimensions).toHaveProperty('activity');
     expect(result.dimensions).toHaveProperty('quality');
@@ -134,12 +134,12 @@ describe('HeuristicScorer', () => {
     expect(result.dimensions).toHaveProperty('community');
   });
 
-  it('each dimension should have score and max of 20', () => {
+  it('each dimension should have score and max of 20', async () => {
     const profile = createMockProfile();
     const repos = [createMockRepo()];
     const events = [createMockEvent()];
 
-    const result = score(profile, repos, events);
+    const result = await score(profile, repos, events);
 
     for (const dim of Object.values(result.dimensions)) {
       expect(dim.score).toBeGreaterThanOrEqual(0);
@@ -150,91 +150,91 @@ describe('HeuristicScorer', () => {
 });
 
 describe('Diversity dimension - classifyRepo keyword matching', () => {
-  it('should classify library by topics', () => {
+  it('should classify library by topics', async () => {
     const profile = createMockProfile();
     const repos = [createMockRepo({ topics: ['library', 'javascript'] })];
-    const result = score(profile, repos, []);
+    const result = await score(profile, repos, []);
     expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
   });
 
-  it('should classify library by description keyword', () => {
+  it('should classify library by description keyword', async () => {
     const profile = createMockProfile();
     const repos = [createMockRepo({ description: 'A utility library for parsing', topics: [] })];
-    const result = score(profile, repos, []);
+    const result = await score(profile, repos, []);
     expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
   });
 
-  it('should classify tool by topics', () => {
+  it('should classify tool by topics', async () => {
     const profile = createMockProfile();
     const repos = [createMockRepo({ topics: ['cli', 'automation'] })];
-    const result = score(profile, repos, []);
+    const result = await score(profile, repos, []);
     expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
   });
 
-  it('should classify tool by repo name keyword', () => {
+  it('should classify tool by repo name keyword', async () => {
     const profile = createMockProfile();
     const repos = [createMockRepo({ name: 'my-scraper-tool', topics: [], description: '' })];
-    const result = score(profile, repos, []);
+    const result = await score(profile, repos, []);
     expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
   });
 
-  it('should classify app by description keyword', () => {
+  it('should classify app by description keyword', async () => {
     const profile = createMockProfile();
     const repos = [createMockRepo({ description: 'A dashboard for monitoring', topics: [] })];
-    const result = score(profile, repos, []);
+    const result = await score(profile, repos, []);
     expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
   });
 
-  it('should classify app by topics', () => {
+  it('should classify app by topics', async () => {
     const profile = createMockProfile();
     const repos = [createMockRepo({ topics: ['frontend', 'ui'] })];
-    const result = score(profile, repos, []);
+    const result = await score(profile, repos, []);
     expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
   });
 
-  it('should classify api by description keyword', () => {
+  it('should classify api by description keyword', async () => {
     const profile = createMockProfile();
     const repos = [createMockRepo({ description: 'REST API backend service', topics: [] })];
-    const result = score(profile, repos, []);
+    const result = await score(profile, repos, []);
     expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
   });
 
-  it('should classify api by topics', () => {
+  it('should classify api by topics', async () => {
     const profile = createMockProfile();
     const repos = [createMockRepo({ topics: ['fastapi', 'endpoint'] })];
-    const result = score(profile, repos, []);
+    const result = await score(profile, repos, []);
     expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
   });
 
-  it('should classify research by Jupyter Notebook language', () => {
+  it('should classify research by Jupyter Notebook language', async () => {
     const profile = createMockProfile();
     const repos = [createMockRepo({ language: 'Jupyter Notebook', topics: [], description: '' })];
-    const result = score(profile, repos, []);
+    const result = await score(profile, repos, []);
     expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
   });
 
-  it('should classify research by keyword in description', () => {
+  it('should classify research by keyword in description', async () => {
     const profile = createMockProfile();
     const repos = [createMockRepo({ description: 'Fine-tune LLM models for research', topics: [], language: 'Python' })];
-    const result = score(profile, repos, []);
+    const result = await score(profile, repos, []);
     expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
   });
 
-  it('should classify research by keyword in topics', () => {
+  it('should classify research by keyword in topics', async () => {
     const profile = createMockProfile();
     const repos = [createMockRepo({ topics: ['dataset', 'model'] })];
-    const result = score(profile, repos, []);
+    const result = await score(profile, repos, []);
     expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
   });
 
-  it('should classify other when no keywords match', () => {
+  it('should classify other when no keywords match', async () => {
     const profile = createMockProfile();
     const repos = [createMockRepo({ description: 'Just a random project', topics: [], language: 'Python' })];
-    const result = score(profile, repos, []);
+    const result = await score(profile, repos, []);
     expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
   });
 
-  it('should give higher diversity score with multiple categories', () => {
+  it('should give higher diversity score with multiple categories', async () => {
     const profile = createMockProfile();
     const repos = [
       createMockRepo({ id: 1, name: 'lib', topics: ['library'], description: '' }),
@@ -242,7 +242,7 @@ describe('Diversity dimension - classifyRepo keyword matching', () => {
       createMockRepo({ id: 3, name: 'web-app', topics: ['app'], description: '' }),
       createMockRepo({ id: 4, name: 'api-server', topics: ['api'], description: '' }),
     ];
-    const result = score(profile, repos, []);
+    const result = await score(profile, repos, []);
     expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(10);
   });
 });
