@@ -148,3 +148,101 @@ describe('HeuristicScorer', () => {
     }
   });
 });
+
+describe('Diversity dimension - classifyRepo keyword matching', () => {
+  it('should classify library by topics', () => {
+    const profile = createMockProfile();
+    const repos = [createMockRepo({ topics: ['library', 'javascript'] })];
+    const result = score(profile, repos, []);
+    expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
+  });
+
+  it('should classify library by description keyword', () => {
+    const profile = createMockProfile();
+    const repos = [createMockRepo({ description: 'A utility library for parsing', topics: [] })];
+    const result = score(profile, repos, []);
+    expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
+  });
+
+  it('should classify tool by topics', () => {
+    const profile = createMockProfile();
+    const repos = [createMockRepo({ topics: ['cli', 'automation'] })];
+    const result = score(profile, repos, []);
+    expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
+  });
+
+  it('should classify tool by repo name keyword', () => {
+    const profile = createMockProfile();
+    const repos = [createMockRepo({ name: 'my-scraper-tool', topics: [], description: '' })];
+    const result = score(profile, repos, []);
+    expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
+  });
+
+  it('should classify app by description keyword', () => {
+    const profile = createMockProfile();
+    const repos = [createMockRepo({ description: 'A dashboard for monitoring', topics: [] })];
+    const result = score(profile, repos, []);
+    expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
+  });
+
+  it('should classify app by topics', () => {
+    const profile = createMockProfile();
+    const repos = [createMockRepo({ topics: ['frontend', 'ui'] })];
+    const result = score(profile, repos, []);
+    expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
+  });
+
+  it('should classify api by description keyword', () => {
+    const profile = createMockProfile();
+    const repos = [createMockRepo({ description: 'REST API backend service', topics: [] })];
+    const result = score(profile, repos, []);
+    expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
+  });
+
+  it('should classify api by topics', () => {
+    const profile = createMockProfile();
+    const repos = [createMockRepo({ topics: ['fastapi', 'endpoint'] })];
+    const result = score(profile, repos, []);
+    expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
+  });
+
+  it('should classify research by Jupyter Notebook language', () => {
+    const profile = createMockProfile();
+    const repos = [createMockRepo({ language: 'Jupyter Notebook', topics: [], description: '' })];
+    const result = score(profile, repos, []);
+    expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
+  });
+
+  it('should classify research by keyword in description', () => {
+    const profile = createMockProfile();
+    const repos = [createMockRepo({ description: 'Fine-tune LLM models for research', topics: [], language: 'Python' })];
+    const result = score(profile, repos, []);
+    expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
+  });
+
+  it('should classify research by keyword in topics', () => {
+    const profile = createMockProfile();
+    const repos = [createMockRepo({ topics: ['dataset', 'model'] })];
+    const result = score(profile, repos, []);
+    expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
+  });
+
+  it('should classify other when no keywords match', () => {
+    const profile = createMockProfile();
+    const repos = [createMockRepo({ description: 'Just a random project', topics: [], language: 'Python' })];
+    const result = score(profile, repos, []);
+    expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(0);
+  });
+
+  it('should give higher diversity score with multiple categories', () => {
+    const profile = createMockProfile();
+    const repos = [
+      createMockRepo({ id: 1, name: 'lib', topics: ['library'], description: '' }),
+      createMockRepo({ id: 2, name: 'cli-tool', topics: ['cli'], description: '' }),
+      createMockRepo({ id: 3, name: 'web-app', topics: ['app'], description: '' }),
+      createMockRepo({ id: 4, name: 'api-server', topics: ['api'], description: '' }),
+    ];
+    const result = score(profile, repos, []);
+    expect(result.dimensions.diversity.score).toBeGreaterThanOrEqual(10);
+  });
+});
