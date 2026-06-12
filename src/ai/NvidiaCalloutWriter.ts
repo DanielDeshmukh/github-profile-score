@@ -24,9 +24,17 @@ export async function generateCallouts(
 
   if (dimensionsNeedingCallouts.length === 0) return;
 
+  if (!config.NVIDIA_API_KEY) {
+    log.info('NVIDIA_API_KEY not set, using fallback callouts');
+    dimensionsNeedingCallouts.forEach(([key, dim]) => {
+      dim.callout = getFallbackCallout(key);
+    });
+    return;
+  }
+
   const promises = dimensionsNeedingCallouts.map(async ([key, dim]) => {
     try {
-      const callout = await callNvidiaNim(key, dim.score, dim.reason, config.NVIDIA_API_KEY, config.NVIDIA_MODEL);
+      const callout = await callNvidiaNim(key, dim.score, dim.reason, config.NVIDIA_API_KEY!, config.NVIDIA_MODEL);
       if (validateCallout(callout)) {
         dim.callout = callout;
       } else {

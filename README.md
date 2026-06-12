@@ -25,6 +25,24 @@ Drop a badge into any README and let your GitHub profile speak for itself.
 
 ---
 
+## Quick Deploy (Fork & Go)
+
+Deploy in under 5 minutes — no cloning required.
+
+1. **Fork** this repo
+2. **Deploy** using one of the buttons below
+3. **Add** your `GITHUB_TOKEN` environment variable
+4. **Copy** the badge URL to your profile README
+
+| Platform | Deploy Button |
+|----------|---------------|
+| **Railway** | [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new?template=https://github.com/USERNAME/github-profile-score) |
+| **Render** | [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/USERNAME/github-profile-score) |
+
+> **Note:** `NVIDIA_API_KEY` is optional. Without it, you'll get generic improvement suggestions instead of AI-personalized ones.
+
+---
+
 ## What Is This?
 
 `github-profile-score` analyzes a GitHub profile across five hiring-signal dimensions and produces:
@@ -33,7 +51,7 @@ Drop a badge into any README and let your GitHub profile speak for itself.
 - **A detailed HTML breakdown** with dimension scores and AI-written fix callouts
 - **A shareable permalink** for your portfolio or job applications
 
-The scoring is intentionally transparent — no black box. Raw scores are calculated from GitHub API data using documented heuristics. NVIDIA NIM (free tier) then interprets those scores into human-readable "what to fix" notes.
+The scoring is intentionally transparent — no black box. Raw scores are calculated from GitHub API data using documented heuristics. NVIDIA NIM (free tier, optional) then interprets those scores into human-readable "what to fix" notes.
 
 ---
 
@@ -108,56 +126,46 @@ Each dimension scores **0–20 points** (total: 100).
 
 ---
 
-## Getting Started
+## Getting Started (Local Development)
 
 ### Prerequisites
 
 - Node.js 18+
-- Redis (local or managed, e.g. Upstash)
+- Docker (recommended) OR Redis locally
 - GitHub Personal Access Token (for 5,000 req/hr vs 60 req/hr unauthenticated)
-- NVIDIA NIM API key ([free at build.nvidia.com](https://build.nvidia.com/))
+- NVIDIA NIM API key ([free at build.nvidia.com](https://build.nvidia.com/)) — optional
 
-### Installation
+### Quick Start with Docker
+
+```bash
+git clone https://github.com/USERNAME/github-profile-score.git
+cd github-profile-score
+cp .env.example .env
+# Edit .env and add your GITHUB_TOKEN
+docker compose up
+```
+
+### Quick Start without Docker
 
 ```bash
 git clone https://github.com/USERNAME/github-profile-score.git
 cd github-profile-score
 npm install
+cp .env.example .env
+# Edit .env and add your GITHUB_TOKEN
+npm run dev
 ```
 
 ### Environment Variables
 
-Create a `.env` file in the project root:
-
-```env
-# GitHub
-GITHUB_TOKEN=ghp_your_token_here
-
-# Redis
-REDIS_URL=redis://localhost:6379
-
-# NVIDIA NIM
-NVIDIA_API_KEY=nvapi-your_key_here
-NVIDIA_MODEL=meta/llama-3.1-8b-instruct   # or mistralai/mixtral-8x7b-instruct
-
-# Server
-PORT=3000
-CACHE_TTL_SECONDS=21600   # 6 hours
-SCORE_THRESHOLD=14        # dimensions below this get AI callouts
-```
-
-### Run Locally
-
-```bash
-# Start Redis (if running locally)
-redis-server
-
-# Start the service
-npm run dev
-
-# Test it
-curl http://localhost:3000/score/torvalds.svg
-```
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `GITHUB_TOKEN` | **Yes** | GitHub Personal Access Token |
+| `NVIDIA_API_KEY` | No | NVIDIA NIM API key for AI callouts |
+| `REDIS_URL` | No | Redis connection (empty = in-memory cache) |
+| `PORT` | No | Server port (default: 3000) |
+| `CACHE_TTL_SECONDS` | No | Cache TTL (default: 21600 = 6 hours) |
+| `SCORE_THRESHOLD` | No | Dimensions below this get callouts (default: 14) |
 
 ---
 
@@ -181,7 +189,7 @@ Returns the full JSON score payload.
   "dimensions": {
     "activity":      { "score": 16, "max": 20, "callout": null },
     "quality":       { "score": 14, "max": 20, "callout": null },
-    "documentation": { "score": 11, "max": 20, "callout": "Only 4 of your 23 repos have a README longer than 3 lines. Add setup instructions and a short description to your top 5 pinned repos." },
+    "documentation": { "score": 11, "max": 20, "callout": "Your documentation score is low. Use readme-craft (https://github.com/DanielDeshmukh/readme-craft) to generate a production-ready README in seconds." },
     "diversity":     { "score": 18, "max": 20, "callout": null },
     "community":     { "score": 15, "max": 20, "callout": null }
   },
@@ -200,7 +208,7 @@ Liveness check. Returns Redis connection status and GitHub API rate limit remain
 
 ## Embed in Your README
 
-Copy this snippet and replace `your-username`:
+Copy this snippet and replace `YOUR_USERNAME`:
 
 ```markdown
 [![Job Readiness Score](https://YOUR_DOMAIN/score/YOUR_USERNAME.svg)](https://YOUR_DOMAIN/score/YOUR_USERNAME/html)
@@ -213,6 +221,18 @@ Or use the HTML version for more control:
   <img src="https://YOUR_DOMAIN/score/YOUR_USERNAME.svg" alt="GitHub Job Readiness Score" />
 </a>
 ```
+
+---
+
+## Improve Your README
+
+Low documentation score? Use [readme-craft](https://github.com/DanielDeshmukh/readme-craft) to generate a production-ready README in seconds.
+
+Point it at any GitHub repo and get:
+- Setup instructions
+- Architecture notes
+- Badges and usage examples
+- All based on your actual codebase, not generic templates
 
 ---
 
@@ -232,16 +252,22 @@ github-profile-score/
 │   │       ├── diversity.ts
 │   │       └── community.ts
 │   ├── ai/
-│   │   └── NvidiaCalloutWriter.ts # NVIDIA NIM integration
+│   │   ├── NvidiaCalloutWriter.ts # NVIDIA NIM integration
+│   │   └── fallback.ts           # Static fallback callouts
 │   ├── renderer/
-│   │   └── SvgRenderer.ts         # SVG card templating
+│   │   ├── SvgRenderer.ts         # SVG card templating
+│   │   └── HtmlRenderer.ts        # HTML report generation
 │   ├── cache/
-│   │   └── RedisCache.ts          # Redis wrapper + TTL logic
+│   │   ├── RedisCache.ts          # Redis wrapper + TTL logic
+│   │   └── MemoryCache.ts         # In-memory fallback
 │   └── server.ts                  # Express routes
 ├── tests/
-│   ├── scorer.test.ts             # (add tests here)
-│   └── fetcher.mock.ts            # (add mocks here)
+│   ├── scorer.test.ts
+│   └── escapeHtml.test.ts
 ├── .env.example
+├── docker-compose.yml
+├── railway.json
+├── render.yaml
 ├── package.json
 └── README.md
 ```
@@ -292,6 +318,12 @@ The service is stateless except for Redis. Run as many instances behind a load b
 ### Scoring Philosophy
 
 Keep the heuristic scorer **deterministic and documentable**. If a recruiter asks "why did I score 11/20 on Documentation?", there should be a clear, auditable answer — not "the AI decided."
+
+---
+
+## Related Projects
+
+- **[readme-craft](https://github.com/DanielDeshmukh/readme-craft)** — Generate production-ready READMEs for any GitHub repo using AI
 
 ---
 

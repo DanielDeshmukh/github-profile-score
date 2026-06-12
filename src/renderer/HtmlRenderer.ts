@@ -72,6 +72,12 @@ export function renderHtml(result: ScoreResult): string {
       </div>
       <div class="footer">
         <p>Scored on ${new Date(result.scored_at).toLocaleDateString()} • <a href="${domain}/score/${result.username}">View JSON</a></p>
+        ${result.dimensions.documentation.score < 14 ? `
+        <div style="margin-top:16px;padding:12px;background:#1e1b4a;border-radius:8px;border:1px solid #4338ca">
+          <p style="color:#a5b4fc;font-size:13px;margin:0">
+            📝 Want to improve your Documentation score? Check out <a href="https://github.com/DanielDeshmukh/readme-craft" style="color:#818cf8;font-weight:600">readme-craft</a> — generate a production-ready README in seconds.
+          </p>
+        </div>` : ''}
       </div>
     </div>
   </div>

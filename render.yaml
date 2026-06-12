@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: github-profile-score
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: NVIDIA_API_KEY
+        sync: false
+      - key: PORT
+        value: "3000"
+      - key: CACHE_TTL_SECONDS
+        value: "21600"
+      - key: SCORE_THRESHOLD
+        value: "14"
+    healthCheckPath: /health

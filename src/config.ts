@@ -3,7 +3,7 @@ import { z } from 'zod';
 const envSchema = z.object({
   GITHUB_TOKEN: z.string().min(1, 'GITHUB_TOKEN is required'),
   REDIS_URL: z.string().optional(),
-  NVIDIA_API_KEY: z.string().min(1, 'NVIDIA_API_KEY is required'),
+  NVIDIA_API_KEY: z.string().min(1).optional(),
   NVIDIA_MODEL: z.string().default('meta/llama-3.1-8b-instruct'),
   PORT: z.coerce.number().int().positive().default(3000),
   CACHE_TTL_SECONDS: z.coerce.number().int().positive().default(21600),
