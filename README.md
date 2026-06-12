@@ -6,7 +6,7 @@
 
 If this project saves you time, consider giving it a star. It helps others find it.
 
-[![Star this repo](https://img.shields.io/github/stars/yourname/github-profile-score?style=social)](https://github.com/yourname/github-profile-score)
+[![Star this repo](https://img.shields.io/github/stars/USERNAME/github-profile-score?style=social)](https://github.com/USERNAME/github-profile-score)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-green)](https://nodejs.org/)
@@ -16,10 +16,10 @@ If this project saves you time, consider giving it a star. It helps others find 
 Drop a badge into any README and let your GitHub profile speak for itself.
 
 ```markdown
-[![Job Readiness Score](https://yourservice.com/score/your-username.svg)](https://yourservice.com/score/your-username)
+[![Job Readiness Score](https://YOUR_DOMAIN/score/YOUR_USERNAME.svg)](https://YOUR_DOMAIN/score/YOUR_USERNAME)
 ```
 
-![Score Card Preview](docs/assets/card-preview.png)
+> Replace `YOUR_DOMAIN` with your deployed service URL and `YOUR_USERNAME` with your GitHub username.
 
 </div>
 
@@ -120,7 +120,7 @@ Each dimension scores **0–20 points** (total: 100).
 ### Installation
 
 ```bash
-git clone https://github.com/yourname/github-profile-score.git
+git clone https://github.com/USERNAME/github-profile-score.git
 cd github-profile-score
 npm install
 ```
@@ -203,14 +203,14 @@ Liveness check. Returns Redis connection status and GitHub API rate limit remain
 Copy this snippet and replace `your-username`:
 
 ```markdown
-[![Job Readiness Score](https://yourservice.com/score/your-username.svg)](https://yourservice.com/score/your-username/html)
+[![Job Readiness Score](https://YOUR_DOMAIN/score/YOUR_USERNAME.svg)](https://YOUR_DOMAIN/score/YOUR_USERNAME/html)
 ```
 
 Or use the HTML version for more control:
 
 ```html
-<a href="https://yourservice.com/score/your-username/html">
-  <img src="https://yourservice.com/score/your-username.svg" alt="GitHub Job Readiness Score" />
+<a href="https://YOUR_DOMAIN/score/YOUR_USERNAME/html">
+  <img src="https://YOUR_DOMAIN/score/YOUR_USERNAME.svg" alt="GitHub Job Readiness Score" />
 </a>
 ```
 
@@ -238,14 +238,9 @@ github-profile-score/
 │   ├── cache/
 │   │   └── RedisCache.ts          # Redis wrapper + TTL logic
 │   └── server.ts                  # Express routes
-├── templates/
-│   └── score-card.svg             # SVG template with {{placeholders}}
-├── docs/
-│   └── assets/
-│       └── card-preview.png
 ├── tests/
-│   ├── scorer.test.ts
-│   └── fetcher.mock.ts
+│   ├── scorer.test.ts             # (add tests here)
+│   └── fetcher.mock.ts            # (add mocks here)
 ├── .env.example
 ├── package.json
 └── README.md

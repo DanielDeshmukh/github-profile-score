@@ -16,6 +16,7 @@ import { rateLimiter } from './middleware/rateLimiter.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { usernameValidator } from './middleware/usernameValidator.js';
 import { requestLogger } from './middleware/requestLogger.js';
+import { escapeHtml } from './utils/escapeHtml.js';
 import type { CacheProvider, ScoreResult } from './types.js';
 
 const log = createChildLogger('server');
@@ -81,7 +82,7 @@ export async function buildApp(): Promise<express.Express> {
       res.send(renderHtml(result));
     } catch (err) {
       const status = err instanceof Error && 'statusCode' in err ? (err as { statusCode: number }).statusCode : 500;
-      res.status(status).send(`<h1>Error: ${err instanceof Error ? err.message : 'Unknown error'}</h1>`);
+      res.status(status).send(`<h1>Error: ${escapeHtml(err instanceof Error ? err.message : 'Unknown error')}</h1>`);
     }
   });
 
