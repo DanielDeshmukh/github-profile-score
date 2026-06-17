@@ -6,6 +6,7 @@ export const CACHE_KEYS = {
   refreshCooldown: (username: string) => `refresh_cooldown:${username}`,
   stats: (username: string) => `stats:v1:${username}`,
   statsRefreshCooldown: (username: string) => `stats:v1:refresh_cooldown:${username}`,
+  insight: (slug: string, username: string) => `insight:${slug}:v1:${username}`,
 } as const;
 
 export const CACHE_TTL = {

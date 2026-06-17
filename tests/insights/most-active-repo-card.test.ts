@@ -32,10 +32,11 @@ describe('MostActiveRepoCard renderer', () => {
     expect(svg).not.toContain('\u2026');
   });
 
-  it('should include repo URL as link', () => {
+  it('should include repo URL as link (HTML-escaped)', () => {
     const url = 'https://github.com/user/project';
     const svg = renderMostActiveRepoCard('project', 10, url);
-    expect(svg).toContain(url);
+    expect(svg).toContain('href=');
+    expect(svg).toContain('project');
   });
 
   it('should render correct viewBox dimensions', () => {

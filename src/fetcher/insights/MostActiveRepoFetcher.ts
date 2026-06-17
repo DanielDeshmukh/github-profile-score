@@ -118,7 +118,7 @@ export class InsightFetcher {
               }
             }`,
             {
-              owner: repo.owner?.login ?? username,
+              owner: repo.full_name.split('/')[0] ?? username,
               name: repo.name,
               author: username,
             },
