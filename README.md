@@ -133,9 +133,23 @@ Each dimension scores **0–20 points** (total: 100).
 
 ### Score Badge Endpoints
 
-#### `GET /score/:username.svg`
+#### Score Badge (SVG)
 
-Returns the embeddable SVG job-readiness badge. This is the **primary embed URL** for README badges.
+Embed the job-readiness score badge in your README:
+
+```markdown
+[![Job Readiness Score](https://YOUR_DOMAIN/score/YOUR_USERNAME.svg)](https://YOUR_DOMAIN/score/YOUR_USERNAME/html)
+```
+
+**How it looks on your README:**
+
+![Score Badge](./templates/01-score-badge.svg)
+
+The badge renders a 480×260 card with:
+- User avatar and `@username`
+- Circular grade ring (A–F) with numeric score
+- 5 dimension progress bars (Activity, Quality, Documentation, Diversity, Community)
+- Scored-on date footer
 
 **Query Parameters:**
 
@@ -151,52 +165,22 @@ Returns the embeddable SVG job-readiness badge. This is the **primary embed URL*
 | `Cache-Control` | `public, max-age=3600, s-maxage=3600` |
 | `ETag` | `"<total>-<scored_at>"` |
 
-**SVG Output:**
+**Error States:**
 
-The badge renders a 480×260 card with:
-- User avatar and `@username`
-- Circular grade ring (A–F) with numeric score
-- 5 dimension progress bars (Activity, Quality, Documentation, Diversity, Community)
-- Scored-on date footer
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" width="480" height="260" viewBox="0 0 480 260">
-  <rect width="480" height="260" fill="#111315" rx="12"/>
-  <rect width="480" height="2" fill="#c9a962" rx="0"/>
-
-  <!-- Avatar -->
-  <rect x="28" y="22" width="44" height="44" rx="22" fill="#1e2229" stroke="#c9a962" stroke-width="1"/>
-  <image href="https://github.com/octocat.png?size=48" x="28" y="22" width="44" height="44"/>
-  <text x="64" y="34" font-size="15" fill="#e8d5a3" font-weight="600">@octocat</text>
-  <text x="64" y="50" font-size="11" fill="#7d8a96">GitHub Profile Score</text>
-
-  <!-- Grade Ring -->
-  <circle cx="432" cy="44" r="30" fill="none" stroke="#c9a962" stroke-width="6" .../>
-  <text x="432" y="40" font-size="18" fill="#e8d5a3" text-anchor="middle" font-weight="700">74</text>
-  <text x="432" y="56" font-size="11" fill="#c9a962" text-anchor="middle">B</text>
-
-  <!-- Dimension Bars -->
-  <text x="24" y="96" font-size="11" fill="#7d8a96">Activity</text>
-  <text x="456" y="96" font-size="11" fill="#e8d5a3" text-anchor="end">16/20</text>
-  <rect x="24" y="102" width="328" height="4" rx="2" fill="#c9a962"/>
-  <!-- ... 4 more dimension bars ... -->
-
-  <rect y="258" width="480" height="2" fill="#c9a962" rx="0"/>
-</svg>
-```
-
-**Error Responses:**
-
-| Status | Condition | SVG |
-|--------|-----------|-----|
-| `404` | User not found | "User Not Found" card |
-| `429` | Rate limited | "Rate limited — retry after HH:MM UTC" card |
+| Status | Condition | How it looks |
+|--------|-----------|--------------|
+| `404` | User not found | ![Not Found](./templates/14-error-user-not-found.svg) |
+| `429` | Rate limited | ![Rate Limit](./templates/13-error-rate-limit.svg) |
 
 ---
 
-#### `GET /score/:username`
+#### Score JSON
 
-Returns the full JSON score payload.
+Returns the full score payload as JSON.
+
+```markdown
+GET /score/YOUR_USERNAME
+```
 
 **Response:**
 
@@ -208,26 +192,32 @@ Returns the full JSON score payload.
   "dimensions": {
     "activity":      { "score": 16, "max": 20, "callout": null },
     "quality":       { "score": 14, "max": 20, "callout": null },
-    "documentation": { "score": 11, "max": 20, "callout": "Your documentation score is low. Use readme-craft to generate a production-ready README." },
+    "documentation": { "score": 11, "max": 20, "callout": "Your documentation score is low." },
     "diversity":     { "score": 18, "max": 20, "callout": null },
     "community":     { "score": 15, "max": 20, "callout": null }
-  },
-  "cached": true,
-  "cache_age_seconds": 1820
+  }
 }
 ```
 
 ---
 
-#### `GET /score/:username/html`
+#### Score HTML
 
 Full HTML report with dimension breakdown, fix callouts, and comparison percentiles. Opens in browser — not embeddable in README.
 
+```markdown
+https://YOUR_DOMAIN/score/YOUR_USERNAME/html
+```
+
 ---
 
-#### `GET /score/:username/plan`
+#### Score Plan
 
-Returns a prioritized improvement plan sorted by points available. Dimensions where score equals max are omitted.
+Returns a prioritized improvement plan sorted by points available.
+
+```markdown
+GET /score/YOUR_USERNAME/plan
+```
 
 **Response:**
 
@@ -255,264 +245,154 @@ Returns a prioritized improvement plan sorted by points available. Dimensions wh
 
 Stats cards use a gold/charcoal theme and are **independent** from the score badge — separate caching, refresh cycles, and API calls.
 
-#### `GET /stats/:username/contributions.svg`
+#### Contributions Card
 
-Returns the contributions/streak SVG card showing total contributions, current streak with progress ring, and longest streak.
+Embed the contributions/streak card in your README:
 
-**SVG Output:**
-
-The card renders a 480×200 three-column layout:
-- **Column 1:** Total Contributions count + date range
-- **Column 2:** Current Streak as circular progress ring (current/longest ratio)
-- **Column 3:** Longest Streak count + date range
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" width="480" height="200" viewBox="0 0 480 200">
-  <rect width="480" height="200" fill="#111315" rx="12"/>
-  <rect width="480" height="2" fill="#c9a962" rx="0"/>
-  <text x="240" y="28" font-size="12" fill="#7d8a96" text-anchor="middle">CONTRIBUTIONS</text>
-
-  <!-- Column 1: Total -->
-  <text x="168" y="55" font-size="11" fill="#7d8a96" text-anchor="middle">Total Contributions</text>
-  <text x="168" y="95" font-size="32" fill="#e8d5a3" text-anchor="middle" font-weight="700">500</text>
-  <text x="168" y="115" font-size="10" fill="#7d8a96" text-anchor="middle">Jan 1, 2024 - Dec 31, 2024</text>
-
-  <!-- Column 2: Streak Ring -->
-  <circle cx="320" cy="85" r="28" fill="none" stroke="#c9a962" stroke-width="5" .../>
-  <text x="320" y="81" font-size="22" fill="#e8d5a3" text-anchor="middle" font-weight="700">15</text>
-  <text x="320" y="99" font-size="9" fill="#7d8a96" text-anchor="middle">day streak</text>
-
-  <!-- Column 3: Longest -->
-  <text x="472" y="55" font-size="11" fill="#7d8a96" text-anchor="middle">Longest Streak</text>
-  <text x="472" y="95" font-size="32" fill="#e8d5a3" text-anchor="middle" font-weight="700">30</text>
-
-  <rect y="198" width="480" height="2" fill="#c9a962" rx="0"/>
-</svg>
+```markdown
+![Contributions](https://YOUR_DOMAIN/stats/YOUR_USERNAME/contributions.svg)
 ```
+
+**How it looks on your README:**
+
+![Contributions Card](./templates/02-contributions-card.svg)
+
+The card renders a 480×200 card showing:
+- Total contributions count and date range
+- Current streak with progress ring
+- Longest streak count
+- 12-week contribution calendar heatmap
 
 ---
 
-#### `GET /stats/:username/overview.svg`
+#### Overview Card
 
-Returns the GitHub stats SVG card showing total stars earned, commits (last year), total PRs, total issues, and a grade ring.
+Embed the GitHub stats overview card in your README:
 
-**SVG Output:**
-
-The card renders a 280×200 vertical layout:
-- Header: "GitHub Stats" + `@username`
-- Grade ring (top-right) with combined activity score
-- Stat rows: Stars, Commits, PRs, Issues
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" width="280" height="200" viewBox="0 0 280 200">
-  <rect width="280" height="200" fill="#111315" rx="12"/>
-  <rect width="280" height="2" fill="#c9a962" rx="0"/>
-
-  <text x="24" y="30" font-size="13" fill="#e8d5a3" font-weight="600">GitHub Stats</text>
-  <text x="24" y="46" font-size="10" fill="#7d8a96">@octocat</text>
-
-  <!-- Grade Ring -->
-  <circle cx="240" cy="36" r="20" fill="none" stroke="#c9a962" stroke-width="4" .../>
-
-  <text x="24" y="78" font-size="11" fill="#7d8a96">Total Stars Earned</text>
-  <text x="256" y="78" font-size="13" fill="#e8d5a3" text-anchor="end" font-weight="600">150</text>
-
-  <text x="24" y="100" font-size="11" fill="#7d8a96">Commits (Last Year)</text>
-  <text x="256" y="100" font-size="13" fill="#e8d5a3" text-anchor="end" font-weight="600">420</text>
-
-  <text x="24" y="122" font-size="11" fill="#7d8a96">Total PRs</text>
-  <text x="256" y="122" font-size="13" fill="#e8d5a3" text-anchor="end" font-weight="600">35</text>
-
-  <text x="24" y="144" font-size="11" fill="#7d8a96">Total Issues</text>
-  <text x="256" y="144" font-size="13" fill="#e8d5a3" text-anchor="end" font-weight="600">12</text>
-
-  <rect y="198" width="280" height="2" fill="#c9a962" rx="0"/>
-</svg>
+```markdown
+![GitHub Stats](https://YOUR_DOMAIN/stats/YOUR_USERNAME/overview.svg)
 ```
+
+**How it looks on your README:**
+
+![Overview Card](./templates/03-overview-card.svg)
+
+The card renders a 480×200 card showing:
+- Repos count (public/total)
+- Total stars earned
+- Followers/following counts
+- Top languages with progress bars
+- Mini contribution calendar
 
 ---
 
-#### `GET /stats/:username/languages.svg`
+#### Languages Card
 
-Returns the language breakdown SVG card with a horizontal stacked bar and legend showing most-used languages by byte count.
+Embed the language breakdown card in your README:
 
-**SVG Output:**
-
-The card renders a 280×200 layout:
-- Header: "Most Used Languages"
-- Stacked horizontal bar (each language's GitHub brand color)
-- 2-column legend with colored dots, language names, and percentages
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" width="280" height="200" viewBox="0 0 280 200">
-  <rect width="280" height="200" fill="#111315" rx="12"/>
-  <rect width="280" height="2" fill="#c9a962" rx="0"/>
-
-  <text x="24" y="30" font-size="13" fill="#e8d5a3" font-weight="600">Most Used Languages</text>
-
-  <!-- Stacked Bar -->
-  <rect x="24" y="55" width="232" height="12" rx="2" fill="#1e2229"/>
-  <rect x="24" y="55" width="105" height="12" rx="2" fill="#3178c6"/>  <!-- TypeScript 45% -->
-  <rect x="129" y="55" width="58" height="12" rx="2" fill="#f1e05a"/> <!-- JavaScript 25% -->
-  <!-- ... more segments ... -->
-
-  <!-- Legend -->
-  <circle cx="24" cy="82" r="4" fill="#3178c6"/>
-  <text x="34" y="85" font-size="10" fill="#e8d5a3">TypeScript</text>
-  <text x="134" y="85" font-size="10" fill="#7d8a96" text-anchor="end">45.2%</text>
-  <!-- ... more legend items ... -->
-
-  <rect y="198" width="280" height="2" fill="#c9a962" rx="0"/>
-</svg>
+```markdown
+![Languages](https://YOUR_DOMAIN/stats/YOUR_USERNAME/languages.svg)
 ```
 
----
+**How it looks on your README:**
 
-#### `GET /stats/:username`
+![Languages Card](./templates/04-languages-card.svg)
 
-Returns the full JSON stats payload combining contributions, profile, and languages.
-
-**Response:**
-
-```json
-{
-  "username": "octocat",
-  "contributions": {
-    "totalContributions": 500,
-    "rangeStart": "2024-01-01",
-    "rangeEnd": "2024-12-31",
-    "currentStreak": 15,
-    "currentStreakRange": { "start": "2024-06-01", "end": "2024-06-15" },
-    "longestStreak": 30,
-    "longestStreakRange": { "start": "2024-01-10", "end": "2024-02-08" }
-  },
-  "profile": {
-    "totalStarsEarned": 150,
-    "totalCommitsLastYear": 420,
-    "totalPRs": 35,
-    "totalIssues": 12,
-    "grade": "B"
-  },
-  "languages": [
-    { "name": "TypeScript", "percent": 45.2, "color": "#3178c6" },
-    { "name": "JavaScript", "percent": 25.1, "color": "#f1e05a" }
-  ],
-  "cached": false,
-  "cache_age_seconds": 0,
-  "generated_at": "2024-06-15T12:00:00.000Z"
-}
-```
+The card renders a 480×200 card showing:
+- Language names with proportional progress bars
+- Byte counts for each language
+- Percentage breakdown
+- "+ more" indicator for additional languages
 
 ---
 
 ### Insight Widget Endpoints
 
-Insight widgets are individually-renderable SVG cards, each on its own route. They reveal specific activity patterns, repo health metrics, and account statistics. All use the same gold/charcoal theme as stats cards.
-
-Each insight is available as:
-- **SVG:** `GET /insights/:username/<slug>.svg`
-- **JSON:** `GET /insights/:username` (additive — adds `<slug>` field to combined response)
+Insight widgets are individually-renderable SVG cards revealing activity patterns, repo health, and account statistics. Each uses the gold/charcoal theme.
 
 All insight endpoints support `?refresh=1` to bust the cache.
 
 ---
 
-#### `GET /insights/:username/most-active-repo.svg`
+#### Most Active Repo
 
-Shows the repository where the user has the most commits (by author, on the default branch).
+Embed the most active repository widget in your README:
 
-**SVG Output (320×80):**
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" width="320" height="80" viewBox="0 0 320 80">
-  <rect width="320" height="80" fill="#111315" rx="8"/>
-  <rect width="320" height="2" fill="#c9a962" rx="0"/>
-  <rect x="0" y="0" width="3" height="80" fill="#c9a962" rx="0"/>
-
-  <text x="16" y="28" font-size="11" fill="#7d8a96">Most contributions to</text>
-  <text x="16" y="50" font-size="16" fill="#e8d5a3" font-weight="600">
-    <a href="https://github.com/octocat/my-project">my-project</a>
-  </text>
-  <text x="16" y="68" font-size="12" fill="#7d8a96">340 commits</text>
-
-  <rect y="78" width="320" height="2" fill="#c9a962" rx="0"/>
-</svg>
+```markdown
+![Most Active Repo](https://YOUR_DOMAIN/insights/YOUR_USERNAME/most-active-repo.svg)
 ```
+
+**How it looks on your README:**
+
+![Most Active Repo](./templates/05-insight-most-active-repo.svg)
+
+Shows the repository where the user has the most commits. Displays:
+- Repository name (clickable link)
+- Total commit count
+- Activity bar indicator
 
 **JSON field:** `mostActiveRepo: { repoName, commitCount, repoUrl }`
 
 ---
 
-#### `GET /insights/:username/account-age.svg`
+#### Account Age
 
-Shows how long the GitHub account has existed, in years and months.
+Embed the account age widget in your README:
 
-**SVG Output (320×80):**
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" width="320" height="80" viewBox="0 0 320 80">
-  <rect width="320" height="80" fill="#111315" rx="8"/>
-  <rect width="320" height="2" fill="#c9a962" rx="0"/>
-  <rect x="0" y="0" width="3" height="80" fill="#c9a962" rx="0"/>
-
-  <text x="16" y="28" font-size="11" fill="#7d8a96">Account age</text>
-  <text x="16" y="52" font-size="20" fill="#e8d5a3" font-weight="600">5 years, 3 months</text>
-
-  <rect y="78" width="320" height="2" fill="#c9a962" rx="0"/>
-</svg>
+```markdown
+![Account Age](https://YOUR_DOMAIN/insights/YOUR_USERNAME/account-age.svg)
 ```
+
+**How it looks on your README:**
+
+![Account Age](./templates/06-insight-account-age.svg)
+
+Shows how long the GitHub account has existed. Displays:
+- Years and months since creation
+- Account creation year
+- Timeline indicator
 
 **JSON field:** `accountAge: { years, months, createdAt }`
 
 ---
 
-#### `GET /insights/:username/most-starred-repo.svg`
+#### Most Starred Repo
 
-Shows the user's repository with the most GitHub stars.
+Embed the most starred repository widget in your README:
 
-**SVG Output (320×80):**
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" width="320" height="80" viewBox="0 0 320 80">
-  <rect width="320" height="80" fill="#111315" rx="8"/>
-  <rect width="320" height="2" fill="#c9a962" rx="0"/>
-  <rect x="0" y="0" width="3" height="80" fill="#c9a962" rx="0"/>
-
-  <text x="16" y="28" font-size="11" fill="#7d8a96">Most starred repository</text>
-  <text x="16" y="50" font-size="16" fill="#e8d5a3" font-weight="600">
-    <a href="https://github.com/octocat/awesome-lib">awesome-lib</a>
-  </text>
-  <text x="16" y="68" font-size="12" fill="#7d8a96">1,500 stars</text>
-
-  <rect y="78" width="320" height="2" fill="#c9a962" rx="0"/>
-</svg>
+```markdown
+![Most Starred Repo](https://YOUR_DOMAIN/insights/YOUR_USERNAME/most-starred-repo.svg)
 ```
+
+**How it looks on your README:**
+
+![Most Starred Repo](./templates/07-insight-most-starred-repo.svg)
+
+Shows the user's repository with the most GitHub stars. Displays:
+- Repository name (clickable link)
+- Star count (with k/M abbreviations)
+- Star bar indicator
 
 **JSON field:** `mostStarredRepo: { repoName, stars, repoUrl }`
 
 ---
 
-#### `GET /insights/:username/contribution-trend.svg`
+#### Contribution Trend
 
-Shows year-over-year contribution change with directional arrow glyphs.
+Embed the contribution trend widget in your README:
 
-**SVG Output (320×80):**
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" width="320" height="80" viewBox="0 0 320 80">
-  <rect width="320" height="80" fill="#111315" rx="8"/>
-  <rect width="320" height="2" fill="#c9a962" rx="0"/>
-  <rect x="0" y="0" width="3" height="80" fill="#c9a962" rx="0"/>
-
-  <text x="16" y="28" font-size="11" fill="#7d8a96">Contribution trend</text>
-  <text x="16" y="52" font-size="20" fill="#e8d5a3" font-weight="600">↑ 66.7%</text>
-  <text x="16" y="68" font-size="12" fill="#7d8a96">Trending up: 200 vs 120 last year</text>
-
-  <rect y="78" width="320" height="2" fill="#c9a962" rx="0"/>
-</svg>
+```markdown
+![Contribution Trend](https://YOUR_DOMAIN/insights/YOUR_USERNAME/contribution-trend.svg)
 ```
 
-**Directional Arrows:**
+**How it looks on your README:**
+
+![Contribution Trend](./templates/08-insight-contribution-trend.svg)
+
+Shows year-over-year contribution change with directional arrows. Displays:
+- Percentage change (↑/↓/→)
+- Direction label (growing/declining/stable)
+- Trend bar indicator
 
 | Symbol | Meaning |
 |--------|---------|
@@ -524,57 +404,47 @@ Shows year-over-year contribution change with directional arrow glyphs.
 
 ---
 
-#### `GET /insights/:username/avg-commits-per-repo.svg`
+#### Avg Commits per Repo
 
-Shows average commits per active repository (repos with at least 1 commit).
+Embed the average commits per repository widget in your README:
 
-**SVG Output (320×80):**
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" width="320" height="80" viewBox="0 0 320 80">
-  <rect width="320" height="80" fill="#111315" rx="8"/>
-  <rect width="320" height="2" fill="#c9a962" rx="0"/>
-  <rect x="0" y="0" width="3" height="80" fill="#c9a962" rx="0"/>
-
-  <text x="16" y="28" font-size="11" fill="#7d8a96">Avg commits per active repo</text>
-  <text x="16" y="52" font-size="20" fill="#e8d5a3" font-weight="600">150.0</text>
-  <text x="16" y="68" font-size="12" fill="#7d8a96">300 commits across 2 repos</text>
-
-  <rect y="78" width="320" height="2" fill="#c9a962" rx="0"/>
-</svg>
+```markdown
+![Avg Commits per Repo](https://YOUR_DOMAIN/insights/YOUR_USERNAME/avg-commits-per-repo.svg)
 ```
+
+**How it looks on your README:**
+
+![Avg Commits per Repo](./templates/09-insight-avg-commits-per-repo.svg)
+
+Shows average commits per active repository. Displays:
+- Average commit count
+- Total commits across all repos
+- Number of active repos
 
 **JSON field:** `avgCommitsPerRepo: { average, activeRepos, totalCommits }`
 
 ---
 
-#### `GET /insights/:username/longest-maintained-repo.svg`
+#### Longest-Maintained Repo
 
-Shows the repository with the longest span between the user's first and last commit.
+Embed the longest-maintained repository widget in your README:
 
-**SVG Output (320×80):**
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" width="320" height="80" viewBox="0 0 320 80">
-  <rect width="320" height="80" fill="#111315" rx="8"/>
-  <rect width="320" height="2" fill="#c9a962" rx="0"/>
-  <rect x="0" y="0" width="3" height="80" fill="#c9a962" rx="0"/>
-
-  <text x="16" y="28" font-size="11" fill="#7d8a96">Longest maintained repo</text>
-  <text x="16" y="50" font-size="16" fill="#e8d5a3" font-weight="600">
-    <a href="https://github.com/octocat/legacy-app">legacy-app</a>
-  </text>
-  <text x="16" y="68" font-size="12" fill="#7d8a96">5y 3m (since 2019)</text>
-
-  <rect y="78" width="320" height="2" fill="#c9a962" rx="0"/>
-</svg>
+```markdown
+![Longest Maintained](https://YOUR_DOMAIN/insights/YOUR_USERNAME/longest-maintained-repo.svg)
 ```
 
-**Duration Formats:**
+**How it looks on your README:**
 
-| Span | Display |
-|------|---------|
-| ≥ 365 days | `Xy Ym` or `Xy` for exact years |
+![Longest Maintained](./templates/10-insight-longest-maintained-repo.svg)
+
+Shows the repository with the longest maintenance span. Displays:
+- Repository name (clickable link)
+- Duration in years/months/days
+- Duration bar indicator
+
+| Duration | Format |
+|----------|--------|
+| ≥ 365 days | `Xy Ym` or `Xy` |
 | ≥ 30 days | `Xm` |
 | < 30 days | `Xd` |
 
@@ -582,31 +452,25 @@ Shows the repository with the longest span between the user's first and last com
 
 ---
 
-#### `GET /insights/:username/commit-pattern.svg`
+#### Commit Pattern
 
-Shows the user's approximate commit time-of-day and day-of-week pattern. **Labeled as approximate** — based on a 90-day sample from public events.
+Embed the commit pattern widget in your README:
 
-**SVG Output (320×100):**
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" width="320" height="100" viewBox="0 0 320 100">
-  <rect width="320" height="100" fill="#111315" rx="8"/>
-  <rect width="320" height="2" fill="#c9a962" rx="0"/>
-  <rect x="0" y="0" width="3" height="100" fill="#c9a962" rx="0"/>
-
-  <text x="16" y="24" font-size="11" fill="#7d8a96">Commit pattern (approximate)</text>
-  <text x="16" y="44" font-size="14" fill="#e8d5a3" font-weight="600">Weekdays: 80% / 20%</text>
-  <text x="16" y="64" font-size="14" fill="#e8d5a3" font-weight="600">Peak: Afternoons</text>
-  <text x="16" y="82" font-size="11" fill="#7d8a96">100 commits sampled (last 90 days)</text>
-
-  <rect y="98" width="320" height="2" fill="#c9a962" rx="0"/>
-</svg>
+```markdown
+![Commit Pattern](https://YOUR_DOMAIN/insights/YOUR_USERNAME/commit-pattern.svg)
 ```
 
-**Daypart Definitions (UTC):**
+**How it looks on your README:**
 
-| Daypart | Hours |
-|---------|-------|
+![Commit Pattern](./templates/11-insight-commit-pattern.svg)
+
+Shows the user's approximate commit time-of-day and day-of-week pattern. **Labeled approximate** — based on a 90-day sample. Displays:
+- Dominant day type (weekday/weekend) with percentages
+- Dominant daypart (mornings/afternoons/evenings/late nights)
+- Sample size note
+
+| Daypart | Hours (UTC) |
+|---------|-------------|
 | Mornings | 06:00–11:59 |
 | Afternoons | 12:00–17:59 |
 | Evenings | 18:00–23:59 |
@@ -616,25 +480,22 @@ Shows the user's approximate commit time-of-day and day-of-week pattern. **Label
 
 ---
 
-#### `GET /insights/:username/commits-per-tenure.svg`
+#### Commits per Tenure
 
-Shows average commits per year of account tenure. Zero new API calls — pure derivation from profile age and contribution count.
+Embed the commits per tenure widget in your README:
 
-**SVG Output (320×80):**
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" width="320" height="80" viewBox="0 0 320 80">
-  <rect width="320" height="80" fill="#111315" rx="8"/>
-  <rect width="320" height="2" fill="#c9a962" rx="0"/>
-  <rect x="0" y="0" width="3" height="80" fill="#c9a962" rx="0"/>
-
-  <text x="16" y="28" font-size="11" fill="#7d8a96">Avg commits per year of tenure</text>
-  <text x="16" y="52" font-size="20" fill="#e8d5a3" font-weight="600">100.0</text>
-  <text x="16" y="68" font-size="12" fill="#7d8a96">500 commits over 5 years</text>
-
-  <rect y="78" width="320" height="2" fill="#c9a962" rx="0"/>
-</svg>
+```markdown
+![Commits per Tenure](https://YOUR_DOMAIN/insights/YOUR_USERNAME/commits-per-tenure.svg)
 ```
+
+**How it looks on your README:**
+
+![Commits per Tenure](./templates/12-insight-commits-per-tenure.svg)
+
+Shows average commits per year of account tenure. Zero new API calls — pure derivation from profile age and contribution count. Displays:
+- Commits per year average
+- Total commits
+- Tenure in years
 
 **JSON field:** `commitsPerTenure: { average, totalCommits, tenureYears }`
 
@@ -646,6 +507,10 @@ Shows average commits per year of account tenure. Zero new API calls — pure de
 
 Liveness check. Returns cache status, uptime, and GitHub API rate limit remaining.
 
+```markdown
+GET /health
+```
+
 **Response:**
 
 ```json
@@ -655,60 +520,6 @@ Liveness check. Returns cache status, uptime, and GitHub API rate limit remainin
   "cache": { "type": "redis", "connected": true },
   "github": { "rateLimitRemaining": 4832 }
 }
-```
-
----
-
-## Embedding Guide
-
-### Score Badge
-
-```markdown
-[![Job Readiness Score](https://YOUR_DOMAIN/score/YOUR_USERNAME.svg)](https://YOUR_DOMAIN/score/YOUR_USERNAME/html)
-```
-
-### Stats Cards
-
-```markdown
-![Contributions](https://YOUR_DOMAIN/stats/YOUR_USERNAME/contributions.svg)
-![GitHub Stats](https://YOUR_DOMAIN/stats/YOUR_USERNAME/overview.svg)
-![Languages](https://YOUR_DOMAIN/stats/YOUR_USERNAME/languages.svg)
-```
-
-### Insight Widgets
-
-```markdown
-![Most Active Repo](https://YOUR_DOMAIN/insights/YOUR_USERNAME/most-active-repo.svg)
-![Account Age](https://YOUR_DOMAIN/insights/YOUR_USERNAME/account-age.svg)
-![Most Starred Repo](https://YOUR_DOMAIN/insights/YOUR_USERNAME/most-starred-repo.svg)
-![Contribution Trend](https://YOUR_DOMAIN/insights/YOUR_USERNAME/contribution-trend.svg)
-![Avg Commits Per Repo](https://YOUR_DOMAIN/insights/YOUR_USERNAME/avg-commits-per-repo.svg)
-![Longest Maintained](https://YOUR_DOMAIN/insights/YOUR_USERNAME/longest-maintained-repo.svg)
-![Commit Pattern](https://YOUR_DOMAIN/insights/YOUR_USERNAME/commit-pattern.svg)
-![Commits Per Tenure](https://YOUR_DOMAIN/insights/YOUR_USERNAME/commits-per-tenure.svg)
-```
-
-### All Cards Together
-
-```html
-<a href="https://YOUR_DOMAIN/score/YOUR_USERNAME/html">
-  <img src="https://YOUR_DOMAIN/score/YOUR_USERNAME.svg" alt="GitHub Job Readiness Score" />
-</a>
-<a href="https://YOUR_DOMAIN/stats/YOUR_USERNAME">
-  <img src="https://YOUR_DOMAIN/stats/YOUR_USERNAME/contributions.svg" alt="Contributions" />
-</a>
-<a href="https://YOUR_DOMAIN/stats/YOUR_USERNAME">
-  <img src="https://YOUR_DOMAIN/stats/YOUR_USERNAME/overview.svg" alt="GitHub Stats" />
-</a>
-<a href="https://YOUR_DOMAIN/stats/YOUR_USERNAME">
-  <img src="https://YOUR_DOMAIN/stats/YOUR_USERNAME/languages.svg" alt="Languages" />
-</a>
-<a href="https://YOUR_DOMAIN/insights/YOUR_USERNAME">
-  <img src="https://YOUR_DOMAIN/insights/YOUR_USERNAME/most-active-repo.svg" alt="Most Active Repo" />
-</a>
-<a href="https://YOUR_DOMAIN/insights/YOUR_USERNAME">
-  <img src="https://YOUR_DOMAIN/insights/YOUR_USERNAME/account-age.svg" alt="Account Age" />
-</a>
 ```
 
 ---
