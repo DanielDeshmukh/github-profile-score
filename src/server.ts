@@ -21,6 +21,7 @@ import { statsRouter } from './routes/stats.js';
 import { commitsPerTenureRouter } from './routes/insights/commitsPerTenure.js';
 import { mostActiveRepoRouter } from './routes/insights/mostActiveRepo.js';
 import { accountAgeRouter } from './routes/insights/accountAge.js';
+import { mostStarredRepoRouter } from './routes/insights/mostStarredRepo.js';
 import { StatsFetcher } from './fetcher/StatsFetcher.js';
 import { InsightFetcher } from './fetcher/insights/MostActiveRepoFetcher.js';
 import type { CacheProvider, ScoreResult } from './types.js';
@@ -51,6 +52,7 @@ export async function buildApp(): Promise<express.Express> {
   app.use(commitsPerTenureRouter(cache, fetcher, statsFetcher));
   app.use(mostActiveRepoRouter(cache, fetcher, insightFetcher));
   app.use(accountAgeRouter(cache, fetcher));
+  app.use(mostStarredRepoRouter(cache, fetcher));
 
   const usernameParam = usernameValidator;
 
