@@ -22,8 +22,10 @@ import { commitsPerTenureRouter } from './routes/insights/commitsPerTenure.js';
 import { mostActiveRepoRouter } from './routes/insights/mostActiveRepo.js';
 import { accountAgeRouter } from './routes/insights/accountAge.js';
 import { mostStarredRepoRouter } from './routes/insights/mostStarredRepo.js';
+import { contributionTrendRouter } from './routes/insights/contributionTrend.js';
 import { StatsFetcher } from './fetcher/StatsFetcher.js';
 import { InsightFetcher } from './fetcher/insights/MostActiveRepoFetcher.js';
+import { ContributionTrendFetcher } from './fetcher/insights/ContributionTrendFetcher.js';
 import type { CacheProvider, ScoreResult } from './types.js';
 import { GitHubRateLimitError } from './types.js';
 
@@ -47,12 +49,14 @@ export async function buildApp(): Promise<express.Express> {
   fetcher = new GitHubFetcher();
   const statsFetcher = new StatsFetcher();
   const insightFetcher = new InsightFetcher();
+  const trendFetcher = new ContributionTrendFetcher();
 
   app.use(statsRouter(cache, fetcher, statsFetcher));
   app.use(commitsPerTenureRouter(cache, fetcher, statsFetcher));
   app.use(mostActiveRepoRouter(cache, fetcher, insightFetcher));
   app.use(accountAgeRouter(cache, fetcher));
   app.use(mostStarredRepoRouter(cache, fetcher));
+  app.use(contributionTrendRouter(cache, trendFetcher));
 
   const usernameParam = usernameValidator;
 
