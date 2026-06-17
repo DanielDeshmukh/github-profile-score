@@ -7,6 +7,7 @@ const envSchema = z.object({
   NVIDIA_MODEL: z.string().default('meta/llama-3.1-8b-instruct'),
   PORT: z.coerce.number().int().positive().default(3000),
   CACHE_TTL_SECONDS: z.coerce.number().int().positive().default(21600),
+  STATS_CACHE_TTL_SECONDS: z.coerce.number().int().positive().default(21600),
   SCORE_THRESHOLD: z.coerce.number().int().min(0).max(20).default(14),
 });
 
