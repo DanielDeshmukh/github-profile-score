@@ -105,7 +105,7 @@ export function renderErrorSvg(username: string): string {
 </svg>`;
 }
 
-export function renderRateLimitSvg(username: string, resetAt: Date): string {
+export function renderRateLimitSvg(_username: string, resetAt: Date): string {
   const timeStr = resetAt.toISOString().substring(11, 16) + ' UTC';
   return `<svg xmlns="http://www.w3.org/2000/svg" width="480" height="120" viewBox="0 0 480 120">
   <rect width="480" height="120" fill="${tokens.bg}" rx="12"/>
