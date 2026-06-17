@@ -1,4 +1,4 @@
-import { THEME } from '../theme/tokens.js';
+import { THEME, THEME_DERIVED } from '../theme/tokens.js';
 import type { ContributionStats } from '../types/stats.js';
 import { escapeHtml } from '../utils/escapeHtml.js';
 
@@ -58,7 +58,7 @@ function createStreakRing(
  * documented here for clarity.
  */
 export function renderContributionsCard(
-  username: string,
+  _username: string,
   contributions: ContributionStats,
 ): string {
   const totalCol = CARD_PADDING;
@@ -101,7 +101,7 @@ export function renderContributionsErrorSvg(username: string): string {
   <rect width="${SVG_WIDTH}" height="2" fill="${THEME.gold}" rx="0"/>
   <text x="${SVG_WIDTH / 2}" y="45" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="14" fill="${THEME.silver}" text-anchor="middle">Contributions Unavailable</text>
   <text x="${SVG_WIDTH / 2}" y="70" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" fill="${THEME.goldLight}" text-anchor="middle">@${escapeHtml(username)}</text>
-  <text x="${SVG_WIDTH / 2}" y="95" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" fill="${THEME.textMuted}" text-anchor="middle">Check the username and try again</text>
+  <text x="${SVG_WIDTH / 2}" y="95" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" fill="${THEME_DERIVED.textMuted}" text-anchor="middle">Check the username and try again</text>
   <rect y="118" width="${SVG_WIDTH}" height="2" fill="${THEME.gold}" rx="0"/>
 </svg>`;
 }

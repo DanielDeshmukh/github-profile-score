@@ -1,4 +1,4 @@
-import { THEME } from '../theme/tokens.js';
+import { THEME, THEME_DERIVED } from '../theme/tokens.js';
 import type { GitHubProfileStats, LanguageBreakdown } from '../types/stats.js';
 import { escapeHtml } from '../utils/escapeHtml.js';
 import { createGradeRing } from './shared/ring.js';
@@ -101,7 +101,7 @@ export function renderLanguagesCard(languages: LanguageBreakdown[]): string {
 
   <line x1="24" y1="42" x2="${CARD_WIDTH - 24}" y2="42" stroke="${THEME.slate}" stroke-width="0.5"/>
 
-  <rect x="24" y="${barY}" width="${barWidth}" height="${barHeight}" rx="2" fill="${THEME.barTrack}"/>
+  <rect x="24" y="${barY}" width="${barWidth}" height="${barHeight}" rx="2" fill="${THEME_DERIVED.barTrack}"/>
   ${barSegments}
 
   ${legend}
@@ -116,7 +116,7 @@ export function renderStatsErrorSvg(username: string): string {
   <rect width="${CARD_WIDTH}" height="2" fill="${THEME.gold}" rx="0"/>
   <text x="${CARD_WIDTH / 2}" y="45" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="14" fill="${THEME.silver}" text-anchor="middle">Stats Unavailable</text>
   <text x="${CARD_WIDTH / 2}" y="70" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" fill="${THEME.goldLight}" text-anchor="middle">@${escapeHtml(username)}</text>
-  <text x="${CARD_WIDTH / 2}" y="95" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" fill="${THEME.textMuted}" text-anchor="middle">Check the username and try again</text>
+  <text x="${CARD_WIDTH / 2}" y="95" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" fill="${THEME_DERIVED.textMuted}" text-anchor="middle">Check the username and try again</text>
   <rect y="118" width="${CARD_WIDTH}" height="2" fill="${THEME.gold}" rx="0"/>
 </svg>`;
 }
