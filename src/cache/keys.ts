@@ -4,10 +4,13 @@ export const CACHE_KEYS = {
   repos: (username: string) => `github:${username}:repos`,
   events: (username: string) => `github:${username}:events`,
   refreshCooldown: (username: string) => `refresh_cooldown:${username}`,
+  stats: (username: string) => `stats:v1:${username}`,
+  statsRefreshCooldown: (username: string) => `stats:v1:refresh_cooldown:${username}`,
 } as const;
 
 export const CACHE_TTL = {
   SCORE: 21600,
+  STATS: 21600,
   GITHUB_DATA: 3600,
   REFRESH_COOLDOWN: 600,
 } as const;

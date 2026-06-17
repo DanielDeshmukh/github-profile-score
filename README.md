@@ -165,7 +165,8 @@ npm run dev
 | `NVIDIA_API_KEY` | No | NVIDIA NIM API key for AI callouts |
 | `REDIS_URL` | No | Redis connection (empty = in-memory cache) |
 | `PORT` | No | Server port (default: 3000) |
-| `CACHE_TTL_SECONDS` | No | Cache TTL (default: 21600 = 6 hours) |
+| `CACHE_TTL_SECONDS` | No | Score badge cache TTL (default: 21600 = 6 hours) |
+| `STATS_CACHE_TTL_SECONDS` | No | Stats card cache TTL (default: 21600 = 6 hours) |
 | `SCORE_THRESHOLD` | No | Dimensions below this get callouts (default: 14) |
 
 ---
@@ -240,6 +241,110 @@ Liveness check. Returns Redis connection status and GitHub API rate limit remain
 
 ---
 
+## Stats Cards
+
+In addition to the job-readiness score badge, the service provides GitHub stats cards showing contributions, streaks, and language breakdown. These use a gold/charcoal theme and are separate from the score badge — caching, refresh cycles, and API calls are all independent.
+
+### `GET /stats/:username/contributions.svg`
+Returns the contributions/streak SVG card showing total contributions, current streak with ring, and longest streak.
+
+- Cached for 6 hours per username (independent of score badge cache)
+- Returns `404` with an error card if the GitHub user doesn't exist
+- Append `?refresh=1` to bust the cache
+
+### `GET /stats/:username/overview.svg`
+Returns the GitHub stats SVG card showing total stars earned, commits (last year), total PRs, total issues, and a grade ring.
+
+### `GET /stats/:username/languages.svg`
+Returns the language breakdown SVG card with a horizontal stacked bar and legend showing most-used languages by byte count.
+
+### `GET /stats/:username`
+Returns the full JSON stats payload.
+
+```json
+{
+  "username": "octocat",
+  "contributions": {
+    "totalContributions": 500,
+    "rangeStart": "2024-01-01",
+    "rangeEnd": "2024-12-31",
+    "currentStreak": 15,
+    "currentStreakRange": { "start": "2024-06-01", "end": "2024-06-15" },
+    "longestStreak": 30,
+    "longestStreakRange": { "start": "2024-01-10", "end": "2024-02-08" }
+  },
+  "profile": {
+    "totalStarsEarned": 150,
+    "totalCommitsLastYear": 420,
+    "totalPRs": 35,
+    "totalIssues": 12,
+    "grade": "B"
+  },
+  "languages": [
+    { "name": "TypeScript", "percent": 45.2, "color": "#3178c6" },
+    { "name": "JavaScript", "percent": 25.1, "color": "#f1e05a" }
+  ],
+  "cached": false,
+  "cache_age_seconds": 0,
+  "generated_at": "2024-06-15T12:00:00.000Z"
+}
+```
+
+---
+
+## Embed Stats Cards in Your README
+
+### Contributions Card
+
+```markdown
+![Contributions](https://YOUR_DOMAIN/stats/YOUR_USERNAME/contributions.svg)
+```
+
+### GitHub Stats Card
+
+```markdown
+![GitHub Stats](https://YOUR_DOMAIN/stats/YOUR_USERNAME/overview.svg)
+```
+
+### Language Breakdown Card
+
+```markdown
+![Languages](https://YOUR_DOMAIN/stats/YOUR_USERNAME/languages.svg)
+```
+
+### All Three Cards
+
+```html
+<a href="https://YOUR_DOMAIN/stats/YOUR_USERNAME">
+  <img src="https://YOUR_DOMAIN/stats/YOUR_USERNAME/contributions.svg" alt="Contributions" />
+</a>
+<a href="https://YOUR_DOMAIN/stats/YOUR_USERNAME">
+  <img src="https://YOUR_DOMAIN/stats/YOUR_USERNAME/overview.svg" alt="GitHub Stats" />
+</a>
+<a href="https://YOUR_DOMAIN/stats/YOUR_USERNAME">
+  <img src="https://YOUR_DOMAIN/stats/YOUR_USERNAME/languages.svg" alt="Languages" />
+</a>
+```
+
+### Theming
+
+Stats cards use a fixed gold/charcoal theme by default. The color palette is centralized in `src/theme/tokens.ts`:
+
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `cream` | `#111315` | Card backgrounds |
+| `charcoal` | `#1a1a1a` | Secondary backgrounds |
+| `gold` | `#c9a962` | Accent rings, highlights |
+| `goldLight` | `#e8d5a3` | Primary text, numbers |
+| `slate` | `#2d3748` | Borders, dividers |
+| `silver` | `#7d8a96` | Secondary text, labels |
+
+Language bar segments preserve each language's recognizable GitHub brand color (e.g. Python blue, JS yellow) — only the card chrome uses the gold/charcoal theme.
+
+> **Note:** Custom theme overrides via query parameters are not yet supported but may be added in a future release.
+
+---
+
 ## Embed in Your README
 
 Copy this snippet and replace `YOUR_USERNAME`:
@@ -276,9 +381,11 @@ Point it at any GitHub repo and get:
 github-profile-score/
 ├── src/
 │   ├── fetcher/
-│   │   └── GitHubFetcher.ts       # All GitHub REST API calls
+│   │   ├── GitHubFetcher.ts       # All GitHub REST API calls
+│   │   └── StatsFetcher.ts        # GraphQL-based stats data fetching
 │   ├── scorer/
 │   │   ├── HeuristicScorer.ts     # Dimension scoring logic
+│   │   ├── streak.ts              # Contribution streak calculation
 │   │   └── dimensions/
 │   │       ├── activity.ts
 │   │       ├── quality.ts
@@ -289,14 +396,32 @@ github-profile-score/
 │   │   ├── NvidiaCalloutWriter.ts # NVIDIA NIM integration
 │   │   └── fallback.ts           # Static fallback callouts
 │   ├── renderer/
-│   │   ├── SvgRenderer.ts         # SVG card templating
-│   │   └── HtmlRenderer.ts        # HTML report generation
+│   │   ├── SvgRenderer.ts         # Score badge SVG templating
+│   │   ├── ContributionsCardRenderer.ts  # Contributions/streak SVG
+│   │   ├── StatsCardRenderer.ts   # GitHub stats + languages SVG
+│   │   ├── HtmlRenderer.ts        # HTML report generation
+│   │   └── shared/
+│   │       └── ring.ts            # Shared grade ring drawing
+│   ├── routes/
+│   │   └── stats.ts               # Stats card endpoints
+│   ├── theme/
+│   │   ├── tokens.ts              # Centralized color palette
+│   │   └── README.md              # Theme documentation
+│   ├── types/
+│   │   └── stats.ts               # Stats card data models
 │   ├── cache/
 │   │   ├── RedisCache.ts          # Redis wrapper + TTL logic
-│   │   └── MemoryCache.ts         # In-memory fallback
+│   │   ├── MemoryCache.ts         # In-memory fallback
+│   │   └── keys.ts                # Cache key generators
+│   ├── utils/
+│   │   └── escapeHtml.ts          # XSS-safe HTML escaping
 │   └── server.ts                  # Express routes
 ├── tests/
 │   ├── scorer.test.ts
+│   ├── streak.test.ts
+│   ├── contributions-card.test.ts
+│   ├── stats-card.test.ts
+│   ├── cache-keys.test.ts
 │   └── escapeHtml.test.ts
 ├── .env.example
 ├── docker-compose.yml
@@ -315,8 +440,11 @@ GitHub's authenticated rate limit is **5,000 requests/hour**. A single profile f
 | Layer | TTL | Eviction |
 |-------|-----|----------|
 | Redis (score result) | 6 hours | LRU |
+| Redis (stats result) | 6 hours | LRU |
 | Redis (raw GitHub data) | 1 hour | LRU |
 | CDN (SVG response) | 1 hour | Cache-Control header |
+
+Score and stats caches use distinct key prefixes (`score:` vs `stats:v1:`) so refreshing one does not invalidate the other. Both use the same default TTL (6 hours) but can be configured independently via `CACHE_TTL_SECONDS` and `STATS_CACHE_TTL_SECONDS`.
 
 Set `Cache-Control: public, max-age=3600, s-maxage=3600` on SVG responses to let Cloudflare/Fastly cache them at the edge.
 
