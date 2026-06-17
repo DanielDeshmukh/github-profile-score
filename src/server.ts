@@ -20,6 +20,7 @@ import { escapeHtml } from './utils/escapeHtml.js';
 import { statsRouter } from './routes/stats.js';
 import { commitsPerTenureRouter } from './routes/insights/commitsPerTenure.js';
 import { mostActiveRepoRouter } from './routes/insights/mostActiveRepo.js';
+import { accountAgeRouter } from './routes/insights/accountAge.js';
 import { StatsFetcher } from './fetcher/StatsFetcher.js';
 import { InsightFetcher } from './fetcher/insights/MostActiveRepoFetcher.js';
 import type { CacheProvider, ScoreResult } from './types.js';
@@ -49,6 +50,7 @@ export async function buildApp(): Promise<express.Express> {
   app.use(statsRouter(cache, fetcher, statsFetcher));
   app.use(commitsPerTenureRouter(cache, fetcher, statsFetcher));
   app.use(mostActiveRepoRouter(cache, fetcher, insightFetcher));
+  app.use(accountAgeRouter(cache, fetcher));
 
   const usernameParam = usernameValidator;
 
