@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="480" height="200" viewBox="0 0 480 200">
+  <defs>
+    <clipPath id="avatar-clip">
+      <circle cx="50" cy="44" r="22"/>
+    </clipPath>
+  </defs>
+
+  <rect width="480" height="200" fill="#111315" rx="12"/>
+  <rect width="480" height="2" fill="#c9a962" rx="0"/>
+
+  <rect x="28" y="22" width="44" height="44" rx="22" fill="#1e2229" stroke="#c9a962" stroke-width="1"/>
+  <image xlink:href="https://github.com/octocat.png?size=48" x="28" y="22" width="44" height="44" clip-path="url(#avatar-clip)"/>
+  <text x="64" y="34" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="15" fill="#e8d5a3" font-weight="600">@octocat</text>
+  <text x="64" y="50" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11" fill="#7d8a96">Profile Overview</text>
+
+  <line x1="24" y1="68" x2="456" y2="68" stroke="#2d3748" stroke-width="0.5"/>
+
+  <!-- Stats Grid -->
+  <g font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+    <!-- Repos -->
+    <text x="40" y="88" font-size="10" fill="#7d8a96">Repos</text>
+    <text x="40" y="106" font-size="22" fill="#c9a962" font-weight="700">47</text>
+    <text x="80" y="106" font-size="10" fill="#7d8a96">(12 public)</text>
+
+    <!-- Stars -->
+    <text x="200" y="88" font-size="10" fill="#7d8a96">Stars</text>
+    <text x="200" y="106" font-size="22" fill="#c9a962" font-weight="700">234</text>
+
+    <!-- Followers -->
+    <text x="360" y="88" font-size="10" fill="#7d8a96">Followers</text>
+    <text x="360" y="106" font-size="22" fill="#c9a962" font-weight="700">89</text>
+
+    <!-- Following -->
+    <text x="360" y="130" font-size="10" fill="#7d8a96">Following</text>
+    <text x="360" y="148" font-size="22" fill="#e8d5a3" font-weight="700">156</text>
+
+    <!-- Top Languages -->
+    <text x="40" y="132" font-size="10" fill="#7d8a96">Top Languages</text>
+
+    <!-- Language bars -->
+    <rect x="40" y="140" width="80" height="6" rx="2" fill="#f1e05a"/>
+    <text x="125" y="147" font-size="9" fill="#e8d5a3">TypeScript (34%)</text>
+
+    <rect x="40" y="150" width="52" height="6" rx="2" fill="#3572a5"/>
+    <text x="97" y="157" font-size="9" fill="#e8d5a3">Python (22%)</text>
+
+    <rect x="40" y="160" width="36" height="6" rx="2" fill="#b07219"/>
+    <text x="81" y="167" font-size="9" fill="#e8d5a3">Java (15%)</text>
+
+    <rect x="40" y="170" width="24" height="6" rx="2" fill="#e34c26"/>
+    <text x="69" y="177" font-size="9" fill="#e8d5a3">HTML (10%)</text>
+
+    <!-- Contribution Calendar -->
+    <text x="240" y="132" font-size="10" fill="#7d8a96">Recent Activity</text>
+    <g transform="translate(240, 138)">
+      <!-- Mini calendar grid -->
+      <rect x="0" y="0" width="6" height="6" rx="1" fill="#1e2229"/>
+      <rect x="8" y="0" width="6" height="6" rx="1" fill="#3d2a1a"/>
+      <rect x="16" y="0" width="6" height="6" rx="1" fill="#6b4423"/>
+      <rect x="24" y="0" width="6" height="6" rx="1" fill="#1e2229"/>
+      <rect x="32" y="0" width="6" height="6" rx="1" fill="#a89050"/>
+      <rect x="40" y="0" width="6" height="6" rx="1" fill="#c9a962"/>
+      <rect x="48" y="0" width="6" height="6" rx="1" fill="#3d2a1a"/>
+
+      <rect x="0" y="8" width="6" height="6" rx="1" fill="#3d2a1a"/>
+      <rect x="8" y="8" width="6" height="6" rx="1" fill="#6b4423"/>
+      <rect x="16" y="8" width="6" height="6" rx="1" fill="#a89050"/>
+      <rect x="24" y="8" width="6" height="6" rx="1" fill="#6b4423"/>
+      <rect x="32" y="8" width="6" height="6" rx="1" fill="#c9a962"/>
+      <rect x="40" y="8" width="6" height="6" rx="1" fill="#a89050"/>
+      <rect x="48" y="8" width="6" height="6" rx="1" fill="#3d2a1a"/>
+
+      <rect x="0" y="16" width="6" height="6" rx="1" fill="#6b4423"/>
+      <rect x="8" y="16" width="6" height="6" rx="1" fill="#1e2229"/>
+      <rect x="16" y="16" width="6" height="6" rx="1" fill="#3d2a1a"/>
+      <rect x="24" y="16" width="6" height="6" rx="1" fill="#a89050"/>
+      <rect x="32" y="16" width="6" height="6" rx="1" fill="#6b4423"/>
+      <rect x="40" y="16" width="6" height="6" rx="1" fill="#1e2229"/>
+      <rect x="48" y="16" width="6" height="6" rx="1" fill="#a89050"/>
+
+      <rect x="0" y="24" width="6" height="6" rx="1" fill="#a89050"/>
+      <rect x="8" y="24" width="6" height="6" rx="1" fill="#c9a962"/>
+      <rect x="16" y="24" width="6" height="6" rx="1" fill="#6b4423"/>
+      <rect x="24" y="24" width="6" height="6" rx="1" fill="#3d2a1a"/>
+      <rect x="32" y="24" width="6" height="6" rx="1" fill="#a89050"/>
+      <rect x="40" y="24" width="6" height="6" rx="1" fill="#c9a962"/>
+      <rect x="48" y="24" width="6" height="6" rx="1" fill="#6b4423"/>
+
+      <!-- Day labels -->
+      <text x="-2" y="5" font-size="6" fill="#4a5568" text-anchor="end">M</text>
+      <text x="-2" y="13" font-size="6" fill="#4a5568" text-anchor="end">T</text>
+      <text x="-2" y="21" font-size="6" fill="#4a5568" text-anchor="end">W</text>
+      <text x="-2" y="29" font-size="6" fill="#4a5568" text-anchor="end">T</text>
+    </g>
+
+    <!-- Account Age -->
+    <text x="240" y="174" font-size="10" fill="#7d8a96">Account Age</text>
+    <text x="240" y="190" font-size="14" fill="#e8d5a3" font-weight="600">4 years 6 months</text>
+  </g>
+
+  <text x="24" y="194" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" fill="#4a5568">Updated 6/17/2026 2:57 PM</text>
+
+  <rect y="198" width="480" height="2" fill="#c9a962" rx="0"/>
+</svg>
