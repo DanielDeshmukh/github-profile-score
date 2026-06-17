@@ -23,6 +23,7 @@ import { mostActiveRepoRouter } from './routes/insights/mostActiveRepo.js';
 import { accountAgeRouter } from './routes/insights/accountAge.js';
 import { mostStarredRepoRouter } from './routes/insights/mostStarredRepo.js';
 import { contributionTrendRouter } from './routes/insights/contributionTrend.js';
+import { avgCommitsPerRepoRouter } from './routes/insights/avgCommitsPerRepo.js';
 import { StatsFetcher } from './fetcher/StatsFetcher.js';
 import { InsightFetcher } from './fetcher/insights/MostActiveRepoFetcher.js';
 import { ContributionTrendFetcher } from './fetcher/insights/ContributionTrendFetcher.js';
@@ -57,6 +58,7 @@ export async function buildApp(): Promise<express.Express> {
   app.use(accountAgeRouter(cache, fetcher));
   app.use(mostStarredRepoRouter(cache, fetcher));
   app.use(contributionTrendRouter(cache, trendFetcher));
+  app.use(avgCommitsPerRepoRouter(cache, fetcher, insightFetcher));
 
   const usernameParam = usernameValidator;
 
