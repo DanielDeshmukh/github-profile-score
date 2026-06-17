@@ -40,7 +40,7 @@ describe('AccountAgeCard renderer', () => {
 
   it('should show < 1 month for 0/0', () => {
     const svg = renderAccountAgeCard(0, 0);
-    expect(svg).toContain('&lt; 1 month');
+    expect(svg).toContain('< 1 month');
   });
 
   it('should render correct viewBox dimensions', () => {

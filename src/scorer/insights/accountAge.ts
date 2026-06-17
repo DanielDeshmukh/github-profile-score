@@ -27,6 +27,11 @@ export function calculateAccountAge(createdAt: string): AccountAgeResult {
     months += 12;
   }
 
+  if (months === 0 && now.getDate() < created.getDate()) {
+    years -= 1;
+    months = 11;
+  }
+
   if (years < 0) {
     return { years: 0, months: 0, createdAt };
   }
