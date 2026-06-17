@@ -7,7 +7,6 @@ describe('AvgCommitsPerRepoCard renderer', () => {
     const svg = renderAvgCommitsPerRepoCard(20, 5, 100);
     expect(svg).toContain('<svg');
     expect(svg).toContain(THEME.cream);
-    expect(svg).toContain(THEME.gold);
     expect(svg).toContain(THEME.goldLight);
     expect(svg).toContain(THEME.silver);
   });

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { renderStatsCard, renderLanguagesCard, renderStatsErrorSvg } from '../src/renderer/StatsCardRenderer.js';
 import type { GitHubProfileStats, LanguageBreakdown } from '../src/types/stats.js';
-import { THEME } from '../src/theme/tokens.js';
+import { THEME, tokens } from '../src/theme/tokens.js';
 
 function createMockStats(overrides: Partial<GitHubProfileStats> = {}): GitHubProfileStats {
   return {
@@ -34,7 +34,7 @@ describe('StatsCardRenderer', () => {
       expect(svg).toContain('<svg');
       expect(svg).toContain('</svg>');
       expect(svg).toContain(THEME.cream);
-      expect(svg).toContain(THEME.gold);
+      expect(svg).toContain(tokens.purple);
       expect(svg).toContain(THEME.goldLight);
       expect(svg).toContain(THEME.silver);
     });
@@ -48,7 +48,7 @@ describe('StatsCardRenderer', () => {
       });
       const svg = renderStatsCard('testuser', stats);
 
-      expect(svg).toContain('Total Stars Earned');
+      expect(svg).toContain('Total Stars');
       expect(svg).toContain('Commits (Last Year)');
       expect(svg).toContain('Total PRs');
       expect(svg).toContain('Total Issues');
@@ -69,7 +69,7 @@ describe('StatsCardRenderer', () => {
 
     it('should have correct viewBox dimensions', () => {
       const svg = renderStatsCard('testuser', createMockStats());
-      expect(svg).toContain('width="280"');
+      expect(svg).toContain('width="480"');
       expect(svg).toContain('height="200"');
     });
   });
@@ -82,7 +82,7 @@ describe('StatsCardRenderer', () => {
       expect(svg).toContain('<svg');
       expect(svg).toContain('</svg>');
       expect(svg).toContain(THEME.cream);
-      expect(svg).toContain(THEME.gold);
+      expect(svg).toContain(tokens.purple);
       expect(svg).toContain('Most Used Languages');
     });
 
@@ -111,7 +111,7 @@ describe('StatsCardRenderer', () => {
       expect(svg).toContain('Most Used Languages');
     });
 
-    it('should limit legend to 6 items', () => {
+    it('should limit legend to 5 items', () => {
       const languages: LanguageBreakdown[] = Array.from({ length: 10 }, (_, i) => ({
         name: `Lang${i}`,
         percent: 10,
@@ -120,13 +120,13 @@ describe('StatsCardRenderer', () => {
       const svg = renderLanguagesCard(languages);
 
       expect(svg).toContain('Lang0');
-      expect(svg).toContain('Lang5');
-      expect(svg).not.toContain('Lang6');
+      expect(svg).toContain('Lang4');
+      expect(svg).not.toContain('Lang5');
     });
 
     it('should have correct viewBox dimensions', () => {
       const svg = renderLanguagesCard(createMockLanguages());
-      expect(svg).toContain('width="280"');
+      expect(svg).toContain('width="480"');
       expect(svg).toContain('height="200"');
     });
   });

@@ -1,14 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { renderContributionTrendCard } from '../../src/renderer/insights/ContributionTrendCard.js';
-import { THEME } from '../../src/theme/tokens.js';
+import { THEME, tokens } from '../../src/theme/tokens.js';
 
 describe('ContributionTrendCard renderer', () => {
   it('should render SVG with theme colors', () => {
     const svg = renderContributionTrendCard(100, 80, 25, 'up');
     expect(svg).toContain('<svg');
     expect(svg).toContain(THEME.cream);
-    expect(svg).toContain(THEME.gold);
-    expect(svg).toContain(THEME.goldLight);
+    expect(svg).toContain(tokens.green);
     expect(svg).toContain(THEME.silver);
   });
 

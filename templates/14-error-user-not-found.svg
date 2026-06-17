@@ -1,17 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 200">
-  <rect width="480" height="200" fill="#111315" rx="12"/>
-  <rect width="480" height="2" fill="#7d8a96" rx="0"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80">
+  <rect width="320" height="80" fill="#0d1117" rx="8"/>
+  <rect x="0" y="0" width="2" height="80" fill="#f85149" rx="0"/>
 
-  <rect x="216" y="60" width="48" height="48" rx="24" fill="#1e2229" stroke="#7d8a96" stroke-width="1"/>
-  <text x="240" y="90" font-family="sans-serif" font-size="24" fill="#7d8a96" text-anchor="middle">?</text>
+  <svg x="16" y="28" width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="9" stroke="#f85149" stroke-width="1.5"/>
+    <line x1="15" y1="9" x2="9" y2="15" stroke="#f85149" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="9" y1="9" x2="15" y2="15" stroke="#f85149" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
 
-  <text x="240" y="130" font-family="sans-serif" font-size="14" fill="#e8d5a3" text-anchor="middle" font-weight="600">User Not Found</text>
+  <text x="44" y="32" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="10" fill="#8b949e" letter-spacing="0.06em">NOT FOUND</text>
+  <text x="44" y="56" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="22" fill="#f85149" font-weight="700">@nonexistent not found</text>
+  <text x="44" y="72" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#8b949e">Check the username and retry</text>
 
-  <text x="240" y="150" font-family="sans-serif" font-size="11" fill="#7d8a96" text-anchor="middle">The GitHub username "nonexistent-user" does not exist.</text>
-
-  <text x="240" y="172" font-family="sans-serif" font-size="10" fill="#c9a962" text-anchor="middle" text-decoration="underline">Check username and try again</text>
-
-  <text x="24" y="190" font-family="sans-serif" font-size="10" fill="#4a5568" text-anchor="middle">github-profile-score</text>
-
-  <rect y="198" width="480" height="2" fill="#7d8a96" rx="0"/>
+  <rect y="79" width="320" height="1" fill="rgba(48, 54, 61, 0.8)" rx="0"/>
 </svg>

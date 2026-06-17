@@ -1,18 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80">
-  <rect width="320" height="80" fill="#111315" rx="10"/>
-  <rect width="320" height="2" fill="#c9a962" rx="0"/>
+  <style>
+    .card-bg { transition: background 0.15s ease; }
+    .card-bg:hover { background: #1c2128; }
+  </style>
+  <rect width="320" height="80" fill="#0d1117" rx="8" class="card-bg"/>
+  <rect x="0" y="0" width="2" height="80" fill="#3fb950" rx="0"/>
 
-  <rect x="16" y="24" width="32" height="32" rx="8" fill="#1e2229" stroke="#c9a962" stroke-width="0.5"/>
-  <text x="32" y="44" font-family="sans-serif" font-size="14" fill="#c9a962" text-anchor="middle" font-weight="700">&#8593;</text>
+  <svg x="16" y="28" width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" stroke="#3fb950" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="17 6 23 6 23 12" stroke="#3fb950" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
 
-  <text x="56" y="34" font-family="sans-serif" font-size="11" fill="#7d8a96">Contribution Trend</text>
-  <text x="56" y="52" font-family="sans-serif" font-size="13" fill="#e8d5a3" font-weight="600">+18% year-over-year</text>
+  <text x="44" y="32" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="10" fill="#8b949e" letter-spacing="0.06em">CONTRIBUTION TREND</text>
+  <text x="44" y="56" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="22" fill="#3fb950" font-weight="700">&#8593; 18.0%</text>
+  <text x="44" y="72" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#8b949e">Trending up: 683 vs 579 last year</text>
 
-  <text x="296" y="38" font-family="sans-serif" font-size="26" fill="#c9a962" text-anchor="end" font-weight="700">&#8593;</text>
-  <text x="296" y="56" font-family="sans-serif" font-size="9" fill="#7d8a96" text-anchor="end">growing</text>
-
-  <rect x="16" y="62" width="288" height="3" rx="1.5" fill="#1e2229"/>
-  <rect x="16" y="62" width="201" height="3" rx="1.5" fill="#c9a962"/>
-
-  <rect y="78" width="320" height="2" fill="#c9a962" rx="0"/>
+  <rect y="79" width="320" height="1" fill="rgba(48, 54, 61, 0.8)" rx="0"/>
 </svg>

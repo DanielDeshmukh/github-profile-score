@@ -7,7 +7,6 @@ describe('CommitsPerTenureCard renderer', () => {
     const svg = renderCommitsPerTenureCard(100, 500, 5);
     expect(svg).toContain('<svg');
     expect(svg).toContain(THEME.cream);
-    expect(svg).toContain(THEME.gold);
     expect(svg).toContain(THEME.goldLight);
     expect(svg).toContain(THEME.silver);
   });

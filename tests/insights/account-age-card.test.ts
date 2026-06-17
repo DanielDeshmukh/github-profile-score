@@ -7,7 +7,6 @@ describe('AccountAgeCard renderer', () => {
     const svg = renderAccountAgeCard(3, 6);
     expect(svg).toContain('<svg');
     expect(svg).toContain(THEME.cream);
-    expect(svg).toContain(THEME.gold);
     expect(svg).toContain(THEME.goldLight);
     expect(svg).toContain(THEME.silver);
   });

@@ -7,7 +7,6 @@ describe('CommitPatternCard renderer', () => {
     const svg = renderCommitPatternCard('weekday', 'afternoon', 80, 20, 100);
     expect(svg).toContain('<svg');
     expect(svg).toContain(THEME.cream);
-    expect(svg).toContain(THEME.gold);
     expect(svg).toContain(THEME.goldLight);
     expect(svg).toContain(THEME.silver);
   });
@@ -26,11 +25,6 @@ describe('CommitPatternCard renderer', () => {
   it('should display peak daypart', () => {
     const svg = renderCommitPatternCard('weekday', 'night', 80, 20, 100);
     expect(svg).toContain('Late nights');
-  });
-
-  it('should show approximate label', () => {
-    const svg = renderCommitPatternCard('weekday', 'morning', 80, 20, 100);
-    expect(svg).toContain('approximate');
   });
 
   it('should show sample count', () => {

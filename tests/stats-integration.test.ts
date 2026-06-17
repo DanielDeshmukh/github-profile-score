@@ -14,18 +14,18 @@ describe('Stats feature integration', () => {
   });
 
   it('should have correct theme tokens', () => {
-    expect(THEME.cream).toBe('#111315');
-    expect(THEME.gold).toBe('#c9a962');
-    expect(THEME.goldLight).toBe('#e8d5a3');
-    expect(THEME.slate).toBe('#2d3748');
-    expect(THEME.silver).toBe('#7d8a96');
-    expect(THEME.charcoal).toBe('#1a1a1a');
+    expect(THEME.cream).toBe('#0d1117');
+    expect(THEME.gold).toBe('#58a6ff');
+    expect(THEME.goldLight).toBe('#e6edf3');
+    expect(THEME.slate).toBe('rgba(48, 54, 61, 0.8)');
+    expect(THEME.silver).toBe('#8b949e');
+    expect(THEME.charcoal).toBe('#0d1117');
   });
 
   it('should have correct derived tokens', () => {
-    expect(THEME_DERIVED.goldTransparent).toBe('rgba(201, 169, 98, 0.15)');
-    expect(THEME_DERIVED.textMuted).toBe('#4a5568');
-    expect(THEME_DERIVED.barTrack).toBe('#1e2229');
+    expect(THEME_DERIVED.goldTransparent).toBe('rgba(88, 166, 255, 0.15)');
+    expect(THEME_DERIVED.textMuted).toBe('#8b949e');
+    expect(THEME_DERIVED.barTrack).toBe('#21262d');
   });
 
   it('should have matching TTL values', () => {

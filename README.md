@@ -526,18 +526,24 @@ GET /health
 
 ## Theming
 
-All SVG cards use a consistent gold/charcoal theme. The color palette is centralized in `src/theme/tokens.ts`:
+All SVG cards use a GitHub-inspired dark dashboard theme. The color palette is centralized in `src/theme/tokens.ts`:
 
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `cream` | `#111315` | Card backgrounds |
-| `charcoal` | `#1a1a1a` | Secondary backgrounds |
-| `gold` | `#c9a962` | Accent rings, highlights, borders |
-| `goldLight` | `#e8d5a3` | Primary text, numbers, links |
-| `slate` | `#2d3748` | Borders, dividers, ring tracks |
-| `silver` | `#7d8a96` | Secondary text, labels |
+| `bg` | `#0d1117` | Card backgrounds |
+| `bgCard` | `#161b22` | Inner card surfaces |
+| `textPrimary` | `#e6edf3` | Headings, big numbers |
+| `textMuted` | `#8b949e` | Labels, secondary text |
+| `blue` | `#58a6ff` | Primary accent (streaks, rings) |
+| `purple` | `#a371f7` | Secondary accent (grade ring) |
+| `green` | `#3fb950` | Positive trend, contributions |
+| `orange` | `#f0883e` | Warnings, highlights |
+| `red` | `#f85149` | Errors, declining trend |
+| `gold` | `#e3b341` | Stars, special values |
+| `border` | `rgba(48, 54, 61, 0.8)` | Card borders, dividers |
+| `borderAccent` | `rgba(88, 166, 255, 0.2)` | Accent borders |
 
-**Language bar segments** preserve each language's recognizable GitHub brand color (e.g. Python blue `#3572A5`, JS yellow `#f1e05a`) — only the card chrome uses the gold/charcoal theme.
+**Language bar segments** preserve each language's recognizable GitHub brand color (e.g. Python blue `#3572A5`, JS yellow `#f1e05a`) — only the card chrome uses the dark theme tokens.
 
 > **Note:** Custom theme overrides via query parameters are not yet supported but may be added in a future release.
 

@@ -1,4 +1,4 @@
-import { THEME } from '../../theme/tokens.js';
+import { tokens } from '../../theme/tokens.js';
 
 export interface RingOptions {
   cx: number;
@@ -8,24 +8,16 @@ export interface RingOptions {
   trackColor?: string;
   progressColor?: string;
   strokeWidth?: number;
+  animated?: boolean;
 }
 
-/**
- * Generate SVG elements for a circular progress ring.
- *
- * This extracts the arc-drawing math used by both the score badge
- * renderer and the new stats cards to avoid duplication and ensure
- * consistent grade circles across all renderers.
- */
 export function createProgressRing(options: RingOptions): string {
   const {
-    cx,
-    cy,
-    radius,
-    progress,
-    trackColor = THEME.slate,
-    progressColor = THEME.gold,
+    cx, cy, radius, progress,
+    trackColor = tokens.border,
+    progressColor = tokens.blue,
     strokeWidth = 5,
+    animated = true,
   } = options;
 
   const circumference = 2 * Math.PI * radius;
@@ -34,7 +26,7 @@ export function createProgressRing(options: RingOptions): string {
 
   return `
   <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="${trackColor}" stroke-width="${strokeWidth}"/>
-  <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="${progressColor}" stroke-width="${strokeWidth}" stroke-dasharray="${circumference}" stroke-dashoffset="${dashOffset}" stroke-linecap="round" transform="rotate(-90, ${cx}, ${cy})"/>`;
+  <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="${progressColor}" stroke-width="${strokeWidth}" stroke-dasharray="${circumference}" stroke-dashoffset="${circumference}" stroke-linecap="round" transform="rotate(-90, ${cx}, ${cy})" class="${animated ? 'ring-arc' : ''}" style="${animated ? `--dash-offset: ${dashOffset}` : `stroke-dashoffset: ${dashOffset}`}"/>`;
 }
 
 export interface GradeRingOptions {
@@ -44,25 +36,17 @@ export interface GradeRingOptions {
   score: number;
   maxScore: number;
   grade: string;
+  color?: string;
+  animated?: boolean;
 }
 
-/**
- * Generate SVG elements for a grade ring with score number and letter.
- * Used by both the original score badge and the new GitHub stats card.
- */
 export function createGradeRing(options: GradeRingOptions): string {
-  const { cx, cy, radius, score, maxScore, grade } = options;
+  const { cx, cy, radius, score, maxScore, grade, color = tokens.purple, animated = true } = options;
   const progress = maxScore > 0 ? score / maxScore : 0;
 
-  const ring = createProgressRing({
-    cx,
-    cy,
-    radius,
-    progress,
-    strokeWidth: 4,
-  });
+  const ring = createProgressRing({ cx, cy, radius, progress, progressColor: color, strokeWidth: 4, animated });
 
   return `${ring}
-  <text x="${cx}" y="${cy - 3}" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="14" fill="${THEME.goldLight}" text-anchor="middle" font-weight="700">${score}</text>
-  <text x="${cx}" y="${cy + 11}" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" fill="${THEME.gold}" text-anchor="middle">${grade}</text>`;
+  <text x="${cx}" y="${cy - 3}" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="14" fill="${tokens.textPrimary}" text-anchor="middle" font-weight="700">${score}</text>
+  <text x="${cx}" y="${cy + 11}" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="10" fill="${color}" text-anchor="middle">${grade}</text>`;
 }

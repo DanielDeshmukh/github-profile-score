@@ -7,7 +7,6 @@ describe('MostStarredRepoCard renderer', () => {
     const svg = renderMostStarredRepoCard('my-project', 1200, 'https://github.com/user/my-project');
     expect(svg).toContain('<svg');
     expect(svg).toContain(THEME.cream);
-    expect(svg).toContain(THEME.gold);
     expect(svg).toContain(THEME.goldLight);
     expect(svg).toContain(THEME.silver);
   });

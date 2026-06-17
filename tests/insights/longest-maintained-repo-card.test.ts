@@ -7,7 +7,6 @@ describe('LongestMaintainedRepoCard renderer', () => {
     const svg = renderLongestMaintainedCard('my-project', 1000, 'https://github.com/u/my-project', '2020-01-01T00:00:00Z');
     expect(svg).toContain('<svg');
     expect(svg).toContain(THEME.cream);
-    expect(svg).toContain(THEME.gold);
     expect(svg).toContain(THEME.goldLight);
     expect(svg).toContain(THEME.silver);
   });

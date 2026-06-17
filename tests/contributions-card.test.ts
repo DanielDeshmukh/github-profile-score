@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { renderContributionsCard, renderContributionsErrorSvg } from '../src/renderer/ContributionsCardRenderer.js';
 import type { ContributionStats } from '../src/types/stats.js';
-import { THEME } from '../src/theme/tokens.js';
+import { THEME, tokens } from '../src/theme/tokens.js';
 
 function createMockStats(overrides: Partial<ContributionStats> = {}): ContributionStats {
   return {
@@ -24,17 +24,16 @@ describe('ContributionsCardRenderer', () => {
     expect(svg).toContain('<svg');
     expect(svg).toContain('</svg>');
     expect(svg).toContain(THEME.cream);
-    expect(svg).toContain(THEME.gold);
+    expect(svg).toContain(tokens.purple);
     expect(svg).toContain(THEME.goldLight);
     expect(svg).toContain(THEME.silver);
-    expect(svg).toContain(THEME.slate);
   });
 
   it('should include total contributions', () => {
     const stats = createMockStats({ totalContributions: 1234 });
     const svg = renderContributionsCard('testuser', stats);
 
-    expect(svg).toContain('1234');
+    expect(svg).toContain('1,234');
     expect(svg).toContain('Total Contributions');
   });
 
@@ -64,7 +63,7 @@ describe('ContributionsCardRenderer', () => {
 
     expect(svg).toContain('0');
     expect(svg).toContain('No active streak');
-    expect(svg).toContain('N/A');
+    expect(svg).toContain('N&#x2F;A');
   });
 
   it('should escape username in error SVG', () => {
@@ -73,6 +72,7 @@ describe('ContributionsCardRenderer', () => {
     expect(svg).toContain('testuser');
     expect(svg).toContain('Contributions Unavailable');
     expect(svg).toContain(THEME.cream);
+    expect(svg).toContain(tokens.red);
   });
 
   it('should have correct viewBox dimensions', () => {

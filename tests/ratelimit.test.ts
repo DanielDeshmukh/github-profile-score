@@ -20,9 +20,8 @@ describe('renderRateLimitSvg', () => {
     const resetAt = new Date('2024-06-15T14:30:00Z');
     const svg = renderRateLimitSvg('testuser', resetAt);
 
-    expect(svg).toContain('Rate limited — retry after 14:30 UTC');
-    expect(svg).toContain('@testuser');
-    expect(svg).toContain('GitHub API rate limit exceeded');
+    expect(svg).toContain('Try again after 14:30 UTC');
+    expect(svg).toContain('Rate limit reached');
     expect(svg).toContain('<svg');
   });
 
