@@ -17,8 +17,8 @@ interface GraphQLResponse<T> {
 
 interface CommitSpanData {
   repository: {
-    firstCommit: { history: { edges: Array<{ node: { committedDate: string } }> } };
-    lastCommit: { history: { edges: Array<{ node: { committedDate: string } }> } };
+    firstCommit: { target: { history: { edges: Array<{ node: { committedDate: string } }> } } | null };
+    lastCommit: { target: { history: { edges: Array<{ node: { committedDate: string } }> } } | null };
   } | null;
 }
 

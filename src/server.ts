@@ -18,7 +18,9 @@ import { usernameValidator } from './middleware/usernameValidator.js';
 import { requestLogger } from './middleware/requestLogger.js';
 import { escapeHtml } from './utils/escapeHtml.js';
 import { statsRouter } from './routes/stats.js';
+import { longestMaintainedRepoRouter } from './routes/insights/longestMaintainedRepo.js';
 import { StatsFetcher } from './fetcher/StatsFetcher.js';
+import { LongestMaintainedFetcher } from './fetcher/insights/LongestMaintainedFetcher.js';
 import type { CacheProvider, ScoreResult } from './types.js';
 import { GitHubRateLimitError } from './types.js';
 
@@ -41,8 +43,10 @@ export async function buildApp(): Promise<express.Express> {
   cache = await createCache();
   fetcher = new GitHubFetcher();
   const statsFetcher = new StatsFetcher();
+  const longestMaintainedFetcher = new LongestMaintainedFetcher();
 
   app.use(statsRouter(cache, fetcher, statsFetcher));
+  app.use(longestMaintainedRepoRouter(cache, fetcher, longestMaintainedFetcher));
 
   const usernameParam = usernameValidator;
 
