@@ -86,7 +86,7 @@ export function calculateStreaks(calendar: ContributionDay[]): StreakResult {
   const lastDayWithContributions = findLastContributionDay(sorted);
 
   if (lastDayWithContributions && (lastDayWithContributions.date === todayStr || lastDayWithContributions.date === yesterdayStr)) {
-    let streakEnd = lastDayWithContributions.date;
+    const streakEnd = lastDayWithContributions.date;
     let streakStart = streakEnd;
     let count = 0;
 
@@ -118,7 +118,7 @@ export function calculateStreaks(calendar: ContributionDay[]): StreakResult {
   }
 
   if (bestCurrentRun === 0 && longest > 0) {
-    let streakEnd = lastDayWithContributions?.date ?? sorted[0]!.date;
+    const streakEnd = lastDayWithContributions?.date ?? sorted[0]!.date;
     let streakStart = streakEnd;
     let count = 0;
 

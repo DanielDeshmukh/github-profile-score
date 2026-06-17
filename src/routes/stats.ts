@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import type { Request, Response } from 'express';
-import { CACHE_KEYS, CACHE_TTL } from '../cache/index.js';
+import { CACHE_TTL } from '../cache/index.js';
 import { GitHubFetcher } from '../fetcher/index.js';
 import { StatsFetcher } from '../fetcher/StatsFetcher.js';
 import { calculateStreaks } from '../scorer/streak.js';
@@ -14,6 +14,18 @@ import type { CacheProvider } from '../types.js';
 let cache: CacheProvider;
 let statsFetcher: StatsFetcher;
 let githubFetcher: GitHubFetcher;
+
+function getCacheKeyPrefix(): string {
+  return 'stats:v1';
+}
+
+function getStatsCacheKey(username: string): string {
+  return `${getCacheKeyPrefix()}:${username}`;
+}
+
+function getStatsRefreshCooldownKey(username: string): string {
+  return `${getCacheKeyPrefix()}:refresh_cooldown:${username}`;
+}
 
 export function statsRouter(
   cacheInstance: CacheProvider,
@@ -131,18 +143,18 @@ async function handleStatsJson(req: Request, res: Response): Promise<void> {
 
 async function getCachedOrComputeStats(username: string, refresh: boolean): Promise<StatsResult> {
   if (refresh) {
-    const cooldownKey = CACHE_KEYS.statsRefreshCooldown(username);
+    const cooldownKey = getStatsRefreshCooldownKey(username);
     const onCooldown = await cache.exists(cooldownKey);
     if (onCooldown) {
-      const cached = await cache.get<StatsResult>(CACHE_KEYS.stats(username));
+      const cached = await cache.get<StatsResult>(getStatsCacheKey(username));
       if (cached) return { ...cached, cached: true };
     }
   }
 
-  const cached = await cache.get<StatsResult>(CACHE_KEYS.stats(username));
+  const cached = await cache.get<StatsResult>(getStatsCacheKey(username));
   if (cached && !refresh) {
-    const ttl = await cache.ttl(CACHE_KEYS.stats(username));
-    return { ...cached, cached: true, cache_age_seconds: ttl > 0 ? CACHE_TTL.STATS - ttl : 0 };
+    const ttl = await cache.ttl(getStatsCacheKey(username));
+    return { ...cached, cached: true, cache_age_seconds: ttl > 0 ? CACHE_TTL.SCORE - ttl : 0 };
   }
 
   const [repos, calendar, aggregates, languages] = await Promise.all([
@@ -193,10 +205,10 @@ async function getCachedOrComputeStats(username: string, refresh: boolean): Prom
     generated_at: new Date().toISOString(),
   };
 
-  await cache.set(CACHE_KEYS.stats(username), result, CACHE_TTL.STATS);
+  await cache.set(getStatsCacheKey(username), result, CACHE_TTL.SCORE);
 
   if (refresh) {
-    await cache.set(CACHE_KEYS.statsRefreshCooldown(username), '1', CACHE_TTL.REFRESH_COOLDOWN);
+    await cache.set(getStatsRefreshCooldownKey(username), '1', CACHE_TTL.REFRESH_COOLDOWN);
   }
 
   return result;
