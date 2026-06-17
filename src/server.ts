@@ -25,10 +25,12 @@ import { mostStarredRepoRouter } from './routes/insights/mostStarredRepo.js';
 import { contributionTrendRouter } from './routes/insights/contributionTrend.js';
 import { avgCommitsPerRepoRouter } from './routes/insights/avgCommitsPerRepo.js';
 import { longestMaintainedRepoRouter } from './routes/insights/longestMaintainedRepo.js';
+import { commitPatternRouter } from './routes/insights/commitPattern.js';
 import { StatsFetcher } from './fetcher/StatsFetcher.js';
 import { InsightFetcher } from './fetcher/insights/MostActiveRepoFetcher.js';
 import { ContributionTrendFetcher } from './fetcher/insights/ContributionTrendFetcher.js';
 import { LongestMaintainedFetcher } from './fetcher/insights/LongestMaintainedFetcher.js';
+import { CommitPatternFetcher } from './fetcher/insights/CommitPatternFetcher.js';
 import type { CacheProvider, ScoreResult } from './types.js';
 import { GitHubRateLimitError } from './types.js';
 
@@ -54,6 +56,7 @@ export async function buildApp(): Promise<express.Express> {
   const insightFetcher = new InsightFetcher();
   const trendFetcher = new ContributionTrendFetcher();
   const longestMaintainedFetcher = new LongestMaintainedFetcher();
+  const commitPatternFetcher = new CommitPatternFetcher();
 
   app.use(statsRouter(cache, fetcher, statsFetcher));
   app.use(commitsPerTenureRouter(cache, fetcher, statsFetcher));
@@ -63,6 +66,7 @@ export async function buildApp(): Promise<express.Express> {
   app.use(contributionTrendRouter(cache, trendFetcher));
   app.use(avgCommitsPerRepoRouter(cache, fetcher, insightFetcher));
   app.use(longestMaintainedRepoRouter(cache, fetcher, longestMaintainedFetcher));
+  app.use(commitPatternRouter(cache, commitPatternFetcher));
 
   const usernameParam = usernameValidator;
 
