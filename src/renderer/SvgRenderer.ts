@@ -1,94 +1,84 @@
-import { tokens, THEME_DERIVED } from '../theme/tokens.js';
+import { tokens } from '../theme/tokens.js';
 import type { ScoreResult } from '../types.js';
 import { escapeHtml } from '../utils/escapeHtml.js';
-
-const GRADE_RING_COLORS: Record<ScoreResult['grade'], string> = {
-  A: tokens.green,
-  B: tokens.blue,
-  C: tokens.gold,
-  D: tokens.orange,
-  F: tokens.red,
-};
-
-function getBarColor(percentage: number, isDocumentation = false): string {
-  if (isDocumentation && percentage < 70) return tokens.orange;
-  if (percentage >= 80) return tokens.green;
-  if (percentage >= 60) return tokens.blue;
-  if (percentage >= 40) return tokens.gold;
-  return tokens.textMuted;
-}
+import { renderInitialsAvatar } from './shared/avatar.js';
+import { renderMetricTile } from './shared/tile.js';
 
 function truncateUsername(username: string): string {
   if (username.length <= 20) return username;
   return username.slice(0, 19) + '\u2026';
 }
 
-function createDimensionBar(label: string, score: number, max: number, yOffset: number, isDocumentation = false): string {
-  const pct = Math.round((score / max) * 100);
-  const barWidth = Math.round((score / max) * 408);
-  const barColor = getBarColor(pct, isDocumentation);
+function getScoreColor(score: number): string {
+  if (score >= 70) return tokens.green;
+  if (score >= 40) return tokens.textPrimary;
+  return tokens.amber;
+}
 
-  return `
-  <text x="24" y="${yOffset}" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="${tokens.textMuted}">${escapeHtml(label)}</text>
-  <text x="456" y="${yOffset}" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="${tokens.textPrimary}" text-anchor="end">${score}/${max}</text>
-  <rect x="24" y="${yOffset + 6}" width="408" height="4" rx="3" fill="${THEME_DERIVED.barTrack}"/>
-  <rect x="24" y="${yOffset + 6}" width="${barWidth}" height="4" rx="3" fill="${barColor}" class="progress-fill" style="--bar-width: ${barWidth}px"/>`;
+interface DimensionEntry {
+  name: string;
+  score: number;
+  max: number;
+}
+
+function getTop4Dimensions(dims: ScoreResult['dimensions']): DimensionEntry[] {
+  const entries: DimensionEntry[] = [
+    { name: 'Activity', score: dims.activity.score, max: dims.activity.max },
+    { name: 'Project quality', score: dims.quality.score, max: dims.quality.max },
+    { name: 'Documentation', score: dims.documentation.score, max: dims.documentation.max },
+    { name: 'Tech diversity', score: dims.diversity.score, max: dims.diversity.max },
+    { name: 'Community', score: dims.community.score, max: dims.community.max },
+  ];
+  entries.sort((a, b) => b.score - a.score);
+  return entries;
 }
 
 export function renderSvg(result: ScoreResult): string {
-  const gradeColor = GRADE_RING_COLORS[result.grade] || tokens.blue;
   const scoreDate = new Date(result.scored_at).toLocaleDateString('en-US', {
     month: 'numeric',
     day: 'numeric',
     year: 'numeric',
   });
 
-  const circumference = 2 * Math.PI * 30;
-  const dashOffset = circumference * (1 - result.total / 100);
+  const sorted = getTop4Dimensions(result.dimensions);
+  const weakest = sorted[4]!;
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="480" height="260" viewBox="0 0 480 260">
-  <style>
-    @keyframes ring-fill {
-      from { stroke-dashoffset: ${circumference}; }
-      to { stroke-dashoffset: ${dashOffset}; }
-    }
-    .ring-arc {
-      animation: ring-fill 0.6s ease-out forwards;
-    }
-  </style>
-  <defs>
-    <clipPath id="avatar-clip">
-      <circle cx="50" cy="44" r="22"/>
-    </clipPath>
-  </defs>
+  const top4 = sorted.slice(0, 4);
+  const tilePositions = [
+    { x: 30, y: 80 },
+    { x: 250, y: 80 },
+    { x: 30, y: 142 },
+    { x: 250, y: 142 },
+  ];
 
-  <rect width="480" height="260" fill="${tokens.bg}" rx="12"/>
-  <rect width="480" height="2" fill="${tokens.blue}" rx="0"/>
+  const metricTiles = top4.map((dim, i) => {
+    const pos = tilePositions[i]!;
+    return renderMetricTile({
+      x: pos.x,
+      y: pos.y,
+      width: 210,
+      height: 52,
+      label: dim.name,
+      value: `${dim.score}/${dim.max}`,
+    });
+  }).join('\n  ');
 
-  <rect x="28" y="22" width="44" height="44" rx="22" fill="${tokens.bgTile}" stroke="${tokens.blue}" stroke-width="2"/>
-  <image xlink:href="https://github.com/${escapeHtml(result.username)}.png?size=48" x="28" y="22" width="44" height="44" clip-path="url(#avatar-clip)"/>
-  <text x="80" y="34" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="15" fill="${tokens.textPrimary}" font-weight="600">@${escapeHtml(truncateUsername(result.username))}</text>
-  <text x="80" y="50" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="${tokens.textMuted}">GitHub Profile Score</text>
+  const weakestFill = weakest.score < 10 ? tokens.amber : tokens.textTertiary;
 
-  <circle cx="432" cy="44" r="30" fill="none" stroke="${tokens.border}" stroke-width="1.5"/>
-  <circle cx="432" cy="44" r="30" fill="none" stroke="${tokens.bgTile}" stroke-width="6"/>
-  <circle cx="432" cy="44" r="30" fill="none" stroke="${gradeColor}" stroke-width="6" stroke-dasharray="${circumference}" stroke-dashoffset="${circumference}" stroke-linecap="round" transform="rotate(-90, 432, 44)" class="ring-arc"/>
-  <text x="432" y="40" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="18" fill="${tokens.textPrimary}" text-anchor="middle" font-weight="700">${result.total}</text>
-  <text x="432" y="56" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="${gradeColor}" text-anchor="middle">${result.grade}</text>
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="480" height="200" viewBox="0 0 480 200">
+  <rect width="480" height="200" fill="${tokens.bg}" rx="12"/>
 
-  <line x1="24" y1="76" x2="456" y2="76" stroke="${tokens.border}" stroke-width="0.5"/>
+  ${renderInitialsAvatar(result.username, 38, 38, 18)}
+  <text x="66" y="34" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="500" fill="${tokens.textPrimary}">@${escapeHtml(truncateUsername(result.username))}</text>
+  <text x="66" y="50" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textTertiary}">Job readiness score</text>
 
-  ${createDimensionBar('Activity', result.dimensions.activity.score, result.dimensions.activity.max, 96)}
-  ${createDimensionBar('Project Quality', result.dimensions.quality.score, result.dimensions.quality.max, 118)}
-  ${createDimensionBar('Documentation', result.dimensions.documentation.score, result.dimensions.documentation.max, 140, true)}
-  ${createDimensionBar('Tech Diversity', result.dimensions.diversity.score, result.dimensions.diversity.max, 162)}
-  ${createDimensionBar('Community', result.dimensions.community.score, result.dimensions.community.max, 184)}
+  <text x="440" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="28" font-weight="500" fill="${getScoreColor(result.total)}" text-anchor="end">${result.total}</text>
+  <text x="440" y="56" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textTertiary}" text-anchor="end">grade ${result.grade}</text>
 
-  <line x1="24" y1="208" x2="456" y2="208" stroke="${tokens.border}" stroke-width="0.5"/>
-  <text x="24" y="226" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="10" fill="${tokens.textMuted}">Scored on ${scoreDate}</text>
-  <text x="456" y="226" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="10" fill="${tokens.textMuted}" text-anchor="end">github-profile-score</text>
+  ${metricTiles}
 
-  <rect y="258" width="480" height="2" fill="${tokens.blue}" rx="0"/>
+  <text x="30" y="176" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${weakestFill}">Lowest: ${escapeHtml(weakest.name)}, ${weakest.score}/20</text>
+  <text x="450" y="176" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textTertiary}" text-anchor="end">Scored on ${scoreDate}</text>
 </svg>`;
 }
 
@@ -99,8 +89,8 @@ export function renderErrorSvg(username: string): string {
   <circle cx="240" cy="40" r="16" fill="none" stroke="${tokens.red}" stroke-width="2"/>
   <line x1="240" y1="32" x2="240" y2="42" stroke="${tokens.red}" stroke-width="2" stroke-linecap="round"/>
   <circle cx="240" cy="48" r="1.5" fill="${tokens.red}"/>
-  <text x="240" y="76" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="13" fill="${tokens.textPrimary}" text-anchor="middle" font-weight="600">@${escapeHtml(username)} not found</text>
-  <text x="240" y="96" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="${tokens.textMuted}" text-anchor="middle">Check the username and retry</text>
+  <text x="240" y="76" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" fill="${tokens.textPrimary}" text-anchor="middle" font-weight="500">@${escapeHtml(username)} not found</text>
+  <text x="240" y="96" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textSecondary}" text-anchor="middle">Check the username and retry</text>
   <rect y="118" width="480" height="2" fill="${tokens.red}" rx="0"/>
 </svg>`;
 }
@@ -113,8 +103,8 @@ export function renderRateLimitSvg(_username: string, resetAt: Date): string {
   <path d="M240 24 L252 48 L228 48 Z" fill="none" stroke="${tokens.orange}" stroke-width="2" stroke-linejoin="round"/>
   <line x1="240" y1="32" x2="240" y2="40" stroke="${tokens.orange}" stroke-width="2" stroke-linecap="round"/>
   <circle cx="240" cy="44" r="1.5" fill="${tokens.orange}"/>
-  <text x="240" y="76" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="13" fill="${tokens.textPrimary}" text-anchor="middle" font-weight="600">Rate limit reached</text>
-  <text x="240" y="96" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="${tokens.textMuted}" text-anchor="middle">Try again after ${timeStr}</text>
+  <text x="240" y="76" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" fill="${tokens.textPrimary}" text-anchor="middle" font-weight="500">Rate limit reached</text>
+  <text x="240" y="96" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textSecondary}" text-anchor="middle">Try again after ${timeStr}</text>
   <rect y="118" width="480" height="2" fill="${tokens.orange}" rx="0"/>
 </svg>`;
 }
