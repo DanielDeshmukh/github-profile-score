@@ -17,7 +17,7 @@ describe('Stats feature integration', () => {
     expect(THEME.cream).toBe('#0d1117');
     expect(THEME.gold).toBe('#58a6ff');
     expect(THEME.goldLight).toBe('#e6edf3');
-    expect(THEME.slate).toBe('rgba(48, 54, 61, 0.8)');
+    expect(THEME.slate).toBe('#30363d');
     expect(THEME.silver).toBe('#8b949e');
     expect(THEME.charcoal).toBe('#0d1117');
   });

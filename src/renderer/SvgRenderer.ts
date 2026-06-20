@@ -65,13 +65,13 @@ export function renderSvg(result: ScoreResult): string {
   <rect width="480" height="260" fill="${tokens.bg}" rx="12"/>
   <rect width="480" height="2" fill="${tokens.blue}" rx="0"/>
 
-  <rect x="28" y="22" width="44" height="44" rx="22" fill="${tokens.bgCard}" stroke="${tokens.blue}" stroke-width="2"/>
+  <rect x="28" y="22" width="44" height="44" rx="22" fill="${tokens.bgTile}" stroke="${tokens.blue}" stroke-width="2"/>
   <image xlink:href="https://github.com/${escapeHtml(result.username)}.png?size=48" x="28" y="22" width="44" height="44" clip-path="url(#avatar-clip)"/>
   <text x="80" y="34" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="15" fill="${tokens.textPrimary}" font-weight="600">@${escapeHtml(truncateUsername(result.username))}</text>
   <text x="80" y="50" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="${tokens.textMuted}">GitHub Profile Score</text>
 
   <circle cx="432" cy="44" r="30" fill="none" stroke="${tokens.border}" stroke-width="1.5"/>
-  <circle cx="432" cy="44" r="30" fill="none" stroke="${tokens.bgCard}" stroke-width="6"/>
+  <circle cx="432" cy="44" r="30" fill="none" stroke="${tokens.bgTile}" stroke-width="6"/>
   <circle cx="432" cy="44" r="30" fill="none" stroke="${gradeColor}" stroke-width="6" stroke-dasharray="${circumference}" stroke-dashoffset="${circumference}" stroke-linecap="round" transform="rotate(-90, 432, 44)" class="ring-arc"/>
   <text x="432" y="40" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="18" fill="${tokens.textPrimary}" text-anchor="middle" font-weight="700">${result.total}</text>
   <text x="432" y="56" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="${gradeColor}" text-anchor="middle">${result.grade}</text>
