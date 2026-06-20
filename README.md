@@ -64,7 +64,7 @@ The scoring is intentionally transparent — no black box. Raw scores are calcul
 
 All SVG card outputs are available as static templates in the [`templates-v2/`](./templates-v2/) directory. Open them in a browser to see exactly what each card looks like.
 
-> **Note:** These templates contain hardcoded example data ( usernames, scores, dates ) for preview purposes only. Live renders will show real data for the requested GitHub user.
+> **Note:** Previews below render live data from the production endpoint. Static templates with example data are available in [`templates-v2/`](./templates-v2/).
 
 ### Score & Stats Cards
 
@@ -144,7 +144,7 @@ Embed the job-readiness score badge in your README:
 
 **How it looks on your README:**
 
-![Score Badge](./templates-v2/01-score-badge.svg)
+![Score Badge](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg)
 
 The badge renders a 480×224 card with:
 - User avatar and `@username`
@@ -256,7 +256,7 @@ Embed the contributions/streak card in your README:
 
 **How it looks on your README:**
 
-![Contributions Card](./templates-v2/02-contributions-card.svg)
+![Contributions Card](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg)
 
 The card renders a 480×210 card showing:
 - Total contributions count and date range
@@ -276,7 +276,7 @@ Embed the GitHub stats overview card in your README:
 
 **How it looks on your README:**
 
-![Overview Card](./templates-v2/03-overview-card.svg)
+![Overview Card](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg)
 
 The card renders a 480×180 card showing:
 - Repos count (public/total)
@@ -297,7 +297,7 @@ Embed the language breakdown card in your README:
 
 **How it looks on your README:**
 
-![Languages Card](./templates-v2/04-languages-card.svg)
+![Languages Card](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg)
 
 The card renders a 480×180 card showing:
 - Language names with proportional progress bars
@@ -346,7 +346,7 @@ Embed the account age widget in your README:
 
 **How it looks on your README:**
 
-![Account Age](./templates-v2/06-insight-account-age.svg)
+![Account Age](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/account-age.svg)
 
 Shows how long the GitHub account has existed. Displays:
 - Years and months since creation
@@ -367,7 +367,7 @@ Embed the most starred repository widget in your README:
 
 **How it looks on your README:**
 
-![Most Starred Repo](./templates-v2/07-insight-most-starred-repo.svg)
+![Most Starred Repo](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-starred-repo.svg)
 
 Shows the user's repository with the most GitHub stars. Displays:
 - Repository name (clickable link)
@@ -388,7 +388,7 @@ Embed the contribution trend widget in your README:
 
 **How it looks on your README:**
 
-![Contribution Trend](./templates-v2/08-insight-contribution-trend.svg)
+![Contribution Trend](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/contribution-trend.svg)
 
 Shows year-over-year contribution change with directional arrows. Displays:
 - Percentage change (↑/↓/→)
@@ -415,7 +415,7 @@ Embed the average commits per repository widget in your README:
 
 **How it looks on your README:**
 
-![Avg Commits per Repo](./templates-v2/09-insight-avg-commits-per-repo.svg)
+![Avg Commits per Repo](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/avg-commits-per-repo.svg)
 
 Shows average commits per active repository. Displays:
 - Average commit count
@@ -436,7 +436,7 @@ Embed the longest-maintained repository widget in your README:
 
 **How it looks on your README:**
 
-![Longest Maintained](./templates-v2/10-insight-longest-maintained-repo.svg)
+![Longest Maintained](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/longest-maintained-repo.svg)
 
 Shows the repository with the longest maintenance span. Displays:
 - Repository name (clickable link)
@@ -463,7 +463,7 @@ Embed the commit pattern widget in your README:
 
 **How it looks on your README:**
 
-![Commit Pattern](./templates-v2/11-insight-commit-pattern.svg)
+![Commit Pattern](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commit-pattern.svg)
 
 Shows the user's approximate commit time-of-day and day-of-week pattern. **Labeled approximate** — based on a 90-day sample. Displays:
 - Dominant day type (weekday/weekend) with percentages
@@ -491,7 +491,7 @@ Embed the commits per tenure widget in your README:
 
 **How it looks on your README:**
 
-![Commits per Tenure](./templates-v2/12-insight-commits-per-tenure.svg)
+![Commits per Tenure](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commits-per-tenure.svg)
 
 Shows average commits per year of account tenure. Zero new API calls — pure derivation from profile age and contribution count. Displays:
 - Commits per year average
