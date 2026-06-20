@@ -1,71 +1,90 @@
-import { tokens, THEME_DERIVED } from '../theme/tokens.js';
+import { tokens } from '../theme/tokens.js';
 import type { GitHubProfileStats, LanguageBreakdown } from '../types/stats.js';
 import { escapeHtml } from '../utils/escapeHtml.js';
-import { createGradeRing } from './shared/ring.js';
 
 const CARD_WIDTH = 480;
-const CARD_HEIGHT = 200;
+const CARD_HEIGHT = 180;
 
-function formatNumber(n: number): string {
+function formatStatNumber(n: number): string {
   if (n >= 1000000) return `${(n / 1000000).toFixed(1)}M`;
   if (n >= 1000) return `${(n / 1000).toFixed(1)}k`;
   return String(n);
 }
 
-const ICONS = {
-  star: `<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="none" stroke="${tokens.gold}" stroke-width="1.5" stroke-linejoin="round"/>`,
-  commits: `<circle cx="12" cy="12" r="3" fill="${tokens.blue}"/><line x1="12" y1="3" x2="12" y2="9" stroke="${tokens.blue}" stroke-width="1.5" stroke-linecap="round"/><line x1="12" y1="15" x2="12" y2="21" stroke="${tokens.blue}" stroke-width="1.5" stroke-linecap="round"/>`,
-  pr: `<circle cx="12" cy="6" r="3" fill="none" stroke="${tokens.purple}" stroke-width="1.5"/><circle cx="12" cy="18" r="3" fill="none" stroke="${tokens.purple}" stroke-width="1.5"/><path d="M12 9v3c0 2 1 3 3 3" fill="none" stroke="${tokens.purple}" stroke-width="1.5" stroke-linecap="round"/>`,
-  issues: `<circle cx="12" cy="12" r="9" fill="none" stroke="${tokens.textMuted}" stroke-width="1.5"/><line x1="12" y1="8" x2="12" y2="13" stroke="${tokens.textMuted}" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="16" r="1" fill="${tokens.textMuted}"/>`,
-};
-
-function createStatRow(icon: string, label: string, value: number, yOffset: number, iconColor: string): string {
-  return `
-  <g transform="translate(24, ${yOffset - 10})">${icon}</g>
-  <text x="44" y="${yOffset}" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="12" fill="${tokens.textMuted}">${escapeHtml(label)}</text>
-  <text x="${CARD_WIDTH - 24}" y="${yOffset}" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="14" fill="${iconColor}" text-anchor="end" font-weight="700">${formatNumber(value)}</text>`;
+function truncateName(name: string, maxLen: number): string {
+  if (name.length <= maxLen) return name;
+  return name.slice(0, maxLen - 1) + '\u2026';
 }
 
-export function renderStatsCard(username: string, stats: GitHubProfileStats): string {
+export function renderStatsCard(username: string, stats: GitHubProfileStats, languages: LanguageBreakdown[] = []): string {
+  const displayLangs = languages.slice(0, 5);
+
+  let languageBar = '';
+  let langX = 30;
+  const barWidth = 420;
+
+  for (const lang of displayLangs) {
+    const segWidth = Math.max(2, (lang.percent / 100) * barWidth);
+    languageBar += `<rect x="${langX}" y="128" width="${segWidth}" height="8" rx="4" fill="${lang.color}"/>`;
+    langX += segWidth;
+  }
+
+  const legendItems: string[] = [];
+  let legendX = 30;
+  const legendY = 158;
+
+  for (const lang of displayLangs) {
+    const name = truncateName(lang.name, 12);
+    const swatchSize = 7;
+    legendItems.push(
+      `<circle cx="${legendX + 3.5}" cy="${legendY}" r="${swatchSize / 2}" fill="${lang.color}"/>` +
+      `<text x="${legendX + 12}" y="${legendY + 4}" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textSecondary}">${escapeHtml(name)}</text>`
+    );
+    legendX += name.length * 7 + 22;
+  }
+
+  const remainingCount = languages.length - 5;
+  if (remainingCount > 0) {
+    legendItems.push(
+      `<text x="${legendX}" y="${legendY + 4}" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textTertiary}">+${remainingCount} more</text>`
+    );
+  }
+
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${CARD_WIDTH}" height="${CARD_HEIGHT}" viewBox="0 0 ${CARD_WIDTH} ${CARD_HEIGHT}">
-  <style>
-    @keyframes ring-fill {
-      from { stroke-dashoffset: ${2 * Math.PI * 20}; }
-      to { stroke-dashoffset: ${2 * Math.PI * 20 * (1 - Math.min((stats.totalStarsEarned + stats.totalCommitsLastYear + stats.totalPRs + stats.totalIssues) / 1000, 1))}; }
-    }
-    .ring-arc {
-      animation: ring-fill 0.6s ease-out forwards;
-    }
-  </style>
   <rect width="${CARD_WIDTH}" height="${CARD_HEIGHT}" fill="${tokens.bg}" rx="12"/>
-  <rect width="${CARD_WIDTH}" height="2" fill="${tokens.purple}" rx="0"/>
 
-  <text x="24" y="30" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="13" fill="${tokens.textPrimary}" font-weight="600">${escapeHtml(username)}'s GitHub Stats</text>
+  <text x="30" y="20" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="${tokens.textSecondary}">${escapeHtml(username)}'s GitHub stats</text>
 
-  ${createGradeRing({ cx: CARD_WIDTH - 40, cy: 36, radius: 20, score: stats.totalStarsEarned + stats.totalCommitsLastYear + stats.totalPRs + stats.totalIssues, maxScore: 1000, grade: stats.grade })}
+  <text x="30" y="60" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="500" fill="${tokens.textPrimary}">${formatStatNumber(stats.totalStarsEarned)}</text>
+  <text x="30" y="74" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="${tokens.textTertiary}">Stars</text>
 
-  <line x1="24" y1="50" x2="${CARD_WIDTH - 24}" y2="50" stroke="${tokens.border}" stroke-width="0.5"/>
+  <text x="170" y="60" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="500" fill="${tokens.textPrimary}">${formatStatNumber(stats.totalCommitsLastYear)}</text>
+  <text x="170" y="74" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="${tokens.textTertiary}">Commits (last year)</text>
 
-  ${createStatRow(ICONS.star, 'Total Stars', stats.totalStarsEarned, 74, tokens.gold)}
-  ${createStatRow(ICONS.commits, 'Commits (Last Year)', stats.totalCommitsLastYear, 100, tokens.blue)}
-  ${createStatRow(ICONS.pr, 'Total PRs', stats.totalPRs, 126, tokens.purple)}
-  ${createStatRow(ICONS.issues, 'Total Issues', stats.totalIssues, 152, tokens.textMuted)}
+  <text x="310" y="60" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="500" fill="${tokens.textPrimary}">${formatStatNumber(stats.totalPRs)}</text>
+  <text x="310" y="74" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="${tokens.textTertiary}">Pull requests</text>
 
-  <rect y="${CARD_HEIGHT - 2}" width="${CARD_WIDTH}" height="2" fill="${tokens.purple}" rx="0"/>
+  <line x1="30" y1="100" x2="450" y2="100" stroke="${tokens.border}" stroke-width="0.5"/>
+
+  <text x="30" y="116" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="${tokens.textTertiary}">Top languages</text>
+
+  ${languageBar}
+
+  ${legendItems.join('\n  ')}
 </svg>`;
 }
 
 export function renderLanguagesCard(languages: LanguageBreakdown[]): string {
-  const svgHeight = 200;
-  const barY = 55;
-  const barHeight = 12;
-  const maxLegendItems = 5;
+  const svgHeight = 180;
+  const barY = 44;
+  const barHeight = 8;
+  const maxLegendItems = 6;
 
   const displayLanguages = languages.slice(0, maxLegendItems);
 
   let barSegments = '';
-  let xOffset = 24;
-  const barWidth = CARD_WIDTH - 48;
+  let xOffset = 30;
+  const barWidth = 420;
 
   for (const lang of displayLanguages) {
     const segWidth = Math.max(2, (lang.percent / 100) * barWidth);
@@ -77,23 +96,21 @@ export function renderLanguagesCard(languages: LanguageBreakdown[]): string {
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${CARD_WIDTH}" height="${svgHeight}" viewBox="0 0 ${CARD_WIDTH} ${svgHeight}">
   <rect width="${CARD_WIDTH}" height="${svgHeight}" fill="${tokens.bg}" rx="12"/>
-  <rect width="${CARD_WIDTH}" height="2" fill="${tokens.purple}" rx="0"/>
 
-  <text x="24" y="30" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="13" fill="${tokens.textPrimary}" font-weight="600">Most Used Languages</text>
+  <text x="30" y="20" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="${tokens.textSecondary}">Languages</text>
 
-  <line x1="24" y1="42" x2="${CARD_WIDTH - 24}" y2="42" stroke="${tokens.border}" stroke-width="0.5"/>
-
-  <rect x="24" y="${barY}" width="${barWidth}" height="${barHeight}" rx="4" fill="${THEME_DERIVED.barTrack}"/>
+  <rect x="30" y="${barY}" width="${barWidth}" height="${barHeight}" rx="4" fill="${tokens.bgTile}"/>
   ${barSegments}
 
-  ${displayLanguages.map((lang, i) => `
-  <circle cx="${32}" cy="${80 + i * 22}" r="4" fill="${lang.color}"/>
-  <text x="44" y="${83 + i * 22}" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="${tokens.textPrimary}">${escapeHtml(lang.name)}</text>
-  <text x="${CARD_WIDTH - 24}" y="${83 + i * 22}" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="${tokens.textMuted}" text-anchor="end">${lang.percent}%</text>`).join('')}
+  ${displayLanguages.map((lang, i) => {
+    const rowY = 60 + i * 22;
+    const bytesDisplay = lang.percent >= 1 ? `(${Math.round(lang.percent)}%)` : `(<1%)`;
+    return `<circle cx="37" cy="${rowY}" r="3.5" fill="${lang.color}"/>
+  <text x="48" y="${rowY + 4}" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="${tokens.textPrimary}">${escapeHtml(lang.name)}</text>
+  <text x="420" y="${rowY + 4}" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="${tokens.textSecondary}" text-anchor="end">${escapeHtml(bytesDisplay)}</text>`;
+  }).join('\n  ')}
 
-  ${remainingCount > 0 ? `<text x="24" y="${83 + displayLanguages.length * 22}" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="10" fill="${tokens.textMuted}">+ ${remainingCount} more</text>` : ''}
-
-  <rect y="${svgHeight - 2}" width="${CARD_WIDTH}" height="2" fill="${tokens.purple}" rx="0"/>
+  ${remainingCount > 0 ? `<text x="30" y="${60 + displayLanguages.length * 22 + 4}" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textTertiary}">+${remainingCount} more</text>` : ''}
 </svg>`;
 }
 
@@ -101,9 +118,9 @@ export function renderStatsErrorSvg(username: string): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${CARD_WIDTH}" height="120" viewBox="0 0 ${CARD_WIDTH} 120">
   <rect width="${CARD_WIDTH}" height="120" fill="${tokens.bg}" rx="12"/>
   <rect width="${CARD_WIDTH}" height="2" fill="${tokens.red}" rx="0"/>
-  <text x="${CARD_WIDTH / 2}" y="45" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="14" fill="${tokens.textMuted}" text-anchor="middle">Stats Unavailable</text>
-  <text x="${CARD_WIDTH / 2}" y="70" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="12" fill="${tokens.textPrimary}" text-anchor="middle">@${escapeHtml(username)}</text>
-  <text x="${CARD_WIDTH / 2}" y="95" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="10" fill="${tokens.textMuted}" text-anchor="middle">Check the username and try again</text>
+  <text x="${CARD_WIDTH / 2}" y="45" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" fill="${tokens.textSecondary}" text-anchor="middle">Stats unavailable</text>
+  <text x="${CARD_WIDTH / 2}" y="70" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="${tokens.textPrimary}" text-anchor="middle">@${escapeHtml(username)}</text>
+  <text x="${CARD_WIDTH / 2}" y="95" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="${tokens.textSecondary}" text-anchor="middle">Check the username and try again</text>
   <rect y="118" width="${CARD_WIDTH}" height="2" fill="${tokens.red}" rx="0"/>
 </svg>`;
 }

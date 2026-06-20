@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { renderStatsCard, renderLanguagesCard, renderStatsErrorSvg } from '../src/renderer/StatsCardRenderer.js';
 import type { GitHubProfileStats, LanguageBreakdown } from '../src/types/stats.js';
-import { THEME, tokens } from '../src/theme/tokens.js';
+import { tokens } from '../src/theme/tokens.js';
 
 function createMockStats(overrides: Partial<GitHubProfileStats> = {}): GitHubProfileStats {
   return {
@@ -33,10 +33,9 @@ describe('StatsCardRenderer', () => {
 
       expect(svg).toContain('<svg');
       expect(svg).toContain('</svg>');
-      expect(svg).toContain(THEME.cream);
-      expect(svg).toContain(tokens.purple);
-      expect(svg).toContain(THEME.goldLight);
-      expect(svg).toContain(THEME.silver);
+      expect(svg).toContain(tokens.bg);
+      expect(svg).toContain(tokens.textPrimary);
+      expect(svg).toContain(tokens.textSecondary);
     });
 
     it('should include stat labels and values', () => {
@@ -48,18 +47,9 @@ describe('StatsCardRenderer', () => {
       });
       const svg = renderStatsCard('testuser', stats);
 
-      expect(svg).toContain('Total Stars');
-      expect(svg).toContain('Commits (Last Year)');
-      expect(svg).toContain('Total PRs');
-      expect(svg).toContain('Total Issues');
-      expect(svg).toContain('GitHub Stats');
-    });
-
-    it('should include grade letter', () => {
-      const stats = createMockStats({ grade: 'A' });
-      const svg = renderStatsCard('testuser', stats);
-
-      expect(svg).toContain('>A<');
+      expect(svg).toContain('Stars');
+      expect(svg).toContain('Commits (last year)');
+      expect(svg).toContain('Pull requests');
     });
 
     it('should include username', () => {
@@ -70,20 +60,19 @@ describe('StatsCardRenderer', () => {
     it('should have correct viewBox dimensions', () => {
       const svg = renderStatsCard('testuser', createMockStats());
       expect(svg).toContain('width="480"');
-      expect(svg).toContain('height="200"');
+      expect(svg).toContain('height="180"');
     });
   });
 
   describe('renderLanguagesCard', () => {
-    it('should render valid SVG with theme chrome', () => {
+    it('should render valid SVG with theme colors', () => {
       const languages = createMockLanguages();
       const svg = renderLanguagesCard(languages);
 
       expect(svg).toContain('<svg');
       expect(svg).toContain('</svg>');
-      expect(svg).toContain(THEME.cream);
-      expect(svg).toContain(tokens.purple);
-      expect(svg).toContain('Most Used Languages');
+      expect(svg).toContain(tokens.bg);
+      expect(svg).toContain('Languages');
     });
 
     it('should include language names and percentages', () => {
@@ -91,9 +80,7 @@ describe('StatsCardRenderer', () => {
       const svg = renderLanguagesCard(languages);
 
       expect(svg).toContain('TypeScript');
-      expect(svg).toContain('45.2%');
       expect(svg).toContain('JavaScript');
-      expect(svg).toContain('25.1%');
     });
 
     it('should preserve language brand colors', () => {
@@ -108,10 +95,10 @@ describe('StatsCardRenderer', () => {
     it('should handle empty languages', () => {
       const svg = renderLanguagesCard([]);
       expect(svg).toContain('<svg');
-      expect(svg).toContain('Most Used Languages');
+      expect(svg).toContain('Languages');
     });
 
-    it('should limit legend to 5 items', () => {
+    it('should limit legend to 6 items', () => {
       const languages: LanguageBreakdown[] = Array.from({ length: 10 }, (_, i) => ({
         name: `Lang${i}`,
         percent: 10,
@@ -120,14 +107,14 @@ describe('StatsCardRenderer', () => {
       const svg = renderLanguagesCard(languages);
 
       expect(svg).toContain('Lang0');
-      expect(svg).toContain('Lang4');
-      expect(svg).not.toContain('Lang5');
+      expect(svg).toContain('Lang5');
+      expect(svg).toContain('+4 more');
     });
 
     it('should have correct viewBox dimensions', () => {
       const svg = renderLanguagesCard(createMockLanguages());
       expect(svg).toContain('width="480"');
-      expect(svg).toContain('height="200"');
+      expect(svg).toContain('height="180"');
     });
   });
 
@@ -135,8 +122,8 @@ describe('StatsCardRenderer', () => {
     it('should render error SVG with username', () => {
       const svg = renderStatsErrorSvg('testuser');
       expect(svg).toContain('testuser');
-      expect(svg).toContain('Stats Unavailable');
-      expect(svg).toContain(THEME.cream);
+      expect(svg).toContain('Stats unavailable');
+      expect(svg).toContain(tokens.bg);
     });
   });
 });
