@@ -79,8 +79,8 @@ describe('ContributionsCardRenderer', () => {
     const svg = renderContributionsCard('testuser', stats);
 
     expect(svg).toContain('width="480"');
-    expect(svg).toContain('height="180"');
-    expect(svg).toContain('viewBox="0 0 480 180"');
+    expect(svg).toContain('height="210"');
+    expect(svg).toContain('viewBox="0 0 480 210"');
   });
 
   it('should contain sparkline strip elements', () => {

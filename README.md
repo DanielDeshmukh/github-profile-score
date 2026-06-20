@@ -69,7 +69,7 @@ All SVG card outputs are available as static templates in the [`templates-v2/`](
 | Card | Preview File | Dimensions |
 |------|-------------|------------|
 | Score Badge | [`01-score-badge.svg`](./templates-v2/01-score-badge.svg) | 480×224 |
-| Contributions Card | [`02-contributions-card.svg`](./templates-v2/02-contributions-card.svg) | 480×180 |
+| Contributions Card | [`02-contributions-card.svg`](./templates-v2/02-contributions-card.svg) | 480×210 |
 | Overview Card | [`03-overview-card.svg`](./templates-v2/03-overview-card.svg) | 480×180 |
 | Languages Card | [`04-languages-card.svg`](./templates-v2/04-languages-card.svg) | 480×180 |
 
@@ -256,7 +256,7 @@ Embed the contributions/streak card in your README:
 
 ![Contributions Card](./templates-v2/02-contributions-card.svg)
 
-The card renders a 480×180 card showing:
+The card renders a 480×210 card showing:
 - Total contributions count and date range
 - Current streak with progress ring
 - Longest streak count

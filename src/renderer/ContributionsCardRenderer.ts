@@ -5,7 +5,7 @@ import { flameIcon, trophyIcon } from './shared/icons.js';
 import { renderSparkline } from './shared/sparkline.js';
 
 const SVG_WIDTH = 480;
-const SVG_HEIGHT = 180;
+const SVG_HEIGHT = 210;
 
 function formatDate(dateStr: string): string {
   if (!dateStr) return '';
@@ -55,9 +55,9 @@ export function renderContributionsCard(
   <text x="284" y="${tileY + 20}" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="500" fill="${tokens.textPrimary}">${contributions.longestStreak} days</text>
   <text x="284" y="${tileY + 32}" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="${tokens.textTertiary}">longest streak</text>
 
-  <text x="30" y="120" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="${tokens.textTertiary}">Last 12 weeks</text>
+  <text x="30" y="150" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="${tokens.textTertiary}">Last 12 weeks</text>
 
-  ${renderSparkline({ x: 30, y: 130, totalWidth: 420, height: 20, segments: 12, weeklyCounts })}
+  ${renderSparkline({ x: 30, y: 160, totalWidth: 420, height: 20, segments: 12, weeklyCounts })}
 </svg>`;
 }
 

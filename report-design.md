@@ -11,7 +11,7 @@
 | `src/renderer/shared/icons.ts` | 1 | New: hand-drawn flame, trophy, star inline SVGs |
 | `src/renderer/shared/sparkline.ts` | 1 | New: 12-segment activity strip with opacity tiers |
 | `src/renderer/SvgRenderer.ts` | 2 | 480x224 score badge, initials avatar, 2x2 tile grid |
-| `src/renderer/ContributionsCardRenderer.ts` | 3 | 480x180, flame/trophy streak tiles, sparkline |
+| `src/renderer/ContributionsCardRenderer.ts` | 3 | 480x210, flame/trophy streak tiles, sparkline |
 | `src/renderer/StatsCardRenderer.ts` | 4 | 480x180 overview + languages, 3-column stats, language bar |
 | `src/renderer/insights/AccountAgeCard.ts` | 6 | Sentence case, border stroke, font-weight 500 |
 | `src/renderer/insights/AvgCommitsPerRepoCard.ts` | 6 | Same visual refresh |
@@ -47,7 +47,7 @@
 | Card | Spec Width | Spec Height | Actual Width | Actual Height | Match |
 |------|-----------|-------------|-------------|---------------|-------|
 | Score badge | 480 | 224 | 480 | 224 | Yes |
-| Contributions | 480 | 180 | 480 | 180 | Yes |
+| Contributions | 480 | 210 | 480 | 210 | Yes |
 | Overview | 480 | 180 | 480 | 180 | Yes |
 | Languages | 480 | 180 | 480 | 180 | Yes |
 | Insight widgets | 320 | 80 | 320 | 80 | Yes |

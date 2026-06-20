@@ -127,7 +127,7 @@ Layout, top to bottom:
 This mirrors the HTML mockup shown earlier exactly: hero number top-right, 4 tiles in
 a grid, weakest dimension demoted to a footer callout instead of a 5th tile.
 
-### 2. Contributions card (`/stats/:username/contributions.svg`) — 480x180
+### 2. Contributions card (`/stats/:username/contributions.svg`) — 480x210
 
 - y=20: "{total}" big number, font-size 24 weight 500, fill textPrimary, x=30
   baseline y=36. Same line, right-aligned at x=450: date range, font-size 11 fill
