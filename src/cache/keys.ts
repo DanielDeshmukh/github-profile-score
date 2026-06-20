@@ -10,8 +10,8 @@ export const CACHE_KEYS = {
 } as const;
 
 export const CACHE_TTL = {
-  SCORE: 21600,
-  STATS: 21600,
+  SCORE: 300,
+  STATS: 300,
   GITHUB_DATA: 3600,
   REFRESH_COOLDOWN: 600,
 } as const;

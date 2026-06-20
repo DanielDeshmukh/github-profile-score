@@ -7,16 +7,9 @@ const __dirname = dirname(__filename);
 
 const TEMPLATE_DIR = join(__dirname, '..', '..', '..', 'templates');
 
-const cache = new Map<string, string>();
-
 export function loadTemplate(name: string): string {
-  const cached = cache.get(name);
-  if (cached) return cached;
-
   const filePath = join(TEMPLATE_DIR, `${name}.svg`);
-  const content = readFileSync(filePath, 'utf-8');
-  cache.set(name, content);
-  return content;
+  return readFileSync(filePath, 'utf-8');
 }
 
 export function renderFromTemplate(
@@ -30,6 +23,3 @@ export function renderFromTemplate(
   return svg;
 }
 
-export function clearTemplateCache(): void {
-  cache.clear();
-}
