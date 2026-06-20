@@ -30,7 +30,7 @@ describe('Contribution Trend insight integration', () => {
       result.direction,
     );
     expect(svg).toContain('\u2193');
-    expect(svg).toContain('Trending down');
+    expect(svg).toContain('this year');
   });
 
   it('should produce valid SVG from real calculation flow (flat)', () => {
@@ -44,7 +44,7 @@ describe('Contribution Trend insight integration', () => {
       result.direction,
     );
     expect(svg).toContain('\u2192');
-    expect(svg).toContain('Steady');
+    expect(svg).toContain('this year');
   });
 
   it('should handle brand new accounts (no contributions)', () => {

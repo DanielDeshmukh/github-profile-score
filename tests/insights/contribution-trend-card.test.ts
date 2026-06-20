@@ -15,21 +15,21 @@ describe('ContributionTrendCard renderer', () => {
     const svg = renderContributionTrendCard(150, 100, 50, 'up');
     expect(svg).toContain('\u2191');
     expect(svg).toContain('50.0%');
-    expect(svg).toContain('Trending up');
+    expect(svg).toContain('this year');
   });
 
   it('should show down arrow for downward trend', () => {
     const svg = renderContributionTrendCard(50, 100, -50, 'down');
     expect(svg).toContain('\u2193');
     expect(svg).toContain('50.0%');
-    expect(svg).toContain('Trending down');
+    expect(svg).toContain('this year');
   });
 
   it('should show right arrow for flat trend', () => {
     const svg = renderContributionTrendCard(100, 100, 0, 'flat');
     expect(svg).toContain('\u2192');
     expect(svg).toContain('0%');
-    expect(svg).toContain('Steady');
+    expect(svg).toContain('this year');
   });
 
   it('should display this year and last year totals', () => {

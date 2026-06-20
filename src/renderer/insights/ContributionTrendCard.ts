@@ -17,7 +17,6 @@ export function renderContributionTrendCard(
   direction: 'up' | 'down' | 'flat',
 ): string {
   const valueColor = direction === 'up' ? tokens.green : direction === 'down' ? tokens.red : tokens.textSecondary;
-  const label = direction === 'up' ? 'Trending up' : direction === 'down' ? 'Trending down' : 'Steady';
   const pctText = formatPercentage(yoyPercentage);
   const symbol = direction === 'up' ? '\u2191' : direction === 'down' ? '\u2193' : '\u2192';
 
@@ -26,6 +25,6 @@ export function renderContributionTrendCard(
 
   <text x="20" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="${tokens.textTertiary}">Contribution trend</text>
   <text x="20" y="50" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="500" fill="${valueColor}">${symbol} ${pctText}</text>
-  <text x="20" y="68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textSecondary}">${label}: ${thisYearTotal.toLocaleString()} vs ${lastYearTotal.toLocaleString()} last year</text>
+  <text x="20" y="68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textSecondary}">${thisYearTotal.toLocaleString()} this year, ${lastYearTotal.toLocaleString()} last year</text>
 </svg>`;
 }

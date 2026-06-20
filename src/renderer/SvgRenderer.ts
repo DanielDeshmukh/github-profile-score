@@ -65,8 +65,8 @@ export function renderSvg(result: ScoreResult): string {
 
   const weakestFill = weakest.score < 10 ? tokens.amber : tokens.textTertiary;
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="480" height="200" viewBox="0 0 480 200">
-  <rect width="480" height="200" fill="${tokens.bg}" rx="12"/>
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="480" height="224" viewBox="0 0 480 224">
+  <rect width="480" height="224" fill="${tokens.bg}" rx="12"/>
 
   ${renderInitialsAvatar(result.username, 38, 38, 18)}
   <text x="66" y="34" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="500" fill="${tokens.textPrimary}">@${escapeHtml(truncateUsername(result.username))}</text>
@@ -77,14 +77,14 @@ export function renderSvg(result: ScoreResult): string {
 
   ${metricTiles}
 
-  <text x="30" y="176" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${weakestFill}">Lowest: ${escapeHtml(weakest.name)}, ${weakest.score}/20</text>
-  <text x="450" y="176" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textTertiary}" text-anchor="end">Scored on ${scoreDate}</text>
+  <text x="30" y="210" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${weakestFill}">Lowest: ${escapeHtml(weakest.name)}, ${weakest.score}/20</text>
+  <text x="450" y="210" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textTertiary}" text-anchor="end">Scored on ${scoreDate}</text>
 </svg>`;
 }
 
 export function renderErrorSvg(username: string): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="480" height="120" viewBox="0 0 480 120">
-  <rect width="480" height="120" fill="${tokens.bg}" rx="12"/>
+  <rect width="480" height="120" fill="${tokens.bg}" rx="6" stroke="${tokens.border}" stroke-width="0.5"/>
   <rect width="480" height="2" fill="${tokens.red}" rx="0"/>
   <circle cx="240" cy="40" r="16" fill="none" stroke="${tokens.red}" stroke-width="2"/>
   <line x1="240" y1="32" x2="240" y2="42" stroke="${tokens.red}" stroke-width="2" stroke-linecap="round"/>
@@ -98,7 +98,7 @@ export function renderErrorSvg(username: string): string {
 export function renderRateLimitSvg(_username: string, resetAt: Date): string {
   const timeStr = resetAt.toISOString().substring(11, 16) + ' UTC';
   return `<svg xmlns="http://www.w3.org/2000/svg" width="480" height="120" viewBox="0 0 480 120">
-  <rect width="480" height="120" fill="${tokens.bg}" rx="12"/>
+  <rect width="480" height="120" fill="${tokens.bg}" rx="6" stroke="${tokens.border}" stroke-width="0.5"/>
   <rect width="480" height="2" fill="${tokens.orange}" rx="0"/>
   <path d="M240 24 L252 48 L228 48 Z" fill="none" stroke="${tokens.orange}" stroke-width="2" stroke-linejoin="round"/>
   <line x1="240" y1="32" x2="240" y2="40" stroke="${tokens.orange}" stroke-width="2" stroke-linecap="round"/>

@@ -96,7 +96,7 @@ async function getCachedOrCompute(
   const repoCommitCounts = await insightFetcher.fetchPerRepoCommitCounts(username, repos);
   const result = calculateAvgCommitsPerRepo(repoCommitCounts);
 
-  await cache.set(cacheKey, result, CACHE_TTL.SCORE);
+  await cache.set(cacheKey, result, result.activeRepos > 0 ? CACHE_TTL.SCORE : 60);
 
   if (refresh) {
     await cache.set(`${cacheKey}:refresh_cooldown`, '1', CACHE_TTL.REFRESH_COOLDOWN);
