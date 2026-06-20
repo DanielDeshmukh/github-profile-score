@@ -2,23 +2,23 @@
 
 # github-profile-score
 
-**An embeddable job-readiness scorer for GitHub profiles — powered by heuristics + AI callouts**
-
-If this project saves you time, consider giving it a star. It helps others find it.
-
-[![Star this repo](https://img.shields.io/github/stars/DanielDeshmukh/github-profile-score?style=social)](https://github.com/DanielDeshmukh/github-profile-score)
+### An embeddable job-readiness scorer for GitHub profiles — powered by heuristics + AI callouts
 
 [![CI](https://github.com/DanielDeshmukh/github-profile-score/actions/workflows/ci.yml/badge.svg)](https://github.com/DanielDeshmukh/github-profile-score/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js](https://img.shields.io/badge/Node.js-18%2B-green)](https://nodejs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue)](https://www.typescriptlang.org/)
-[![Tests](https://img.shields.io/badge/Tests-93%2B-brightgreen)](https://vitest.dev/)
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vitest](https://img.shields.io/badge/Vitest-3.x-729B1B?logo=vitest&logoColor=white)](https://vitest.dev/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![Express](https://img.shields.io/badge/Express-4.x-000000?logo=express&logoColor=white)](https://expressjs.com/)
+[![Redis](https://img.shields.io/badge/Redis-Cache-DC382D?logo=redis&logoColor=white)](https://redis.io/)
+[![Tests](https://img.shields.io/badge/Tests-210%2B-brightgreen)](https://vitest.dev/)
+[![Railway](https://img.shields.io/badge/Deploy-Railway-9B59B6?logo=railway&logoColor=white)](https://railway.app)
+[![Stars](https://img.shields.io/github/stars/DanielDeshmukh/github-profile-score?style=social)](https://github.com/DanielDeshmukh/github-profile-score)
 
 Drop a badge into any README and let your GitHub profile speak for itself.
 
-```markdown
-[![Job Readiness Score](https://YOUR_DOMAIN/score/YOUR_USERNAME.svg)](https://YOUR_DOMAIN/score/YOUR_USERNAME)
-```
+[![Job Readiness Score](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg)](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh/html)
 
 </div>
 
@@ -27,14 +27,19 @@ Drop a badge into any README and let your GitHub profile speak for itself.
 ## Table of Contents
 
 - [What Is This?](#what-is-this)
-- [Quick Deploy](#quick-deploy)
+- [Live Demos](#live-demos)
+- [Quick Deploy](#quick-deploy-fork--go)
 - [Scoring Dimensions](#scoring-dimensions)
-- [API Endpoints](#api-endpoints)
-  - [Score Badge](#score-badge-endpoints)
-  - [Stats Cards](#stats-card-endpoints)
-  - [Insight Widgets](#insight-widget-endpoints)
-  - [Health Check](#health-endpoint)
+- [API Reference](#api-reference)
+  - [Score Badge](#score-badge)
+  - [Score JSON](#score-json)
+  - [Score HTML Report](#score-html-report)
+  - [Score Improvement Plan](#score-improvement-plan)
+  - [Stats Cards](#stats-cards)
+  - [Insight Widgets](#insight-widgets)
+  - [Health Check](#health-check)
 - [Embedding Guide](#embedding-guide)
+- [Visual Templates](#visual-templates)
 - [Theming](#theming)
 - [Architecture](#architecture)
 - [Getting Started](#getting-started-local-development)
@@ -42,6 +47,7 @@ Drop a badge into any README and let your GitHub profile speak for itself.
 - [Project Structure](#project-structure)
 - [Caching Strategy](#caching-strategy)
 - [Contributing](#contributing)
+- [Related Projects](#related-projects)
 - [License](#license)
 
 ---
@@ -50,49 +56,45 @@ Drop a badge into any README and let your GitHub profile speak for itself.
 
 `github-profile-score` analyzes a GitHub profile across five hiring-signal dimensions and produces:
 
-- **A live SVG badge** you embed directly in your README (`/score/{username}.svg`)
-- **Stats cards** showing contributions, streaks, and language breakdown
-- **Insight widgets** revealing activity patterns, repo health, and account metrics
-- **A detailed HTML breakdown** with dimension scores and AI-written fix callouts
-- **A shareable permalink** for your portfolio or job applications
+| Output | Format | Endpoint |
+|--------|--------|----------|
+| **Live SVG badge** | Embeddable in README | `/score/{username}.svg` |
+| **Contributions card** | Streaks + 12-week heatmap | `/stats/{username}/contributions.svg` |
+| **Overview card** | Stars, PRs, languages | `/stats/{username}/overview.svg` |
+| **Languages card** | Language breakdown bars | `/stats/{username}/languages.svg` |
+| **Insight widgets** | 7 activity/repo metrics | `/insights/{username}/*.svg` |
+| **HTML report** | Dimension breakdown + AI callouts | `/score/{username}/html` |
+| **JSON payload** | Full score data | `/score/{username}` |
+| **Improvement plan** | Prioritized fix list | `/score/{username}/plan` |
 
 The scoring is intentionally transparent — no black box. Raw scores are calculated from GitHub API data using documented heuristics. NVIDIA NIM (free tier, optional) then interprets those scores into human-readable "what to fix" notes.
 
 ---
 
-## Visual Templates
+## Live Demos
 
-All SVG card outputs are available as static templates in the [`templates-v2/`](./templates-v2/) directory. Open them in a browser to see exactly what each card looks like.
-
-> **Note:** Previews below render live data from the production endpoint. Static templates with example data are available in [`templates-v2/`](./templates-v2/).
+Previews render **real data** from the production endpoint.
 
 ### Score & Stats Cards
 
-| Card | Preview File | Dimensions |
-|------|-------------|------------|
-| Score Badge | [`01-score-badge.svg`](./templates-v2/01-score-badge.svg) | 480×224 |
-| Contributions Card | [`02-contributions-card.svg`](./templates-v2/02-contributions-card.svg) | 480×210 |
-| Overview Card | [`03-overview-card.svg`](./templates-v2/03-overview-card.svg) | 480×180 |
-| Languages Card | [`04-languages-card.svg`](./templates-v2/04-languages-card.svg) | 480×180 |
+| Card | Preview | Dimensions |
+|------|---------|------------|
+| Score Badge | [![Score](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg)](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh/html) | 480×224 |
+| Contributions | [![Contributions](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg) | 480×210 |
+| Overview | [![Overview](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg) | 480×180 |
+| Languages | [![Languages](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg) | 480×180 |
 
 ### Insight Widgets
 
-| Widget | Preview File | Dimensions |
-|--------|-------------|------------|
-| Most Active Repo | [`05-insight-most-active-repo.svg`](./templates-v2/05-insight-most-active-repo.svg) | 320×80 |
-| Account Age | [`06-insight-account-age.svg`](./templates-v2/06-insight-account-age.svg) | 320×80 |
-| Most Starred Repo | [`07-insight-most-starred-repo.svg`](./templates-v2/07-insight-most-starred-repo.svg) | 320×80 |
-| Contribution Trend | [`08-insight-contribution-trend.svg`](./templates-v2/08-insight-contribution-trend.svg) | 320×80 |
-| Avg Commits per Repo | [`09-insight-avg-commits-per-repo.svg`](./templates-v2/09-insight-avg-commits-per-repo.svg) | 320×80 |
-| Commit Pattern | [`11-insight-commit-pattern.svg`](./templates-v2/11-insight-commit-pattern.svg) | 320×100 |
-| Commits per Tenure | [`12-insight-commits-per-tenure.svg`](./templates-v2/12-insight-commits-per-tenure.svg) | 320×80 |
-
-### Error States
-
-| Error | Preview File |
-|-------|-------------|
-| Rate Limit | [`13-error-rate-limit.svg`](./templates-v2/13-error-rate-limit.svg) |
-| User Not Found | [`14-error-user-not-found.svg`](./templates-v2/14-error-user-not-found.svg) |
+| Widget | Preview | Size |
+|--------|---------|------|
+| Most Active Repo | [![Most Active](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-active-repo.svg)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-active-repo.svg) | 320×80 |
+| Account Age | [![Account Age](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/account-age.svg)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/account-age.svg) | 320×80 |
+| Most Starred Repo | [![Most Starred](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-starred-repo.svg)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-starred-repo.svg) | 320×80 |
+| Contribution Trend | [![Trend](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/contribution-trend.svg)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/contribution-trend.svg) | 320×80 |
+| Avg Commits/Repo | [![Avg Commits](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/avg-commits-per-repo.svg)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/avg-commits-per-repo.svg) | 320×80 |
+| Commit Pattern | [![Pattern](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commit-pattern.svg)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commit-pattern.svg) | 320×100 |
+| Commits per Tenure | [![Tenure](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commits-per-tenure.svg)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commits-per-tenure.svg) | 320×80 |
 
 ---
 
@@ -130,11 +132,19 @@ Each dimension scores **0–20 points** (total: 100).
 
 ---
 
-## API Endpoints
+## API Reference
 
-### Score Badge Endpoints
+### Base URL
 
-#### Score Badge (SVG)
+```
+https://github-profile-score-production-db22.up.railway.app
+```
+
+> All endpoints accept `?refresh=1` to bypass cache (rate-limited to 1 refresh per 10 min per username).
+
+---
+
+### Score Badge
 
 Embed the job-readiness score badge in your README:
 
@@ -142,7 +152,7 @@ Embed the job-readiness score badge in your README:
 [![Job Readiness Score](https://YOUR_DOMAIN/score/YOUR_USERNAME.svg)](https://YOUR_DOMAIN/score/YOUR_USERNAME/html)
 ```
 
-**How it looks on your README:**
+**How it looks:**
 
 ![Score Badge](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg)
 
@@ -152,35 +162,20 @@ The badge renders a 480×224 card with:
 - 5 dimension progress bars (Activity, Quality, Documentation, Diversity, Community)
 - Scored-on date footer
 
-**Query Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `refresh` | `?refresh=1` | Bust the cache and re-score (rate-limited to 1 refresh per 10 min per username) |
-
-**Response Headers:**
-
 | Header | Value |
 |--------|-------|
 | `Content-Type` | `image/svg+xml` |
 | `Cache-Control` | `public, max-age=3600, s-maxage=3600` |
 | `ETag` | `"<total>-<scored_at>"` |
 
-**Error States:**
-
-| Status | Condition | How it looks |
-|--------|-----------|--------------|
-| `404` | User not found | ![Not Found](./templates-v2/14-error-user-not-found.svg) |
-| `429` | Rate limited | ![Rate Limit](./templates-v2/13-error-rate-limit.svg) |
-
 ---
 
-#### Score JSON
+### Score JSON
 
 Returns the full score payload as JSON.
 
-```markdown
-GET /score/YOUR_USERNAME
+```
+GET /score/:username
 ```
 
 **Response:**
@@ -202,22 +197,22 @@ GET /score/YOUR_USERNAME
 
 ---
 
-#### Score HTML
+### Score HTML Report
 
 Full HTML report with dimension breakdown, fix callouts, and comparison percentiles. Opens in browser — not embeddable in README.
 
-```markdown
-https://YOUR_DOMAIN/score/YOUR_USERNAME/html
+```
+GET /score/:username/html
 ```
 
 ---
 
-#### Score Plan
+### Score Improvement Plan
 
 Returns a prioritized improvement plan sorted by points available.
 
-```markdown
-GET /score/YOUR_USERNAME/plan
+```
+GET /score/:username/plan
 ```
 
 **Response:**
@@ -242,158 +237,119 @@ GET /score/YOUR_USERNAME/plan
 
 ---
 
-### Stats Card Endpoints
+### Stats Cards
 
-Stats cards use a gold/charcoal theme and are **independent** from the score badge — separate caching, refresh cycles, and API calls.
+Stats cards use a dark theme and are **independent** from the score badge — separate caching, refresh cycles, and API calls.
 
 #### Contributions Card
-
-Embed the contributions/streak card in your README:
 
 ```markdown
 ![Contributions](https://YOUR_DOMAIN/stats/YOUR_USERNAME/contributions.svg)
 ```
 
-**How it looks on your README:**
+[![Contributions Card](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg)
 
-![Contributions Card](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg)
-
-The card renders a 480×210 card showing:
+Renders a 480×210 card showing:
 - Total contributions count and date range
-- Current streak with progress ring
-- Longest streak count
+- Current streak with fire icon
+- Longest streak with trophy icon
 - 12-week contribution calendar heatmap
 
 ---
 
 #### Overview Card
 
-Embed the GitHub stats overview card in your README:
-
 ```markdown
 ![GitHub Stats](https://YOUR_DOMAIN/stats/YOUR_USERNAME/overview.svg)
 ```
 
-**How it looks on your README:**
+[![Overview Card](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg)
 
-![Overview Card](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg)
-
-The card renders a 480×180 card showing:
-- Repos count (public/total)
+Renders a 480×180 card showing:
 - Total stars earned
-- Followers/following counts
-- Top languages with progress bars
-- Mini contribution calendar
+- Total commits (last year)
+- Total pull requests
+- Top languages with color-coded progress bars
 
 ---
 
 #### Languages Card
 
-Embed the language breakdown card in your README:
-
 ```markdown
 ![Languages](https://YOUR_DOMAIN/stats/YOUR_USERNAME/languages.svg)
 ```
 
-**How it looks on your README:**
+[![Languages Card](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg)
 
-![Languages Card](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg)
-
-The card renders a 480×180 card showing:
+Renders a 480×180 card showing:
 - Language names with proportional progress bars
-- Byte counts for each language
-- Percentage breakdown
+- Byte counts and percentage breakdown
+- GitHub brand colors for each language
 - "+ more" indicator for additional languages
 
 ---
 
-### Insight Widget Endpoints
+### Insight Widgets
 
-Insight widgets are individually-renderable SVG cards revealing activity patterns, repo health, and account statistics. Each uses the gold/charcoal theme.
+Insight widgets are individually-renderable SVG cards revealing activity patterns, repo health, and account statistics.
 
-All insight endpoints support `?refresh=1` to bust the cache.
-
----
+All insight endpoints follow the pattern: `GET /insights/:username/:widget.svg`
 
 #### Most Active Repo
-
-Embed the most active repository widget in your README:
 
 ```markdown
 ![Most Active Repo](https://YOUR_DOMAIN/insights/YOUR_USERNAME/most-active-repo.svg)
 ```
 
-**How it looks on your README:**
+[![Most Active Repo](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-active-repo.svg)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-active-repo.svg)
 
-![Most Active Repo](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-active-repo.svg)
-
-Shows the repository where the user has the most commits. Displays:
-- Repository name (clickable link)
-- Total commit count
-- Activity bar indicator
-
-**JSON field:** `mostActiveRepo: { repoName, commitCount, repoUrl }`
+| Field | Type | Description |
+|-------|------|-------------|
+| `repoName` | `string` | Repository name (linked) |
+| `commitCount` | `number` | Total commits |
+| `repoUrl` | `string` | GitHub repository URL |
 
 ---
 
 #### Account Age
 
-Embed the account age widget in your README:
-
 ```markdown
 ![Account Age](https://YOUR_DOMAIN/insights/YOUR_USERNAME/account-age.svg)
 ```
 
-**How it looks on your README:**
+[![Account Age](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/account-age.svg)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/account-age.svg)
 
-![Account Age](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/account-age.svg)
-
-Shows how long the GitHub account has existed. Displays:
-- Years and months since creation
-- Account creation year
-- Timeline indicator
-
-**JSON field:** `accountAge: { years, months, createdAt }`
+| Field | Type | Description |
+|-------|------|-------------|
+| `years` | `number` | Years since account creation |
+| `months` | `number` | Remaining months |
+| `createdAt` | `string` | ISO date of account creation |
 
 ---
 
 #### Most Starred Repo
 
-Embed the most starred repository widget in your README:
-
 ```markdown
 ![Most Starred Repo](https://YOUR_DOMAIN/insights/YOUR_USERNAME/most-starred-repo.svg)
 ```
 
-**How it looks on your README:**
+[![Most Starred Repo](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-starred-repo.svg)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-starred-repo.svg)
 
-![Most Starred Repo](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-starred-repo.svg)
-
-Shows the user's repository with the most GitHub stars. Displays:
-- Repository name (clickable link)
-- Star count (with k/M abbreviations)
-- Star bar indicator
-
-**JSON field:** `mostStarredRepo: { repoName, stars, repoUrl }`
+| Field | Type | Description |
+|-------|------|-------------|
+| `repoName` | `string` | Repository name (linked) |
+| `stars` | `number` | Star count |
+| `repoUrl` | `string` | GitHub repository URL |
 
 ---
 
 #### Contribution Trend
 
-Embed the contribution trend widget in your README:
-
 ```markdown
 ![Contribution Trend](https://YOUR_DOMAIN/insights/YOUR_USERNAME/contribution-trend.svg)
 ```
 
-**How it looks on your README:**
-
-![Contribution Trend](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/contribution-trend.svg)
-
-Shows year-over-year contribution change with directional arrows. Displays:
-- Percentage change (↑/↓/→)
-- Direction label (growing/declining/stable)
-- Trend bar indicator
+[![Contribution Trend](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/contribution-trend.svg)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/contribution-trend.svg)
 
 | Symbol | Meaning |
 |--------|---------|
@@ -401,47 +357,38 @@ Shows year-over-year contribution change with directional arrows. Displays:
 | `↓` | Trending down (< −3% YoY) |
 | `→` | Steady (within ±3%) |
 
-**JSON field:** `contributionTrend: { thisYearTotal, lastYearTotal, yoyPercentage, direction }`
+| Field | Type | Description |
+|-------|------|-------------|
+| `thisYearTotal` | `number` | Contributions this year |
+| `lastYearTotal` | `number` | Contributions last year |
+| `yoyPercentage` | `string` | Year-over-year change |
+| `direction` | `string` | `up`, `down`, or `flat` |
 
 ---
 
 #### Avg Commits per Repo
 
-Embed the average commits per repository widget in your README:
-
 ```markdown
 ![Avg Commits per Repo](https://YOUR_DOMAIN/insights/YOUR_USERNAME/avg-commits-per-repo.svg)
 ```
 
-**How it looks on your README:**
+[![Avg Commits per Repo](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/avg-commits-per-repo.svg)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/avg-commits-per-repo.svg)
 
-![Avg Commits per Repo](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/avg-commits-per-repo.svg)
-
-Shows average commits per active repository. Displays:
-- Average commit count
-- Total commits across all repos
-- Number of active repos
-
-**JSON field:** `avgCommitsPerRepo: { average, activeRepos, totalCommits }`
+| Field | Type | Description |
+|-------|------|-------------|
+| `average` | `number` | Average commits per repo |
+| `activeRepos` | `number` | Number of active repos |
+| `totalCommits` | `number` | Total commits across all repos |
 
 ---
 
 #### Longest-Maintained Repo
 
-Embed the longest-maintained repository widget in your README:
-
 ```markdown
 ![Longest Maintained](https://YOUR_DOMAIN/insights/YOUR_USERNAME/longest-maintained-repo.svg)
 ```
 
-**How it looks on your README:**
-
-![Longest Maintained](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/longest-maintained-repo.svg)
-
-Shows the repository with the longest maintenance span. Displays:
-- Repository name (clickable link)
-- Duration in years/months/days
-- Duration bar indicator
+[![Longest Maintained](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/longest-maintained-repo.svg)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/longest-maintained-repo.svg)
 
 | Duration | Format |
 |----------|--------|
@@ -449,26 +396,23 @@ Shows the repository with the longest maintenance span. Displays:
 | ≥ 30 days | `Xm` |
 | < 30 days | `Xd` |
 
-**JSON field:** `longestMaintainedRepo: { repoName, spanDays, repoUrl, firstCommitDate, lastCommitDate }`
+| Field | Type | Description |
+|-------|------|-------------|
+| `repoName` | `string` | Repository name (linked) |
+| `spanDays` | `number` | Duration in days |
+| `repoUrl` | `string` | GitHub repository URL |
+| `firstCommitDate` | `string` | ISO date of first commit |
+| `lastCommitDate` | `string` | ISO date of last commit |
 
 ---
 
 #### Commit Pattern
 
-Embed the commit pattern widget in your README:
-
 ```markdown
 ![Commit Pattern](https://YOUR_DOMAIN/insights/YOUR_USERNAME/commit-pattern.svg)
 ```
 
-**How it looks on your README:**
-
-![Commit Pattern](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commit-pattern.svg)
-
-Shows the user's approximate commit time-of-day and day-of-week pattern. **Labeled approximate** — based on a 90-day sample. Displays:
-- Dominant day type (weekday/weekend) with percentages
-- Dominant daypart (mornings/afternoons/evenings/late nights)
-- Sample size note
+[![Commit Pattern](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commit-pattern.svg)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commit-pattern.svg)
 
 | Daypart | Hours (UTC) |
 |---------|-------------|
@@ -477,42 +421,43 @@ Shows the user's approximate commit time-of-day and day-of-week pattern. **Label
 | Evenings | 18:00–23:59 |
 | Late nights | 00:00–05:59 |
 
-**JSON field:** `commitPattern: { weekdayCount, weekendCount, dominantDayType, dominantDayPart, totalCommits }`
+| Field | Type | Description |
+|-------|------|-------------|
+| `weekdayCount` | `number` | Commits on weekdays |
+| `weekendCount` | `number` | Commits on weekends |
+| `dominantDayType` | `string` | `weekday` or `weekend` |
+| `dominantDayPart` | `string` | Most active time period |
+| `totalCommits` | `number` | Total commits sampled |
+
+> **Note:** Based on a 90-day sample. Labeled approximate.
 
 ---
 
 #### Commits per Tenure
 
-Embed the commits per tenure widget in your README:
-
 ```markdown
 ![Commits per Tenure](https://YOUR_DOMAIN/insights/YOUR_USERNAME/commits-per-tenure.svg)
 ```
 
-**How it looks on your README:**
+[![Commits per Tenure](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commits-per-tenure.svg)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commits-per-tenure.svg)
 
-![Commits per Tenure](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commits-per-tenure.svg)
+Zero new API calls — pure derivation from profile age and contribution count.
 
-Shows average commits per year of account tenure. Zero new API calls — pure derivation from profile age and contribution count. Displays:
-- Commits per year average
-- Total commits
-- Tenure in years
-
-**JSON field:** `commitsPerTenure: { average, totalCommits, tenureYears }`
+| Field | Type | Description |
+|-------|------|-------------|
+| `average` | `number` | Commits per year |
+| `totalCommits` | `number` | Total commits |
+| `tenureYears` | `number` | Account age in years |
 
 ---
 
-### Health Endpoint
+### Health Check
 
-#### `GET /health`
-
-Liveness check. Returns cache status, uptime, and GitHub API rate limit remaining.
-
-```markdown
+```
 GET /health
 ```
 
-**Response:**
+Liveness check. Returns cache status, uptime, and GitHub API rate limit remaining.
 
 ```json
 {
@@ -525,6 +470,79 @@ GET /health
 
 ---
 
+### Error States
+
+| Status | Condition | Preview |
+|--------|-----------|---------|
+| `404` | User not found | ![Not Found](./templates-v2/14-error-user-not-found.svg) |
+| `429` | Rate limited | ![Rate Limit](./templates-v2/13-error-rate-limit.svg) |
+
+---
+
+## Embedding Guide
+
+### Basic Usage
+
+Copy the badge URL into your README:
+
+```markdown
+[![Job Readiness Score](https://YOUR_DOMAIN/score/YOUR_USERNAME.svg)](https://YOUR_DOMAIN/score/YOUR_USERNAME/html)
+```
+
+### Full Profile Dashboard
+
+Combine multiple cards for a complete profile view:
+
+```markdown
+### My GitHub Stats
+
+[![Job Readiness Score](https://YOUR_DOMAIN/score/YOUR_USERNAME.svg)](https://YOUR_DOMAIN/score/YOUR_USERNAME/html)
+
+![Contributions](https://YOUR_DOMAIN/stats/YOUR_USERNAME/contributions.svg)
+![Overview](https://YOUR_DOMAIN/stats/YOUR_USERNAME/overview.svg)
+![Languages](https://YOUR_DOMAIN/stats/YOUR_USERNAME/languages.svg)
+```
+
+### Insight Widgets Row
+
+```markdown
+![Most Active](https://YOUR_DOMAIN/insights/YOUR_USERNAME/most-active-repo.svg)
+![Account Age](https://YOUR_DOMAIN/insights/YOUR_USERNAME/account-age.svg)
+![Most Starred](https://YOUR_DOMAIN/insights/YOUR_USERNAME/most-starred-repo.svg)
+```
+
+### Force Fresh Data
+
+Add `?refresh=1` to bypass cache (rate-limited to 1 refresh per 10 min):
+
+```markdown
+[![Job Readiness Score](https://YOUR_DOMAIN/score/YOUR_USERNAME.svg?refresh=1)](https://YOUR_DOMAIN/score/YOUR_USERNAME/html)
+```
+
+---
+
+## Visual Templates
+
+All SVG card outputs are available as static templates in the [`templates/`](./templates/) directory. Open them in a browser to see exactly what each card looks like.
+
+| Card | Preview File | Dimensions |
+|------|-------------|------------|
+| Score Badge | [`01-score-badge.svg`](./templates/01-score-badge.svg) | 480×224 |
+| Contributions | [`02-contributions-card.svg`](./templates/02-contributions-card.svg) | 480×210 |
+| Overview | [`03-overview-card.svg`](./templates/03-overview-card.svg) | 480×180 |
+| Languages | [`04-languages-card.svg`](./templates/04-languages-card.svg) | 480×180 |
+| Most Active Repo | [`05-insight-most-active-repo.svg`](./templates/05-insight-most-active-repo.svg) | 320×80 |
+| Account Age | [`06-insight-account-age.svg`](./templates/06-insight-account-age.svg) | 320×80 |
+| Most Starred Repo | [`07-insight-most-starred-repo.svg`](./templates/07-insight-most-starred-repo.svg) | 320×80 |
+| Contribution Trend | [`08-insight-contribution-trend.svg`](./templates/08-insight-contribution-trend.svg) | 320×80 |
+| Avg Commits/Repo | [`09-insight-avg-commits-per-repo.svg`](./templates/09-insight-avg-commits-per-repo.svg) | 320×80 |
+| Commit Pattern | [`11-insight-commit-pattern.svg`](./templates/11-insight-commit-pattern.svg) | 320×100 |
+| Commits per Tenure | [`12-insight-commits-per-tenure.svg`](./templates/12-insight-commits-per-tenure.svg) | 320×80 |
+| Rate Limit Error | [`13-error-rate-limit.svg`](./templates/13-error-rate-limit.svg) | 480×120 |
+| User Not Found | [`14-error-user-not-found.svg`](./templates/14-error-user-not-found.svg) | 480×120 |
+
+---
+
 ## Theming
 
 All SVG cards use a GitHub-inspired dark dashboard theme. The color palette is centralized in `src/theme/tokens.ts`:
@@ -534,19 +552,15 @@ All SVG cards use a GitHub-inspired dark dashboard theme. The color palette is c
 | `bg` | `#0d1117` | Card backgrounds |
 | `bgCard` | `#161b22` | Inner card surfaces |
 | `textPrimary` | `#e6edf3` | Headings, big numbers |
-| `textMuted` | `#8b949e` | Labels, secondary text |
+| `textSecondary` | `#8b949e` | Labels, secondary text |
 | `blue` | `#58a6ff` | Primary accent (streaks, rings) |
 | `purple` | `#a371f7` | Secondary accent (grade ring) |
 | `green` | `#3fb950` | Positive trend, contributions |
-| `orange` | `#f0883e` | Warnings, highlights |
 | `red` | `#f85149` | Errors, declining trend |
 | `gold` | `#e3b341` | Stars, special values |
 | `border` | `rgba(48, 54, 61, 0.8)` | Card borders, dividers |
-| `borderAccent` | `rgba(88, 166, 255, 0.2)` | Accent borders |
 
 **Language bar segments** preserve each language's recognizable GitHub brand color (e.g. Python blue `#3572A5`, JS yellow `#f1e05a`) — only the card chrome uses the dark theme tokens.
-
-> **Note:** Custom theme overrides via query parameters are not yet supported but may be added in a future release.
 
 ---
 
@@ -566,7 +580,7 @@ All SVG cards use a GitHub-inspired dark dashboard theme. The color palette is c
                            ▼
                 ┌───────────────────────┐      ┌──────────────┐
                 │   Redis Cache         │─────▶│  Cache Hit?  │──▶ return SVG
-                │   TTL: 6 hours        │      └──────────────┘
+                │   TTL: 5 minutes      │      └──────────────┘
                 └──────────┬────────────┘
                            │ miss
                            ▼
@@ -592,12 +606,12 @@ All SVG cards use a GitHub-inspired dark dashboard theme. The color palette is c
                            ▼
                 ┌───────────────────────┐
                 │   SVG Renderer        │
-                │   (template strings)  │
+                │   (template-driven)   │
                 └──────────┬────────────┘
                            │
                            ▼
                       SVG Response
-                  + cache write (6h TTL)
+                  + cache write (5m TTL)
 ```
 
 ---
@@ -642,6 +656,7 @@ npm run dev
 | `npm test` | Run test suite (vitest) |
 | `npm run test:watch` | Run tests in watch mode |
 | `npm run lint` | Run ESLint |
+| `npm run typecheck` | Type-check without emitting |
 
 ---
 
@@ -653,8 +668,6 @@ npm run dev
 | `NVIDIA_API_KEY` | No | — | NVIDIA NIM API key for AI callouts |
 | `REDIS_URL` | No | — | Redis connection string (empty = in-memory cache) |
 | `PORT` | No | `3000` | Server port |
-| `CACHE_TTL_SECONDS` | No | `21600` (6h) | Score badge cache TTL |
-| `STATS_CACHE_TTL_SECONDS` | No | `21600` (6h) | Stats card cache TTL |
 | `SCORE_THRESHOLD` | No | `14` | Dimensions below this get AI callouts |
 
 ---
@@ -697,7 +710,12 @@ github-profile-score/
 │   │   ├── ContributionsCardRenderer.ts   # Contributions/streak SVG
 │   │   ├── StatsCardRenderer.ts          # Stats + languages SVG
 │   │   ├── shared/
-│   │   │   └── ring.ts                   # Shared grade/progress ring
+│   │   │   ├── ring.ts                   # Shared grade/progress ring
+│   │   │   ├── templateLoader.ts         # Template file reader
+│   │   │   ├── sparkline.ts              # 12-week heatmap generator
+│   │   │   ├── tile.ts                   # Metric tile builder
+│   │   │   ├── avatar.ts                 # SVG avatar generator
+│   │   │   └── icons.ts                  # Flame, trophy, star icons
 │   │   └── insights/
 │   │       ├── MostActiveRepoCard.ts
 │   │       ├── AccountAgeCard.ts
@@ -731,8 +749,7 @@ github-profile-score/
 │   │   ├── usernameValidator.ts
 │   │   └── requestLogger.ts
 │   ├── theme/
-│   │   ├── tokens.ts                     # Centralized color palette
-│   │   └── README.md
+│   │   └── tokens.ts                     # Centralized color palette
 │   ├── types/
 │   │   ├── stats.ts                      # Stats card data models
 │   │   └── insights.ts                   # Insight widget data models
@@ -766,6 +783,8 @@ github-profile-score/
 │       ├── commit-pattern*.test.ts
 │       ├── commits-per-tenure*.test.ts
 │       └── insight-fetcher.test.ts
+├── templates/                            # Working SVG templates (with placeholders)
+├── templates-v2/                         # Design reference (untouched)
 ├── .env.example
 ├── docker-compose.yml
 ├── railway.json
@@ -786,10 +805,10 @@ GitHub's authenticated rate limit is **5,000 requests/hour**. A single profile f
 
 | Prefix | Scope | TTL |
 |--------|-------|-----|
-| `score:` | Score badge result | 6 hours |
-| `stats:v1:` | Stats card result | 6 hours |
+| `score:` | Score badge result | 5 minutes |
+| `stats:v1:` | Stats card result | 5 minutes |
 | `github:<user>:` | Raw GitHub data | 1 hour |
-| `insight:<slug>:v1:` | Insight widget result | 6 hours |
+| `insight:<slug>:v1:` | Insight widget result | 5 minutes |
 | `refresh_cooldown:` | Rate-limit refresh | 10 minutes |
 
 Score, stats, and insight caches use **distinct key prefixes** so refreshing one does not invalidate the others.
@@ -800,8 +819,6 @@ Score, stats, and insight caches use **distinct key prefixes** so refreshing one
 |--------|--------------|----------------|
 | `Cache-Control` | `public, max-age=3600, s-maxage=3600` | `public, max-age=300` |
 | `ETag` | `<content-hash>` | — |
-
-Set `Cache-Control: public, max-age=3600, s-maxage=3600` on SVG responses to let Cloudflare/Fastly cache them at the edge.
 
 ---
 
@@ -842,5 +859,11 @@ MIT — see [LICENSE](LICENSE).
 ---
 
 <div align="center">
-Made for developers who want their GitHub to do the talking.
+
+**Made for developers who want their GitHub to do the talking.**
+
+[![Star](https://img.shields.io/github/stars/DanielDeshmukh/github-profile-score?style=social)](https://github.com/DanielDeshmukh/github-profile-score)
+[![Watch](https://img.shields.io/github/watchers/DanielDeshmukh/github-profile-score?style=social)](https://github.com/DanielDeshmukh/github-profile-score)
+[![Fork](https://img.shields.io/github/forks/DanielDeshmukh/github-profile-score?style=social)](https://github.com/DanielDeshmukh/github-profile-score)
+
 </div>
