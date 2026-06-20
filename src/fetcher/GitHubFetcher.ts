@@ -18,6 +18,7 @@ export class GitHubFetcher {
   private rateLimit: RateLimitState = { remaining: 5000, reset: 0 };
   private searchRateLimit: RateLimitState = { remaining: 30, reset: 0 };
   private circuitBreaker = new CircuitBreaker(5, 30000);
+  private lastResponseStatus: number = 0;
 
   private getHeaders(accept?: string): Record<string, string> {
     const config = getConfig();
@@ -63,6 +64,7 @@ export class GitHubFetcher {
           throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
         }
 
+        this.lastResponseStatus = res.status;
         return res;
       });
 
@@ -90,6 +92,10 @@ export class GitHubFetcher {
         if (repos.length === 0) break;
         allRepos.push(...repos);
         page++;
+      }
+
+      if (allRepos.length === 0) {
+        log.warn({ username, httpStatus: this.lastResponseStatus, emptyFetch: true }, 'GitHub repos returned empty');
       }
 
       return allRepos.slice(0, 30);

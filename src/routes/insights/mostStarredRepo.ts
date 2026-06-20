@@ -28,7 +28,7 @@ export function mostStarredRepoRouter(
       if (!result) {
         res.set({
           'Content-Type': 'image/svg+xml',
-          'Cache-Control': 'public, max-age=3600, s-maxage=3600',
+          'Cache-Control': 'public, max-age=60, s-maxage=60',
         });
         res.send(renderMostStarredRepoEmptySvg());
         return;
@@ -100,7 +100,7 @@ async function getCachedOrCompute(
   const repos = await githubFetcher.fetchRepos(username);
   const result = findMostStarredRepo(repos);
 
-  await cache.set(cacheKey, result, CACHE_TTL.SCORE);
+  await cache.set(cacheKey, result, result !== null ? CACHE_TTL.SCORE : 60);
 
   if (refresh) {
     await cache.set(`${cacheKey}:refresh_cooldown`, '1', CACHE_TTL.REFRESH_COOLDOWN);
