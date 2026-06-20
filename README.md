@@ -325,7 +325,7 @@ Embed the most active repository widget in your README:
 
 **How it looks on your README:**
 
-![Most Active Repo](./templates-v2/05-insight-most-active-repo.svg)
+![Most Active Repo](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-active-repo.svg)
 
 Shows the repository where the user has the most commits. Displays:
 - Repository name (clickable link)
