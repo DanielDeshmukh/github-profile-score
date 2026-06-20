@@ -1,41 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 480 200">
-  <style>
-    @keyframes ring-fill {
-      from { stroke-dashoffset: 125.66; }
-      to { stroke-dashoffset: 119.38; }
-    }
-    .ring-arc {
-      animation: ring-fill 0.6s ease-out forwards;
-    }
-  </style>
-  <rect width="480" height="200" fill="#0d1117" rx="12"/>
-  <rect width="480" height="2" fill="#a371f7" rx="0"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="210" viewBox="0 0 480 210">
+  <rect width="480" height="210" fill="#0d1117" rx="12" stroke="#30363d" stroke-width="0.5"/>
 
-  <text x="24" y="30" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="13" fill="#e6edf3" font-weight="600">octocat's GitHub Stats</text>
+  <text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#6e7681" letter-spacing="0.3">{{username}}'s GitHub stats</text>
 
-  <circle cx="440" cy="36" r="20" fill="none" stroke="rgba(48, 54, 61, 0.8)" stroke-width="1"/>
-  <circle cx="440" cy="36" r="20" fill="none" stroke="#161b22" stroke-width="4"/>
-  <circle cx="440" cy="36" r="20" fill="none" stroke="#a371f7" stroke-width="4" stroke-dasharray="125.66" stroke-dashoffset="125.66" stroke-linecap="round" transform="rotate(-90, 440, 36)" class="ring-arc"/>
-  <text x="440" y="33" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="14" fill="#e6edf3" text-anchor="middle" font-weight="700">737</text>
-  <text x="440" y="47" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="10" fill="#a371f7" text-anchor="middle">B</text>
+  <line x1="24" y1="42" x2="456" y2="42" stroke="#21262d" stroke-width="0.5"/>
 
-  <line x1="24" y1="50" x2="420" y2="50" stroke="rgba(48, 54, 61, 0.8)" stroke-width="0.5"/>
+  <text x="56" y="78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="26" font-weight="500" fill="#e6edf3" text-anchor="middle">{{stars}}</text>
+  <text x="56" y="96" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#6e7681" text-anchor="middle" letter-spacing="0.3">Stars</text>
 
-  <g transform="translate(24, 64)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#e3b341" stroke="#e3b341" stroke-width="1.5" stroke-linejoin="round"/></svg></g>
-  <text x="50" y="78" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="12" fill="#8b949e">Total Stars</text>
-  <text x="456" y="78" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="14" fill="#e3b341" text-anchor="end" font-weight="700">22</text>
+  <line x1="128" y1="58" x2="128" y2="100" stroke="#21262d" stroke-width="0.5"/>
 
-  <g transform="translate(24, 90)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" fill="#58a6ff"/><line x1="12" y1="3" x2="12" y2="9" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="round"/><line x1="12" y1="15" x2="12" y2="21" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="round"/></svg></g>
-  <text x="50" y="104" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="12" fill="#8b949e">Commits (Last Year)</text>
-  <text x="456" y="104" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="14" fill="#58a6ff" text-anchor="end" font-weight="700">683</text>
+  <text x="240" y="78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="26" font-weight="500" fill="#e6edf3" text-anchor="middle">{{commits}}</text>
+  <text x="240" y="96" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#6e7681" text-anchor="middle" letter-spacing="0.3">Commits (last year)</text>
 
-  <g transform="translate(24, 116)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="6" r="3" fill="none" stroke="#a371f7" stroke-width="1.5"/><circle cx="12" cy="18" r="3" fill="none" stroke="#a371f7" stroke-width="1.5"/><path d="M12 9v3c0 2 1 3 3 3" fill="none" stroke="#a371f7" stroke-width="1.5" stroke-linecap="round"/></svg></g>
-  <text x="50" y="130" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="12" fill="#8b949e">Total PRs</text>
-  <text x="456" y="130" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="14" fill="#a371f7" text-anchor="end" font-weight="700">28</text>
+  <line x1="352" y1="58" x2="352" y2="100" stroke="#21262d" stroke-width="0.5"/>
 
-  <g transform="translate(24, 142)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="none" stroke="#8b949e" stroke-width="1.5"/><line x1="12" y1="8" x2="12" y2="13" stroke="#8b949e" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="16" r="1" fill="#8b949e"/></svg></g>
-  <text x="50" y="156" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="12" fill="#8b949e">Total Issues</text>
-  <text x="456" y="156" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="14" fill="#8b949e" text-anchor="end" font-weight="700">3</text>
+  <text x="424" y="78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="26" font-weight="500" fill="#e6edf3" text-anchor="middle">{{prs}}</text>
+  <text x="424" y="96" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#6e7681" text-anchor="middle" letter-spacing="0.3">Pull requests</text>
 
-  <rect y="198" width="480" height="2" fill="#a371f7" rx="0"/>
+  <line x1="24" y1="114" x2="456" y2="114" stroke="#21262d" stroke-width="0.5"/>
+
+  <text x="24" y="132" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#6e7681" letter-spacing="0.5">TOP LANGUAGES</text>
+
+  {{language_bar}}
+
+  {{language_legend}}
+
+  <line x1="24" y1="188" x2="456" y2="188" stroke="#21262d" stroke-width="0.5"/>
+  <text x="24" y="202" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#484f58">github-readme-stats</text>
+  <text x="456" y="202" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#484f58" text-anchor="end">Updated just now</text>
 </svg>

@@ -1,18 +1,15 @@
-import { tokens } from '../../theme/tokens.js';
-
-const CARD_WIDTH = 320;
-const CARD_HEIGHT = 80;
+import { renderFromTemplate } from '../shared/templateLoader.js';
 
 export function renderAvgCommitsPerRepoCard(
   average: number,
   activeRepos: number,
   totalCommits: number,
 ): string {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${CARD_WIDTH}" height="${CARD_HEIGHT}" viewBox="0 0 ${CARD_WIDTH} ${CARD_HEIGHT}">
-  <rect width="${CARD_WIDTH}" height="${CARD_HEIGHT}" fill="${tokens.bg}" rx="6" stroke="${tokens.border}" stroke-width="0.5"/>
+  const avgText = average.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const detailText = `${totalCommits.toLocaleString()} commits across ${activeRepos} repo${activeRepos !== 1 ? 's' : ''}`;
 
-  <text x="20" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="${tokens.textTertiary}">Avg commits per repo</text>
-  <text x="20" y="50" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="500" fill="${tokens.textPrimary}">${average.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}</text>
-  <text x="20" y="68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textSecondary}">${totalCommits.toLocaleString()} commits across ${activeRepos} repo${activeRepos !== 1 ? 's' : ''}</text>
-</svg>`;
+  return renderFromTemplate('09-insight-avg-commits-per-repo', {
+    average: avgText,
+    detail_text: detailText,
+  });
 }

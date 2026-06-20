@@ -1,34 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 200">
-  <rect width="480" height="200" fill="#0d1117" rx="12"/>
-  <rect width="480" height="2" fill="#a371f7" rx="0"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="240" viewBox="0 0 480 240">
+  <rect width="480" height="240" fill="#0d1117" rx="12" stroke="#30363d" stroke-width="0.5"/>
 
-  <text x="24" y="30" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="13" fill="#e6edf3" font-weight="600">Most Used Languages</text>
+  <text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#6e7681" letter-spacing="0.3">Languages</text>
 
-  <line x1="24" y1="42" x2="456" y2="42" stroke="rgba(48, 54, 61, 0.8)" stroke-width="0.5"/>
+  <line x1="24" y1="42" x2="456" y2="42" stroke="#21262d" stroke-width="0.5"/>
 
-  <rect x="24" y="55" width="432" height="12" rx="4" fill="#21262d"/>
-  <rect x="24" y="55" width="181" height="12" rx="4" fill="#3572A5"/>
-  <rect x="205" y="55" width="51" height="12" rx="4" fill="#f1e05a"/>
-  <rect x="256" y="55" width="5" height="12" rx="2" fill="#e34c26"/>
-  <rect x="261" y="55" width="3" height="12" rx="1" fill="#563d7c"/>
+  <rect x="24" y="56" width="432" height="6" rx="3" fill="#21262d"/>
+  {{language_bar}}
 
-  <circle cx="32" cy="80" r="4" fill="#3572A5"/>
-  <text x="44" y="83" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#e6edf3">Python</text>
-  <text x="456" y="83" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#8b949e" text-anchor="end">85.60%</text>
+  <line x1="24" y1="76" x2="456" y2="76" stroke="#21262d" stroke-width="0.5"/>
 
-  <circle cx="32" cy="102" r="4" fill="#f1e05a"/>
-  <text x="44" y="105" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#e6edf3">JavaScript</text>
-  <text x="456" y="105" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#8b949e" text-anchor="end">11.92%</text>
+  {{language_rows}}
 
-  <circle cx="32" cy="124" r="4" fill="#e34c26"/>
-  <text x="44" y="127" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#e6edf3">TypeScript</text>
-  <text x="456" y="127" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#8b949e" text-anchor="end">1.06%</text>
-
-  <circle cx="32" cy="146" r="4" fill="#563d7c"/>
-  <text x="44" y="149" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#e6edf3">HTML</text>
-  <text x="456" y="149" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#8b949e" text-anchor="end">0.63%</text>
-
-  <text x="24" y="172" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="10" fill="#8b949e">+ 2 more</text>
-
-  <rect y="198" width="480" height="2" fill="#a371f7" rx="0"/>
+  {{remaining_text}}
 </svg>

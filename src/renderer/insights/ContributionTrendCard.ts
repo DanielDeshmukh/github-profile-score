@@ -1,7 +1,5 @@
 import { tokens } from '../../theme/tokens.js';
-
-const CARD_WIDTH = 320;
-const CARD_HEIGHT = 80;
+import { renderFromTemplate } from '../shared/templateLoader.js';
 
 function formatPercentage(pct: number): string {
   const abs = Math.abs(pct);
@@ -20,11 +18,10 @@ export function renderContributionTrendCard(
   const pctText = formatPercentage(yoyPercentage);
   const symbol = direction === 'up' ? '\u2191' : direction === 'down' ? '\u2193' : '\u2192';
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${CARD_WIDTH}" height="${CARD_HEIGHT}" viewBox="0 0 ${CARD_WIDTH} ${CARD_HEIGHT}">
-  <rect width="${CARD_WIDTH}" height="${CARD_HEIGHT}" fill="${tokens.bg}" rx="6" stroke="${tokens.border}" stroke-width="0.5"/>
-
-  <text x="20" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="${tokens.textTertiary}">Contribution trend</text>
-  <text x="20" y="50" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="500" fill="${valueColor}">${symbol} ${pctText}</text>
-  <text x="20" y="68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textSecondary}">${thisYearTotal.toLocaleString()} this year, ${lastYearTotal.toLocaleString()} last year</text>
-</svg>`;
+  return renderFromTemplate('08-insight-contribution-trend', {
+    trend_symbol: symbol,
+    trend_pct: pctText,
+    trend_color: valueColor,
+    trend_detail: `${thisYearTotal.toLocaleString()} this year, ${lastYearTotal.toLocaleString()} last year`,
+  });
 }

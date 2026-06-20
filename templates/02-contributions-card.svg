@@ -1,34 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 480 200">
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="210" viewBox="0 0 480 210">
+  <defs>
+    <radialGradient id="flameGradient" cx="50%" cy="65%" r="65%">
+      <stop offset="0%" stop-color="#FFD600"/>
+      <stop offset="55%" stop-color="#FFA500"/>
+      <stop offset="100%" stop-color="#FF6A00"/>
+    </radialGradient>
+  </defs>
+
   <style>
-    @keyframes ring-fill {
-      from { stroke-dashoffset: 175.93; }
-      to { stroke-dashoffset: 123.15; }
-    }
-    .ring-arc {
-      animation: ring-fill 0.6s ease-out forwards;
-    }
+    .day-bar { cursor: pointer; }
+    .day-bar .tooltip { opacity: 0; transition: opacity 0.12s ease-out; pointer-events: none; }
+    .day-bar:hover .tooltip { opacity: 1; }
+    .day-bar .bar { transition: stroke-opacity 0.12s ease-out; }
+    .day-bar:hover .bar { stroke: #e6edf3; stroke-width: 1; stroke-opacity: 0.7; }
   </style>
-  <rect width="480" height="200" fill="#0d1117" rx="12"/>
-  <rect width="480" height="2" fill="#a371f7" rx="0"/>
 
-  <text x="240" y="28" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="12" fill="#8b949e" text-anchor="middle" letter-spacing="0.06em">CONTRIBUTIONS</text>
+  <rect width="480" height="210" fill="#0d1117" rx="12"/>
 
-  <line x1="184" y1="40" x2="184" y2="180" stroke="rgba(48, 54, 61, 0.8)" stroke-width="0.5"/>
-  <line x1="344" y1="40" x2="344" y2="180" stroke="rgba(48, 54, 61, 0.8)" stroke-width="0.5"/>
+  <text x="30" y="36" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="24" font-weight="500" fill="#e6edf3">{{total_contributions}}</text>
+  <text x="450" y="36" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#6e7681" text-anchor="end">{{date_range}}</text>
 
-  <text x="88" y="55" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">Total Contributions</text>
-  <text x="88" y="95" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="32" fill="#e6edf3" text-anchor="middle" font-weight="700">1,247</text>
-  <text x="88" y="115" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">Dec 30, 2022 – Present</text>
+  <text x="30" y="54" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="#8b949e">Contributions</text>
 
-  <circle cx="264" cy="85" r="28" fill="none" stroke="rgba(48, 54, 61, 0.8)" stroke-width="5"/>
-  <circle cx="264" cy="85" r="28" fill="none" stroke="#a371f7" stroke-width="5" stroke-dasharray="175.93" stroke-dashoffset="175.93" stroke-linecap="round" transform="rotate(-90, 264, 85)" class="ring-arc"/>
-  <text x="264" y="81" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="22" fill="#e6edf3" text-anchor="middle" font-weight="700">14</text>
-  <text x="264" y="99" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">day streak</text>
-  <text x="264" y="130" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">Jun 8 – Jun 16</text>
+  {{current_streak_tile}}
 
-  <text x="416" y="55" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">Longest Streak</text>
-  <text x="416" y="95" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="32" fill="#e6edf3" text-anchor="middle" font-weight="700">28</text>
-  <text x="416" y="115" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">Apr 1 – Apr 28</text>
+  {{longest_streak_tile}}
 
-  <rect y="198" width="480" height="2" fill="#a371f7" rx="0"/>
+  <text x="30" y="130" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#6e7681">Last 12 weeks</text>
+
+  {{sparkline}}
 </svg>

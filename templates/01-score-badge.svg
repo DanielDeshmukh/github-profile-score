@@ -1,63 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 480 260">
-  <style>
-    @keyframes ring-fill {
-      from { stroke-dashoffset: 188.50; }
-      to { stroke-dashoffset: 49.01; }
-    }
-    .ring-arc {
-      animation: ring-fill 0.6s ease-out forwards;
-    }
-  </style>
-  <defs>
-    <clipPath id="avatar-clip">
-      <circle cx="50" cy="44" r="22"/>
-    </clipPath>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="224" viewBox="0 0 480 224">
+  <rect width="480" height="224" fill="#0d1117" rx="12"/>
 
-  <rect width="480" height="260" fill="#0d1117" rx="12"/>
-  <rect width="480" height="2" fill="#58a6ff" rx="0"/>
+  {{initials_avatar}}
+  <text x="66" y="34" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="500" fill="#e6edf3">@{{username}}</text>
+  <text x="66" y="50" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#6e7681">Job readiness score</text>
 
-  <rect x="28" y="22" width="44" height="44" rx="22" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
-  <image xlink:href="https://github.com/octocat.png?size=48" x="28" y="22" width="44" height="44" clip-path="url(#avatar-clip)"/>
-  <text x="80" y="34" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="15" fill="#e6edf3" font-weight="600">@octocat</text>
-  <text x="80" y="50" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#8b949e">GitHub Profile Score</text>
+  <text x="440" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="28" font-weight="500" fill="{{score_color}}" text-anchor="end">{{score}}</text>
+  <text x="440" y="56" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#6e7681" text-anchor="end">grade {{grade}}</text>
 
-  <circle cx="432" cy="44" r="30" fill="none" stroke="rgba(48, 54, 61, 0.8)" stroke-width="1.5"/>
-  <circle cx="432" cy="44" r="30" fill="none" stroke="#161b22" stroke-width="6"/>
-  <circle cx="432" cy="44" r="30" fill="none" stroke="#3fb950" stroke-width="6" stroke-dasharray="188.50" stroke-dashoffset="188.50" stroke-linecap="round" transform="rotate(-90, 432, 44)" class="ring-arc"/>
-  <text x="432" y="40" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="18" fill="#e6edf3" text-anchor="middle" font-weight="700">74</text>
-  <text x="432" y="56" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#3fb950" text-anchor="middle">B</text>
+  {{tile_1}}
+  {{tile_2}}
+  {{tile_3}}
+  {{tile_4}}
 
-  <line x1="24" y1="76" x2="456" y2="76" stroke="rgba(48, 54, 61, 0.8)" stroke-width="0.5"/>
-
-  <text x="24" y="96" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#8b949e">Activity</text>
-  <text x="456" y="96" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#e6edf3" text-anchor="end">16/20</text>
-  <rect x="24" y="102" width="408" height="4" rx="3" fill="#21262d"/>
-  <rect x="24" y="102" width="326" height="4" rx="3" fill="#3fb950"/>
-
-  <text x="24" y="118" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#8b949e">Project Quality</text>
-  <text x="456" y="118" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#e6edf3" text-anchor="end">14/20</text>
-  <rect x="24" y="124" width="408" height="4" rx="3" fill="#21262d"/>
-  <rect x="24" y="124" width="286" height="4" rx="3" fill="#58a6ff"/>
-
-  <text x="24" y="140" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#8b949e">Documentation</text>
-  <text x="456" y="140" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#e6edf3" text-anchor="end">11/20</text>
-  <rect x="24" y="146" width="408" height="4" rx="3" fill="#21262d"/>
-  <rect x="24" y="146" width="224" height="4" rx="3" fill="#f0883e"/>
-
-  <text x="24" y="162" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#8b949e">Tech Diversity</text>
-  <text x="456" y="162" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#e6edf3" text-anchor="end">18/20</text>
-  <rect x="24" y="168" width="408" height="4" rx="3" fill="#21262d"/>
-  <rect x="24" y="168" width="367" height="4" rx="3" fill="#3fb950"/>
-
-  <text x="24" y="184" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#8b949e">Community</text>
-  <text x="456" y="184" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#e6edf3" text-anchor="end">15/20</text>
-  <rect x="24" y="190" width="408" height="4" rx="3" fill="#21262d"/>
-  <rect x="24" y="190" width="306" height="4" rx="3" fill="#58a6ff"/>
-
-  <line x1="24" y1="208" x2="456" y2="208" stroke="rgba(48, 54, 61, 0.8)" stroke-width="0.5"/>
-  <text x="24" y="226" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="10" fill="#8b949e">Scored on 6/17/2026</text>
-  <text x="456" y="226" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="10" fill="#8b949e" text-anchor="end">github-profile-score</text>
-
-  <rect y="258" width="480" height="2" fill="#58a6ff" rx="0"/>
+  <text x="30" y="210" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="{{weakest_fill}}">Lowest: {{weakest_name}}, {{weakest_score}}/20</text>
+  <text x="450" y="210" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#6e7681" text-anchor="end">Scored on {{score_date}}</text>
 </svg>

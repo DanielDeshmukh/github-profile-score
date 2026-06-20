@@ -3,9 +3,9 @@
 
   <text x="20" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#6e7681">Longest maintained</text>
   <text x="20" y="50" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="500" fill="#e6edf3">
-    <a href="{{repo_url}}" style="text-decoration:none;fill:inherit">{{repo_name}}</a>
+    <a href="https:&#x2F;&#x2F;github.com&#x2F;DanielDeshmukh&#x2F;DanielDeshmukh" style="text-decoration:none;fill:inherit">DanielDeshmukh</a>
   </text>
-  <text x="20" y="68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#8b949e">{{span_text}} (since {{started_year}})</text>
+  <text x="20" y="68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#8b949e">1y 6m (since 2024)</text>
 
   <g transform="translate(284, 14) scale(0.8333)" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <circle cx="12" cy="12" r="10"/>

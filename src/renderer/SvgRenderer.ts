@@ -3,6 +3,7 @@ import type { ScoreResult } from '../types.js';
 import { escapeHtml } from '../utils/escapeHtml.js';
 import { renderInitialsAvatar } from './shared/avatar.js';
 import { renderMetricTile } from './shared/tile.js';
+import { renderFromTemplate } from './shared/templateLoader.js';
 
 function truncateUsername(username: string): string {
   if (username.length <= 20) return username;
@@ -61,50 +62,36 @@ export function renderSvg(result: ScoreResult): string {
       label: dim.name,
       value: `${dim.score}/${dim.max}`,
     });
-  }).join('\n  ');
+  });
 
   const weakestFill = weakest.score < 10 ? tokens.amber : tokens.textTertiary;
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="480" height="224" viewBox="0 0 480 224">
-  <rect width="480" height="224" fill="${tokens.bg}" rx="12"/>
-
-  ${renderInitialsAvatar(result.username, 38, 38, 18)}
-  <text x="66" y="34" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="500" fill="${tokens.textPrimary}">@${escapeHtml(truncateUsername(result.username))}</text>
-  <text x="66" y="50" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textTertiary}">Job readiness score</text>
-
-  <text x="440" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="28" font-weight="500" fill="${getScoreColor(result.total)}" text-anchor="end">${result.total}</text>
-  <text x="440" y="56" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textTertiary}" text-anchor="end">grade ${result.grade}</text>
-
-  ${metricTiles}
-
-  <text x="30" y="210" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${weakestFill}">Lowest: ${escapeHtml(weakest.name)}, ${weakest.score}/20</text>
-  <text x="450" y="210" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textTertiary}" text-anchor="end">Scored on ${scoreDate}</text>
-</svg>`;
+  return renderFromTemplate('01-score-badge', {
+    initials_avatar: renderInitialsAvatar(result.username, 38, 38, 18),
+    username: escapeHtml(truncateUsername(result.username)),
+    score: String(result.total),
+    score_color: getScoreColor(result.total),
+    grade: result.grade,
+    tile_1: metricTiles[0]!,
+    tile_2: metricTiles[1]!,
+    tile_3: metricTiles[2]!,
+    tile_4: metricTiles[3]!,
+    weakest_name: escapeHtml(weakest.name),
+    weakest_score: String(weakest.score),
+    weakest_fill: weakestFill,
+    score_date: scoreDate,
+  });
 }
 
 export function renderErrorSvg(username: string): string {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="480" height="120" viewBox="0 0 480 120">
-  <rect width="480" height="120" fill="${tokens.bg}" rx="6" stroke="${tokens.border}" stroke-width="0.5"/>
-  <rect width="480" height="2" fill="${tokens.red}" rx="0"/>
-  <circle cx="240" cy="40" r="16" fill="none" stroke="${tokens.red}" stroke-width="2"/>
-  <line x1="240" y1="32" x2="240" y2="42" stroke="${tokens.red}" stroke-width="2" stroke-linecap="round"/>
-  <circle cx="240" cy="48" r="1.5" fill="${tokens.red}"/>
-  <text x="240" y="76" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" fill="${tokens.textPrimary}" text-anchor="middle" font-weight="500">@${escapeHtml(username)} not found</text>
-  <text x="240" y="96" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textSecondary}" text-anchor="middle">Check the username and retry</text>
-  <rect y="118" width="480" height="2" fill="${tokens.red}" rx="0"/>
-</svg>`;
+  return renderFromTemplate('14-error-user-not-found', {
+    username: escapeHtml(username),
+  });
 }
 
 export function renderRateLimitSvg(_username: string, resetAt: Date): string {
   const timeStr = resetAt.toISOString().substring(11, 16) + ' UTC';
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="480" height="120" viewBox="0 0 480 120">
-  <rect width="480" height="120" fill="${tokens.bg}" rx="6" stroke="${tokens.border}" stroke-width="0.5"/>
-  <rect width="480" height="2" fill="${tokens.orange}" rx="0"/>
-  <path d="M240 24 L252 48 L228 48 Z" fill="none" stroke="${tokens.orange}" stroke-width="2" stroke-linejoin="round"/>
-  <line x1="240" y1="32" x2="240" y2="40" stroke="${tokens.orange}" stroke-width="2" stroke-linecap="round"/>
-  <circle cx="240" cy="44" r="1.5" fill="${tokens.orange}"/>
-  <text x="240" y="76" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" fill="${tokens.textPrimary}" text-anchor="middle" font-weight="500">Rate limit reached</text>
-  <text x="240" y="96" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textSecondary}" text-anchor="middle">Try again after ${timeStr}</text>
-  <rect y="118" width="480" height="2" fill="${tokens.orange}" rx="0"/>
-</svg>`;
+  return renderFromTemplate('13-error-rate-limit', {
+    reset_time: timeStr,
+  });
 }

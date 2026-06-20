@@ -1,20 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80">
-  <style>
-    .card-bg { transition: background 0.15s ease; }
-    .card-bg:hover { background: #1c2128; }
-  </style>
-  <rect width="320" height="80" fill="#0d1117" rx="8" class="card-bg"/>
-  <rect x="0" y="0" width="2" height="80" fill="#58a6ff" rx="0"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="80" viewBox="0 0 320 80">
+  <rect width="320" height="80" fill="#0d1117" rx="6" stroke="#30363d" stroke-width="0.5"/>
 
-  <svg x="16" y="28" width="20" height="20" viewBox="0 0 24 24" fill="none">
-    <line x1="12" y1="20" x2="12" y2="10" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="18" y1="20" x2="18" y2="4" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="6" y1="20" x2="6" y2="16" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="round"/>
-  </svg>
+  <g transform="translate(266, 10) scale(1.15)" fill="#3fb950">
+    <g transform="translate(1.000000, 0.000000)">
+      <rect x="0" y="15" width="15.938" height="0.969"/>
+      <path d="M14.906,0.065 L10.15,0.94 L11.759,2.549 L6.979,6.606 L2.9,3.274 C2.693,3.092 2.377,3.112 2.195,3.321 C2.012,3.529 2.034,3.844 2.242,4.027 L6.987,7.941 L12.466,3.256 L14.15,4.94 L14.906,0.065 Z"/>
+      <rect x="11" y="7" width="2.951" height="6.878"/>
+      <rect x="1" y="8" width="2.982" height="5.878"/>
+      <rect x="6" y="10" width="2.951" height="3.892"/>
+    </g>
+  </g>
 
-  <text x="44" y="32" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="10" fill="#8b949e" letter-spacing="0.06em">AVG COMMITS PER REPO</text>
-  <text x="44" y="56" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="22" fill="#e6edf3" font-weight="700">52.6</text>
-  <text x="44" y="72" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="11" fill="#8b949e">683 commits across 13 repos</text>
-
-  <rect y="79" width="320" height="1" fill="rgba(48, 54, 61, 0.8)" rx="0"/>
+  <text x="20" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#6e7681">Avg commits per repo</text>
+  <text x="20" y="50" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="500" fill="#e6edf3">{{average}}</text>
+  <text x="20" y="68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#8b949e">{{detail_text}}</text>
 </svg>

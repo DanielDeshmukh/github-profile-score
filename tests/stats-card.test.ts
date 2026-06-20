@@ -35,7 +35,6 @@ describe('StatsCardRenderer', () => {
       expect(svg).toContain('</svg>');
       expect(svg).toContain(tokens.bg);
       expect(svg).toContain(tokens.textPrimary);
-      expect(svg).toContain(tokens.textSecondary);
     });
 
     it('should include stat labels and values', () => {
@@ -60,7 +59,7 @@ describe('StatsCardRenderer', () => {
     it('should have correct viewBox dimensions', () => {
       const svg = renderStatsCard('testuser', createMockStats());
       expect(svg).toContain('width="480"');
-      expect(svg).toContain('height="180"');
+      expect(svg).toContain('height="210"');
     });
   });
 
@@ -114,7 +113,7 @@ describe('StatsCardRenderer', () => {
     it('should have correct viewBox dimensions', () => {
       const svg = renderLanguagesCard(createMockLanguages());
       expect(svg).toContain('width="480"');
-      expect(svg).toContain('height="180"');
+      expect(svg).toContain('height="240"');
     });
   });
 
