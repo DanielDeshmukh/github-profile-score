@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="100" viewBox="0 0 320 100">
+  <rect width="320" height="100" fill="#0d1117" rx="6" stroke="#30363d" stroke-width="0.5"/>
+
+  <text x="20" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#6e7681">Commit pattern</text>
+
+  <text x="20" y="46" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="500" fill="#e6edf3">Weekdays: 0% / 0%</text>
+
+  <text x="20" y="68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="500" fill="#e6edf3">Peak: Mornings</text>
+
+  <text x="20" y="88" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#8b949e">0 commits sampled (last 90 days)</text>
+</svg>

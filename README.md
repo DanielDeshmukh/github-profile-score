@@ -62,36 +62,35 @@ The scoring is intentionally transparent — no black box. Raw scores are calcul
 
 ## Visual Templates
 
-All SVG card outputs are available as static templates in the [`templates/`](./templates/) directory. Open them in a browser to see exactly what each card looks like.
+All SVG card outputs are available as static templates in the [`templates-v2/`](./templates-v2/) directory. Open them in a browser to see exactly what each card looks like. Generated with real data from the DanielDeshmukh account.
 
 ### Score & Stats Cards
 
 | Card | Preview File | Dimensions |
 |------|-------------|------------|
-| Score Badge | [`01-score-badge.svg`](./templates/01-score-badge.svg) | 480×260 |
-| Contributions Card | [`02-contributions-card.svg`](./templates/02-contributions-card.svg) | 480×200 |
-| Overview Card | [`03-overview-card.svg`](./templates/03-overview-card.svg) | 480×200 |
-| Languages Card | [`04-languages-card.svg`](./templates/04-languages-card.svg) | 480×200 |
+| Score Badge | [`01-score-badge.svg`](./templates-v2/01-score-badge.svg) | 480×200 |
+| Contributions Card | [`02-contributions-card.svg`](./templates-v2/02-contributions-card.svg) | 480×180 |
+| Overview Card | [`03-overview-card.svg`](./templates-v2/03-overview-card.svg) | 480×180 |
+| Languages Card | [`04-languages-card.svg`](./templates-v2/04-languages-card.svg) | 480×180 |
 
 ### Insight Widgets
 
 | Widget | Preview File | Dimensions |
 |--------|-------------|------------|
-| Most Active Repo | [`05-insight-most-active-repo.svg`](./templates/05-insight-most-active-repo.svg) | 320×80 |
-| Account Age | [`06-insight-account-age.svg`](./templates/06-insight-account-age.svg) | 320×80 |
-| Most Starred Repo | [`07-insight-most-starred-repo.svg`](./templates/07-insight-most-starred-repo.svg) | 320×80 |
-| Contribution Trend | [`08-insight-contribution-trend.svg`](./templates/08-insight-contribution-trend.svg) | 320×80 |
-| Avg Commits per Repo | [`09-insight-avg-commits-per-repo.svg`](./templates/09-insight-avg-commits-per-repo.svg) | 320×80 |
-| Longest-Maintained Repo | [`10-insight-longest-maintained-repo.svg`](./templates/10-insight-longest-maintained-repo.svg) | 320×80 |
-| Commit Pattern | [`11-insight-commit-pattern.svg`](./templates/11-insight-commit-pattern.svg) | 320×100 |
-| Commits per Tenure | [`12-insight-commits-per-tenure.svg`](./templates/12-insight-commits-per-tenure.svg) | 320×80 |
+| Most Active Repo | [`05-insight-most-active-repo.svg`](./templates-v2/05-insight-most-active-repo.svg) | 320×80 |
+| Account Age | [`06-insight-account-age.svg`](./templates-v2/06-insight-account-age.svg) | 320×80 |
+| Most Starred Repo | [`07-insight-most-starred-repo.svg`](./templates-v2/07-insight-most-starred-repo.svg) | 320×80 |
+| Contribution Trend | [`08-insight-contribution-trend.svg`](./templates-v2/08-insight-contribution-trend.svg) | 320×80 |
+| Avg Commits per Repo | [`09-insight-avg-commits-per-repo.svg`](./templates-v2/09-insight-avg-commits-per-repo.svg) | 320×80 |
+| Commit Pattern | [`11-insight-commit-pattern.svg`](./templates-v2/11-insight-commit-pattern.svg) | 320×100 |
+| Commits per Tenure | [`12-insight-commits-per-tenure.svg`](./templates-v2/12-insight-commits-per-tenure.svg) | 320×80 |
 
 ### Error States
 
 | Error | Preview File |
 |-------|-------------|
-| Rate Limit | [`13-error-rate-limit.svg`](./templates/13-error-rate-limit.svg) |
-| User Not Found | [`14-error-user-not-found.svg`](./templates/14-error-user-not-found.svg) |
+| Rate Limit | [`13-error-rate-limit.svg`](./templates-v2/13-error-rate-limit.svg) |
+| User Not Found | [`14-error-user-not-found.svg`](./templates-v2/14-error-user-not-found.svg) |
 
 ---
 
@@ -143,9 +142,9 @@ Embed the job-readiness score badge in your README:
 
 **How it looks on your README:**
 
-![Score Badge](./templates/01-score-badge.svg)
+![Score Badge](./templates-v2/01-score-badge.svg)
 
-The badge renders a 480×260 card with:
+The badge renders a 480×200 card with:
 - User avatar and `@username`
 - Circular grade ring (A–F) with numeric score
 - 5 dimension progress bars (Activity, Quality, Documentation, Diversity, Community)
@@ -169,8 +168,8 @@ The badge renders a 480×260 card with:
 
 | Status | Condition | How it looks |
 |--------|-----------|--------------|
-| `404` | User not found | ![Not Found](./templates/14-error-user-not-found.svg) |
-| `429` | Rate limited | ![Rate Limit](./templates/13-error-rate-limit.svg) |
+| `404` | User not found | ![Not Found](./templates-v2/14-error-user-not-found.svg) |
+| `429` | Rate limited | ![Rate Limit](./templates-v2/13-error-rate-limit.svg) |
 
 ---
 
@@ -255,7 +254,7 @@ Embed the contributions/streak card in your README:
 
 **How it looks on your README:**
 
-![Contributions Card](./templates/02-contributions-card.svg)
+![Contributions Card](./templates-v2/02-contributions-card.svg)
 
 The card renders a 480×200 card showing:
 - Total contributions count and date range
@@ -275,7 +274,7 @@ Embed the GitHub stats overview card in your README:
 
 **How it looks on your README:**
 
-![Overview Card](./templates/03-overview-card.svg)
+![Overview Card](./templates-v2/03-overview-card.svg)
 
 The card renders a 480×200 card showing:
 - Repos count (public/total)
@@ -296,7 +295,7 @@ Embed the language breakdown card in your README:
 
 **How it looks on your README:**
 
-![Languages Card](./templates/04-languages-card.svg)
+![Languages Card](./templates-v2/04-languages-card.svg)
 
 The card renders a 480×200 card showing:
 - Language names with proportional progress bars
@@ -324,7 +323,7 @@ Embed the most active repository widget in your README:
 
 **How it looks on your README:**
 
-![Most Active Repo](./templates/05-insight-most-active-repo.svg)
+![Most Active Repo](./templates-v2/05-insight-most-active-repo.svg)
 
 Shows the repository where the user has the most commits. Displays:
 - Repository name (clickable link)
@@ -345,7 +344,7 @@ Embed the account age widget in your README:
 
 **How it looks on your README:**
 
-![Account Age](./templates/06-insight-account-age.svg)
+![Account Age](./templates-v2/06-insight-account-age.svg)
 
 Shows how long the GitHub account has existed. Displays:
 - Years and months since creation
@@ -366,7 +365,7 @@ Embed the most starred repository widget in your README:
 
 **How it looks on your README:**
 
-![Most Starred Repo](./templates/07-insight-most-starred-repo.svg)
+![Most Starred Repo](./templates-v2/07-insight-most-starred-repo.svg)
 
 Shows the user's repository with the most GitHub stars. Displays:
 - Repository name (clickable link)
@@ -387,7 +386,7 @@ Embed the contribution trend widget in your README:
 
 **How it looks on your README:**
 
-![Contribution Trend](./templates/08-insight-contribution-trend.svg)
+![Contribution Trend](./templates-v2/08-insight-contribution-trend.svg)
 
 Shows year-over-year contribution change with directional arrows. Displays:
 - Percentage change (↑/↓/→)
@@ -414,7 +413,7 @@ Embed the average commits per repository widget in your README:
 
 **How it looks on your README:**
 
-![Avg Commits per Repo](./templates/09-insight-avg-commits-per-repo.svg)
+![Avg Commits per Repo](./templates-v2/09-insight-avg-commits-per-repo.svg)
 
 Shows average commits per active repository. Displays:
 - Average commit count
@@ -435,7 +434,7 @@ Embed the longest-maintained repository widget in your README:
 
 **How it looks on your README:**
 
-![Longest Maintained](./templates/10-insight-longest-maintained-repo.svg)
+![Longest Maintained](./templates-v2/10-insight-longest-maintained-repo.svg)
 
 Shows the repository with the longest maintenance span. Displays:
 - Repository name (clickable link)
@@ -462,7 +461,7 @@ Embed the commit pattern widget in your README:
 
 **How it looks on your README:**
 
-![Commit Pattern](./templates/11-insight-commit-pattern.svg)
+![Commit Pattern](./templates-v2/11-insight-commit-pattern.svg)
 
 Shows the user's approximate commit time-of-day and day-of-week pattern. **Labeled approximate** — based on a 90-day sample. Displays:
 - Dominant day type (weekday/weekend) with percentages
@@ -490,7 +489,7 @@ Embed the commits per tenure widget in your README:
 
 **How it looks on your README:**
 
-![Commits per Tenure](./templates/12-insight-commits-per-tenure.svg)
+![Commits per Tenure](./templates-v2/12-insight-commits-per-tenure.svg)
 
 Shows average commits per year of account tenure. Zero new API calls — pure derivation from profile age and contribution count. Displays:
 - Commits per year average

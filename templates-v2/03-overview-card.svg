@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="180" viewBox="0 0 480 180">
+  <rect width="480" height="180" fill="#0d1117" rx="12"/>
+
+  <text x="30" y="20" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="#8b949e">DanielDeshmukh's GitHub stats</text>
+
+  <text x="30" y="60" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="500" fill="#e6edf3">18</text>
+  <text x="30" y="74" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#6e7681">Stars</text>
+
+  <text x="170" y="60" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="500" fill="#e6edf3">1.1k</text>
+  <text x="170" y="74" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#6e7681">Commits (last year)</text>
+
+  <text x="310" y="60" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="500" fill="#e6edf3">51</text>
+  <text x="310" y="74" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#6e7681">Pull requests</text>
+
+  <line x1="30" y1="100" x2="450" y2="100" stroke="#30363d" stroke-width="0.5"/>
+
+  <text x="30" y="116" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#6e7681">Top languages</text>
+
+  <rect x="30" y="128" width="181.85999999999999" height="8" rx="4" fill="#3572A5"/><rect x="211.85999999999999" y="128" width="169.67999999999998" height="8" rx="4" fill="#f1e05a"/><rect x="381.53999999999996" y="128" width="42.839999999999996" height="8" rx="4" fill="#3178c6"/><rect x="424.37999999999994" y="128" width="10.920000000000002" height="8" rx="4" fill="#663399"/><rect x="435.29999999999995" y="128" width="7.140000000000001" height="8" rx="4" fill="#e34c26"/>
+
+  <circle cx="33.5" cy="158" r="3.5" fill="#3572A5"/><text x="42" y="162" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#8b949e">Python</text>
+  <circle cx="97.5" cy="158" r="3.5" fill="#f1e05a"/><text x="106" y="162" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#8b949e">JavaScript</text>
+  <circle cx="189.5" cy="158" r="3.5" fill="#3178c6"/><text x="198" y="162" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#8b949e">TypeScript</text>
+  <circle cx="281.5" cy="158" r="3.5" fill="#663399"/><text x="290" y="162" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#8b949e">CSS</text>
+  <circle cx="324.5" cy="158" r="3.5" fill="#e34c26"/><text x="333" y="162" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#8b949e">HTML</text>
+  <text x="371" y="162" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#6e7681">+7 more</text>
+</svg>
