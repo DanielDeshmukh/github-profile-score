@@ -62,7 +62,9 @@ The scoring is intentionally transparent — no black box. Raw scores are calcul
 
 ## Visual Templates
 
-All SVG card outputs are available as static templates in the [`templates-v2/`](./templates-v2/) directory. Open them in a browser to see exactly what each card looks like. Generated with real data from the DanielDeshmukh account.
+All SVG card outputs are available as static templates in the [`templates-v2/`](./templates-v2/) directory. Open them in a browser to see exactly what each card looks like.
+
+> **Note:** These templates contain hardcoded example data ( usernames, scores, dates ) for preview purposes only. Live renders will show real data for the requested GitHub user.
 
 ### Score & Stats Cards
 

@@ -43,7 +43,7 @@ export function renderContributionsCard(
   <text x="30" y="36" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="24" font-weight="500" fill="${tokens.textPrimary}">${contributions.totalContributions.toLocaleString()}</text>
   <text x="450" y="36" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="${tokens.textTertiary}" text-anchor="end">${escapeHtml(dateRange)}</text>
 
-  <text x="30" y="44" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="${tokens.textSecondary}">Contributions</text>
+  <text x="30" y="54" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="${tokens.textSecondary}">Contributions</text>
 
   <rect x="30" y="${tileY}" width="210" height="${tileH}" rx="6" fill="${tokens.bgTile}"/>
   ${flameIcon(flameX, tileY + 12)}
@@ -55,9 +55,9 @@ export function renderContributionsCard(
   <text x="284" y="${tileY + 20}" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="500" fill="${tokens.textPrimary}">${contributions.longestStreak} days</text>
   <text x="284" y="${tileY + 32}" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="${tokens.textTertiary}">longest streak</text>
 
-  <text x="30" y="150" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="${tokens.textTertiary}">Last 12 weeks</text>
+  <text x="30" y="130" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="${tokens.textTertiary}">Last 12 weeks</text>
 
-  ${renderSparkline({ x: 30, y: 160, totalWidth: 420, height: 20, segments: 12, weeklyCounts })}
+  ${renderSparkline({ x: 30, y: 145, totalWidth: 420, height: 20, segments: 12, weeklyCounts })}
 </svg>`;
 }
 
