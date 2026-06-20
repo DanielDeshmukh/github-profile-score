@@ -68,7 +68,7 @@ All SVG card outputs are available as static templates in the [`templates-v2/`](
 
 | Card | Preview File | Dimensions |
 |------|-------------|------------|
-| Score Badge | [`01-score-badge.svg`](./templates-v2/01-score-badge.svg) | 480×200 |
+| Score Badge | [`01-score-badge.svg`](./templates-v2/01-score-badge.svg) | 480×224 |
 | Contributions Card | [`02-contributions-card.svg`](./templates-v2/02-contributions-card.svg) | 480×180 |
 | Overview Card | [`03-overview-card.svg`](./templates-v2/03-overview-card.svg) | 480×180 |
 | Languages Card | [`04-languages-card.svg`](./templates-v2/04-languages-card.svg) | 480×180 |
@@ -144,7 +144,7 @@ Embed the job-readiness score badge in your README:
 
 ![Score Badge](./templates-v2/01-score-badge.svg)
 
-The badge renders a 480×200 card with:
+The badge renders a 480×224 card with:
 - User avatar and `@username`
 - Circular grade ring (A–F) with numeric score
 - 5 dimension progress bars (Activity, Quality, Documentation, Diversity, Community)
@@ -256,7 +256,7 @@ Embed the contributions/streak card in your README:
 
 ![Contributions Card](./templates-v2/02-contributions-card.svg)
 
-The card renders a 480×200 card showing:
+The card renders a 480×180 card showing:
 - Total contributions count and date range
 - Current streak with progress ring
 - Longest streak count
@@ -276,7 +276,7 @@ Embed the GitHub stats overview card in your README:
 
 ![Overview Card](./templates-v2/03-overview-card.svg)
 
-The card renders a 480×200 card showing:
+The card renders a 480×180 card showing:
 - Repos count (public/total)
 - Total stars earned
 - Followers/following counts
@@ -297,7 +297,7 @@ Embed the language breakdown card in your README:
 
 ![Languages Card](./templates-v2/04-languages-card.svg)
 
-The card renders a 480×200 card showing:
+The card renders a 480×180 card showing:
 - Language names with proportional progress bars
 - Byte counts for each language
 - Percentage breakdown

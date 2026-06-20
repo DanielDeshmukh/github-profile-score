@@ -98,3 +98,29 @@ The root cause is that `fetchCommitSpans()` makes one GraphQL call per repo (up 
 - `npm run lint`: passes
 - `npm test`: all tests pass (pre-existing `ratelimit.test.ts` timeout excluded)
 - Error templates exist at `templates-v2/13-error-rate-limit.svg` and `templates-v2/14-error-user-not-found.svg`
+
+## Re-verification (Issue 1 — 2026-06-20)
+
+**Previous concern:** Live screenshot showed footer text still overlapping metric tiles despite the fix being in source code.
+
+**Re-verification results:**
+
+| Check | Result |
+|-------|--------|
+| Source (`SvgRenderer.ts` line 68) | `height="224"`, `viewBox="0 0 480 224"` |
+| Source (`SvgRenderer.ts` lines 80-81) | Footer at `y="210"` |
+| Build output (`dist/renderer/SvgRenderer.js` line 55) | `height="224"`, `viewBox="0 0 480 224"` |
+| Build output (`dist/renderer/SvgRenderer.js` lines 67-68) | Footer at `y="210"` |
+| Local server (fresh build, `?refresh=1`) | `height="224"`, `y="210"` |
+| Production (`railway.app/score/DanielDeshmukh.svg`) | `height="224"`, `y="210"` |
+| Git status | On `main`, up to date with `origin/main` |
+| Latest commit | `50d8537` — includes all 5 regression fixes |
+
+**Conclusion:** The fix IS deployed to production. The earlier overlap report was likely based on a stale browser cache or a snapshot taken before the fix was deployed. All 5 verification steps confirm correct rendering.
+
+**Step-by-step evidence:**
+1. ✅ Source file has correct y=210 and height=224
+2. ✅ SVG root height matches at 224px with viewBox "0 0 480 224"
+3. ✅ Compiled JS output at `dist/` matches source exactly
+4. ✅ Local server renders with 16px gap between tile row 2 (y=194) and footer (y=210)
+5. ✅ Production server at `github-profile-score-production-db22.up.railway.app` returns correct SVG

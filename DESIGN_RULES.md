@@ -105,8 +105,8 @@ that didn't have one specified.
 
 ## Per-card specs
 
-### 1. Score badge (`/score/:username.svg`) — 480x200 (reduced from 480x260, no
-longer needs room for 5 stacked progress bars)
+### 1. Score badge (`/score/:username.svg`) — 480x224 (expanded from 480x200 to
+prevent footer text from overlapping metric tiles)
 
 Layout, top to bottom:
 - y=20: initials avatar circle (cx=38, cy=38, r=18) + `@username` text at x=66 y=34
