@@ -12,12 +12,17 @@ interface RateLimitState {
   reset: number;
 }
 
-interface GitHubEvent {
-  id: string;
-  type: string;
-  created_at: string;
-  repo: { name: string };
-  payload: Record<string, unknown>;
+interface SearchCommitItem {
+  commit: {
+    author: {
+      date: string;
+    };
+  };
+}
+
+interface SearchCommitsResponse {
+  total_count: number;
+  items: SearchCommitItem[];
 }
 
 export interface CommitTimestamp {
@@ -30,7 +35,7 @@ export class CommitPatternFetcher {
   private rateLimit: RateLimitState = { remaining: 5000, reset: 0 };
   private circuitBreaker = new CircuitBreaker(5, 30000);
 
-  private async fetchJson<T>(url: string): Promise<T> {
+  private async fetchJson<T>(url: string, acceptHeader?: string): Promise<T> {
     const config = getConfig();
 
     if (this.rateLimit.remaining < 10) {
@@ -43,7 +48,7 @@ export class CommitPatternFetcher {
         const res = await fetch(url, {
           headers: {
             Authorization: `Bearer ${config.GITHUB_TOKEN}`,
-            Accept: 'application/vnd.github+json',
+            Accept: acceptHeader ?? 'application/vnd.github+json',
             'User-Agent': 'github-profile-score/1.0',
           },
         });
@@ -71,53 +76,55 @@ export class CommitPatternFetcher {
   }
 
   /**
-   * Fetch commit timestamps from the user's public events.
+   * Fetch commit timestamps using GitHub's Search API.
    *
-   * Uses the public events endpoint which returns up to 10 pages
-   * of 10 events each (100 events max). This is a rough sample —
-   * frame results as approximate, not authoritative.
+   * The /search/commits endpoint supports author-date filtering
+   * and returns full commit details including timestamps. The
+   * public events API does NOT include commit details in PushEvent
+   * payloads, so we use search instead.
    *
-   * The events endpoint returns PushEvents with commit timestamps
-   * in the payload, which we extract for time-of-day analysis.
+   * Search API returns up to 1000 results total, pages of 100.
+   * We fetch up to 1000 commits from the last 90 days (sufficient
+   * for time-of-day analysis).
+   *
+   * Requires the Accept: application/vnd.github.cloak-preview+json
+   * header for commit search to work.
    */
   async fetchCommitTimestamps(username: string): Promise<CommitTimestamp[]> {
-    log.info({ username }, 'Fetching commit timestamps from events');
+    log.info({ username }, 'Fetching commit timestamps from search API');
 
     const timestamps: CommitTimestamp[] = [];
-    const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() - 90);
+    const since = new Date();
+    since.setDate(since.getDate() - 90);
+    const sinceStr = since.toISOString().split('T')[0];
 
-    for (let page = 1; page <= 10; page++) {
+    const maxPages = 10;
+    for (let page = 1; page <= maxPages; page++) {
       try {
-        const events = await this.fetchJson<GitHubEvent[]>(
-          `https://api.github.com/users/${encodeURIComponent(username)}/events/public?per_page=100&page=${page}`,
+        const data = await this.fetchJson<SearchCommitsResponse>(
+          `https://api.github.com/search/commits?q=author:${encodeURIComponent(username)}+author-date:>=${sinceStr}&sort=author-date&order=desc&per_page=100&page=${page}`,
+          'application/vnd.github.cloak-preview+json',
         );
 
-        if (events.length === 0) break;
+        if (!data.items || data.items.length === 0) break;
 
-        for (const event of events) {
-          if (event.type !== 'PushEvent') continue;
-
-          const eventDate = new Date(event.created_at);
-          if (eventDate < cutoff) return timestamps;
-
-          const commits = event.payload.commits as Array<{ author: { date: string } }> | undefined;
-          if (!commits) continue;
-
-          for (const commit of commits) {
-            const d = new Date(commit.author.date);
-            timestamps.push({
-              date: d.toISOString().split('T')[0]!,
-              hour: d.getUTCHours(),
-              dayOfWeek: d.getUTCDay(),
-            });
-          }
+        for (const item of data.items) {
+          const d = new Date(item.commit.author.date);
+          timestamps.push({
+            date: d.toISOString().split('T')[0]!,
+            hour: d.getUTCHours(),
+            dayOfWeek: d.getUTCDay(),
+          });
         }
-      } catch {
+
+        if (data.items.length < 100) break;
+      } catch (err) {
+        log.warn({ err, page }, 'Failed to fetch commit search page');
         break;
       }
     }
 
+    log.info({ username, totalTimestamps: timestamps.length }, 'Fetched commit timestamps');
     return timestamps;
   }
 
