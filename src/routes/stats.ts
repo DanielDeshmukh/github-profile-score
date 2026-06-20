@@ -80,7 +80,7 @@ async function handleOverviewSvg(req: Request, res: Response): Promise<void> {
       'Cache-Control': 'public, max-age=3600, s-maxage=3600',
       ETag: `"${result.profile.totalStarsEarned}-${result.generated_at}"`,
     });
-    res.send(renderStatsCard(username, result.profile));
+    res.send(renderStatsCard(username, result.profile, result.languages));
   } catch (err) {
     res.set({ 'Content-Type': 'image/svg+xml', 'Cache-Control': 'no-cache' });
     if (err instanceof GitHubRateLimitError) {
