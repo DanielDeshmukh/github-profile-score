@@ -55,7 +55,7 @@ async function handleContributionsSvg(req: Request, res: Response): Promise<void
     const result = await getCachedOrComputeStats(username, refresh);
     res.set({
       'Content-Type': 'image/svg+xml',
-      'Cache-Control': 'public, max-age=3600, s-maxage=3600',
+      'Cache-Control': 'public, max-age=300, s-maxage=300',
       ETag: `"${result.contributions.totalContributions}-${result.generated_at}"`,
     });
     res.send(renderContributionsCard(username, result.contributions));
@@ -77,7 +77,7 @@ async function handleOverviewSvg(req: Request, res: Response): Promise<void> {
     const result = await getCachedOrComputeStats(username, refresh);
     res.set({
       'Content-Type': 'image/svg+xml',
-      'Cache-Control': 'public, max-age=3600, s-maxage=3600',
+      'Cache-Control': 'public, max-age=300, s-maxage=300',
       ETag: `"${result.profile.totalStarsEarned}-${result.generated_at}"`,
     });
     res.send(renderStatsCard(username, result.profile, result.languages));
@@ -99,7 +99,7 @@ async function handleLanguagesSvg(req: Request, res: Response): Promise<void> {
     const result = await getCachedOrComputeStats(username, refresh);
     res.set({
       'Content-Type': 'image/svg+xml',
-      'Cache-Control': 'public, max-age=3600, s-maxage=3600',
+      'Cache-Control': 'public, max-age=300, s-maxage=300',
       ETag: `"languages-${result.generated_at}"`,
     });
     res.send(renderLanguagesCard(result.languages));

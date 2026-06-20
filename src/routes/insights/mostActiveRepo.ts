@@ -46,7 +46,7 @@ export function mostActiveRepoRouter(
 
       res.set({
         'Content-Type': 'image/svg+xml',
-        'Cache-Control': 'public, max-age=3600, s-maxage=3600',
+        'Cache-Control': 'public, max-age=300, s-maxage=300',
         ETag: `"${result.repoName}-${result.commitCount}"`,
       });
       res.send(renderMostActiveRepoCard(result.repoName, result.commitCount, result.repoUrl));

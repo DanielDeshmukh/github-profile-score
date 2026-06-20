@@ -39,7 +39,7 @@ export function longestMaintainedRepoRouter(
 
       res.set({
         'Content-Type': 'image/svg+xml',
-        'Cache-Control': 'public, max-age=3600, s-maxage=3600',
+        'Cache-Control': 'public, max-age=300, s-maxage=300',
         ETag: `"${result.repoName}-${result.spanDays}"`,
       });
       res.send(renderLongestMaintainedCard(result.repoName, result.spanDays, result.repoUrl, result.firstCommitDate));
