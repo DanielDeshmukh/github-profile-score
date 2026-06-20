@@ -1,14 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import { renderCommitPatternCard } from '../../src/renderer/insights/CommitPatternCard.js';
-import { THEME } from '../../src/theme/tokens.js';
+import { tokens } from '../../src/theme/tokens.js';
 
 describe('CommitPatternCard renderer', () => {
   it('should render SVG with theme colors', () => {
     const svg = renderCommitPatternCard('weekday', 'afternoon', 80, 20, 100);
     expect(svg).toContain('<svg');
-    expect(svg).toContain(THEME.cream);
-    expect(svg).toContain(THEME.goldLight);
-    expect(svg).toContain(THEME.silver);
+    expect(svg).toContain(tokens.bg);
+    expect(svg).toContain(tokens.textTertiary);
+    expect(svg).toContain(tokens.border);
   });
 
   it('should display weekday percentages', () => {

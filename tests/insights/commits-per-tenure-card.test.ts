@@ -1,14 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import { renderCommitsPerTenureCard } from '../../src/renderer/insights/CommitsPerTenureCard.js';
-import { THEME } from '../../src/theme/tokens.js';
+import { tokens } from '../../src/theme/tokens.js';
 
 describe('CommitsPerTenureCard renderer', () => {
   it('should render SVG with theme colors', () => {
     const svg = renderCommitsPerTenureCard(100, 500, 5);
     expect(svg).toContain('<svg');
-    expect(svg).toContain(THEME.cream);
-    expect(svg).toContain(THEME.goldLight);
-    expect(svg).toContain(THEME.silver);
+    expect(svg).toContain(tokens.bg);
+    expect(svg).toContain(tokens.textTertiary);
+    expect(svg).toContain(tokens.border);
   });
 
   it('should display average with 1 decimal', () => {

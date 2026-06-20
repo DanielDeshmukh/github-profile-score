@@ -1,14 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import { renderMostActiveRepoCard, renderMostActiveRepoEmptySvg } from '../../src/renderer/insights/MostActiveRepoCard.js';
-import { THEME } from '../../src/theme/tokens.js';
+import { tokens } from '../../src/theme/tokens.js';
 
 describe('MostActiveRepoCard renderer', () => {
   it('should render SVG with theme colors', () => {
     const svg = renderMostActiveRepoCard('my-project', 340, 'https://github.com/user/my-project');
     expect(svg).toContain('<svg');
-    expect(svg).toContain(THEME.cream);
-    expect(svg).toContain(THEME.goldLight);
-    expect(svg).toContain(THEME.silver);
+    expect(svg).toContain(tokens.bg);
+    expect(svg).toContain(tokens.textTertiary);
+    expect(svg).toContain(tokens.border);
   });
 
   it('should include repo name and commit count', () => {
@@ -49,6 +49,6 @@ describe('MostActiveRepoCard renderer', () => {
     const svg = renderMostActiveRepoEmptySvg();
     expect(svg).toContain('<svg');
     expect(svg).toContain('No public repos found');
-    expect(svg).toContain(THEME.cream);
+    expect(svg).toContain(tokens.bg);
   });
 });
