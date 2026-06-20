@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="480" height="180" viewBox="0 0 480 180">
   <rect width="480" height="180" fill="#0d1117" rx="12"/>
 
-  <text x="30" y="20" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="#8b949e">DanielDeshmukh's GitHub stats</text>
+  <text x="15" y="25" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="#8b949e">DanielDeshmukh's GitHub stats</text>
 
   <text x="30" y="60" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="500" fill="#e6edf3">18</text>
   <text x="30" y="74" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" fill="#6e7681">Stars</text>

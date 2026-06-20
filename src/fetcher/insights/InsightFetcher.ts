@@ -32,6 +32,12 @@ interface RepoCommitHistoryData {
   } | null;
 }
 
+interface UserIdData {
+  user: {
+    id: string;
+  } | null;
+}
+
 export class InsightFetcher {
   private rateLimit: RateLimitState = { remaining: 5000, reset: 0 };
   private circuitBreaker = new CircuitBreaker(5, 30000);
@@ -99,17 +105,28 @@ export class InsightFetcher {
     return deduplicate(`insight:repo-commits:${username}`, async () => {
       log.info({ username, repoCount: repos.length }, 'Fetching per-repo commit counts');
 
+      const userId = await this.fetchUserId(username);
+      if (!userId) {
+        log.warn({ username }, 'Could not resolve user ID, skipping commit counts');
+        return repos.slice(0, 20).map(repo => ({
+          repoName: repo.name,
+          repoUrl: repo.html_url,
+          commitCount: 0,
+          pushedAt: repo.pushed_at,
+        }));
+      }
+
       const results: RepoCommitCount[] = [];
 
       for (const repo of repos.slice(0, 20)) {
         try {
           const data = await this.graphql<RepoCommitHistoryData>(
-            `query ($owner: String!, $name: String!, $author: String!) {
+            `query ($owner: String!, $name: String!, $authorId: ID!) {
               repository(owner: $owner, name: $name) {
                 defaultBranchRef {
                   target {
                     ... on Commit {
-                      history(author: { login: $author }) {
+                      history(author: { id: $authorId }) {
                         totalCount
                       }
                     }
@@ -120,7 +137,7 @@ export class InsightFetcher {
             {
               owner: repo.full_name.split('/')[0] ?? username,
               name: repo.name,
-              author: username,
+              authorId: userId,
             },
           );
 
@@ -133,7 +150,8 @@ export class InsightFetcher {
             commitCount,
             pushedAt: repo.pushed_at,
           });
-        } catch {
+        } catch (err) {
+          log.warn({ err, repo: repo.name, owner: repo.full_name.split('/')[0] }, 'Failed to fetch commit count');
           results.push({
             repoName: repo.name,
             repoUrl: repo.html_url,
@@ -149,5 +167,22 @@ export class InsightFetcher {
 
   getRateLimitRemaining(): number {
     return this.rateLimit.remaining;
+  }
+
+  private async fetchUserId(username: string): Promise<string | null> {
+    try {
+      const data = await this.graphql<UserIdData>(
+        `query ($login: String!) {
+          user(login: $login) {
+            id
+          }
+        }`,
+        { login: username },
+      );
+      return data.user?.id ?? null;
+    } catch (err) {
+      log.warn({ err, username }, 'Failed to resolve user ID');
+      return null;
+    }
   }
 }
