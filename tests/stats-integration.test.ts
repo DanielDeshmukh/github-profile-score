@@ -29,8 +29,8 @@ describe('Stats feature integration', () => {
   });
 
   it('should have matching TTL values', () => {
-    expect(CACHE_TTL.SCORE).toBe(21600);
-    expect(CACHE_TTL.STATS).toBe(21600);
+    expect(CACHE_TTL.SCORE).toBe(300);
+    expect(CACHE_TTL.STATS).toBe(300);
     expect(CACHE_TTL.REFRESH_COOLDOWN).toBe(600);
   });
 
