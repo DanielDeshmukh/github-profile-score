@@ -6,4 +6,8 @@
     <a href="https:&#x2F;&#x2F;github.com&#x2F;DanielDeshmukh&#x2F;TradeX" style="text-decoration:none;fill:inherit">TradeX</a>
   </text>
   <text x="20" y="68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#8b949e">208 commits</text>
+
+  <g transform="translate(284, 14) scale(0.8333)">
+    <path stroke="#3fb950" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" fill="none" d="M12 16a4 4 0 0 1 0-8m0 8a4 4 0 0 0 0-8m0 8v5m0-13V3"/>
+  </g>
 </svg>
