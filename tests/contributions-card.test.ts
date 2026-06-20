@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { renderContributionsCard, renderContributionsErrorSvg } from '../src/renderer/ContributionsCardRenderer.js';
 import type { ContributionStats } from '../src/types/stats.js';
-import { THEME, tokens } from '../src/theme/tokens.js';
+import { tokens } from '../src/theme/tokens.js';
 
 function createMockStats(overrides: Partial<ContributionStats> = {}): ContributionStats {
   return {
@@ -23,10 +23,9 @@ describe('ContributionsCardRenderer', () => {
 
     expect(svg).toContain('<svg');
     expect(svg).toContain('</svg>');
-    expect(svg).toContain(THEME.cream);
-    expect(svg).toContain(tokens.purple);
-    expect(svg).toContain(THEME.goldLight);
-    expect(svg).toContain(THEME.silver);
+    expect(svg).toContain(tokens.bg);
+    expect(svg).toContain(tokens.textPrimary);
+    expect(svg).toContain(tokens.textSecondary);
   });
 
   it('should include total contributions', () => {
@@ -34,7 +33,7 @@ describe('ContributionsCardRenderer', () => {
     const svg = renderContributionsCard('testuser', stats);
 
     expect(svg).toContain('1,234');
-    expect(svg).toContain('Total Contributions');
+    expect(svg).toContain('Contributions');
   });
 
   it('should include current streak', () => {
@@ -42,7 +41,7 @@ describe('ContributionsCardRenderer', () => {
     const svg = renderContributionsCard('testuser', stats);
 
     expect(svg).toContain('21');
-    expect(svg).toContain('day streak');
+    expect(svg).toContain('current streak');
   });
 
   it('should include longest streak', () => {
@@ -50,7 +49,7 @@ describe('ContributionsCardRenderer', () => {
     const svg = renderContributionsCard('testuser', stats);
 
     expect(svg).toContain('45');
-    expect(svg).toContain('Longest Streak');
+    expect(svg).toContain('longest streak');
   });
 
   it('should handle zero contributions', () => {
@@ -61,17 +60,17 @@ describe('ContributionsCardRenderer', () => {
     });
     const svg = renderContributionsCard('testuser', stats);
 
-    expect(svg).toContain('0');
-    expect(svg).toContain('No active streak');
-    expect(svg).toContain('N&#x2F;A');
+    expect(svg).toContain('>0<');
+    expect(svg).toContain('current streak');
+    expect(svg).toContain('longest streak');
   });
 
   it('should escape username in error SVG', () => {
     const svg = renderContributionsErrorSvg('testuser');
 
     expect(svg).toContain('testuser');
-    expect(svg).toContain('Contributions Unavailable');
-    expect(svg).toContain(THEME.cream);
+    expect(svg).toContain('Contributions unavailable');
+    expect(svg).toContain(tokens.bg);
     expect(svg).toContain(tokens.red);
   });
 
@@ -80,16 +79,16 @@ describe('ContributionsCardRenderer', () => {
     const svg = renderContributionsCard('testuser', stats);
 
     expect(svg).toContain('width="480"');
-    expect(svg).toContain('height="200"');
-    expect(svg).toContain('viewBox="0 0 480 200"');
+    expect(svg).toContain('height="180"');
+    expect(svg).toContain('viewBox="0 0 480 180"');
   });
 
-  it('should contain streak ring elements', () => {
+  it('should contain sparkline strip elements', () => {
     const stats = createMockStats({ currentStreak: 10, longestStreak: 20 });
     const svg = renderContributionsCard('testuser', stats);
 
-    expect(svg).toContain('stroke-dasharray');
-    expect(svg).toContain('stroke-dashoffset');
-    expect(svg).toContain('stroke-linecap="round"');
+    expect(svg).toContain('Last 12 weeks');
+    expect(svg).toContain('fill-opacity');
+    expect(svg).toContain(tokens.green);
   });
 });
