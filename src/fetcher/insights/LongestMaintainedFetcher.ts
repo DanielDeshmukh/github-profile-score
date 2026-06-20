@@ -15,16 +15,37 @@ interface GraphQLResponse<T> {
   errors?: Array<{ message: string }>;
 }
 
-interface CommitSpanData {
+interface CommitHistoryData {
   repository: {
-    firstCommit: { target: { history: { edges: Array<{ node: { committedDate: string } }> } } | null };
-    lastCommit: { target: { history: { edges: Array<{ node: { committedDate: string } }> } } | null };
+    defaultBranchRef: {
+      target: {
+        history: {
+          totalCount: number;
+          edges: Array<{ node: { committedDate: string } }>;
+        };
+      };
+    } | null;
   } | null;
+}
+
+interface UserIdData {
+  user: {
+    id: string;
+  } | null;
+}
+
+interface RestCommit {
+  commit: {
+    author: {
+      date: string;
+    };
+  };
 }
 
 export class LongestMaintainedFetcher {
   private rateLimit = { remaining: 5000, reset: 0 };
-  private circuitBreaker = new CircuitBreaker(5, 30000);
+  private graphqlCircuitBreaker = new CircuitBreaker(5, 30000);
+  private restCircuitBreaker = new CircuitBreaker(5, 30000);
 
   private async graphql<T>(query: string, variables?: Record<string, unknown>): Promise<T> {
     const config = getConfig();
@@ -34,7 +55,7 @@ export class LongestMaintainedFetcher {
       if (waitSeconds > 0) throw new RateLimitError(waitSeconds);
     }
 
-    return this.circuitBreaker.execute(async () => {
+    return this.graphqlCircuitBreaker.execute(async () => {
       const response = await withRetry(async () => {
         const res = await fetch('https://api.github.com/graphql', {
           method: 'POST',
@@ -73,14 +94,56 @@ export class LongestMaintainedFetcher {
     });
   }
 
+  private async restFetchJson<T>(url: string): Promise<T> {
+    const config = getConfig();
+
+    if (this.rateLimit.remaining < 10) {
+      const waitSeconds = Math.max(0, this.rateLimit.reset - Math.floor(Date.now() / 1000));
+      if (waitSeconds > 0) throw new RateLimitError(waitSeconds);
+    }
+
+    return this.restCircuitBreaker.execute(async () => {
+      const response = await withRetry(async () => {
+        const res = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${config.GITHUB_TOKEN}`,
+            Accept: 'application/vnd.github+json',
+            'User-Agent': 'github-profile-score/1.0',
+          },
+        });
+
+        const remaining = res.headers.get('x-ratelimit-remaining');
+        const reset = res.headers.get('x-ratelimit-reset');
+        if (remaining) this.rateLimit.remaining = parseInt(remaining, 10);
+        if (reset) this.rateLimit.reset = parseInt(reset, 10);
+
+        if (res.status === 404) throw new Error('NOT_FOUND');
+        if ((res.status === 403 || res.status === 429) && remaining === '0') {
+          const resetTimestamp = reset ? parseInt(reset, 10) : Math.floor(Date.now() / 1000) + 60;
+          throw new GitHubRateLimitError(new Date(resetTimestamp * 1000));
+        }
+        if (res.status === 403 || res.status === 429) {
+          const retryAfter = res.headers.get('retry-after');
+          throw new RateLimitError(retryAfter ? parseInt(retryAfter, 10) : 60);
+        }
+        if (!res.ok) throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
+        return res;
+      });
+
+      return (await response.json()) as T;
+    });
+  }
+
   /**
    * Fetch first and last commit dates per repo.
    *
-   * IMPORTANT: This is the most expensive insight — one GraphQL
-   * call per repo. Limited to MAX_REPOS (10) repos to control
-   * API quota. Uses the most recently pushed repos as a proxy
-   * for "repos the user cares about" since those are most likely
-   * to have meaningful commit spans.
+   * Strategy: GraphQL for newest commit + totalCount (1 call),
+   * REST API for oldest commit via page calculation (1 call).
+   * Total: 2 API calls per repo regardless of commit count.
+   *
+   * GraphQL history() defaults to reverse chronological, so
+   * first:1 = newest. REST returns reverse chronological too,
+   * so the oldest commit is on the last page.
    */
   async fetchCommitSpans(username: string, repos: GitHubRepo[]): Promise<RepoCommitSpan[]> {
     const targetRepos = repos
@@ -90,28 +153,27 @@ export class LongestMaintainedFetcher {
 
     log.info({ username, repoCount: targetRepos.length }, 'Fetching commit spans');
 
+    const userId = await this.fetchUserId(username);
+    if (!userId) {
+      log.warn({ username }, 'Could not resolve user ID, skipping commit spans');
+      return [];
+    }
+
     const results: RepoCommitSpan[] = [];
 
     for (const repo of targetRepos) {
       try {
         const owner = repo.full_name.split('/')[0] ?? username;
 
-        const data = await this.graphql<CommitSpanData>(
-          `query ($owner: String!, $name: String!, $author: String!) {
+        // Step 1: GraphQL — newest commit + total count
+        const gqlData = await this.graphql<CommitHistoryData>(
+          `query ($owner: String!, $name: String!, $authorId: ID!) {
             repository(owner: $owner, name: $name) {
-              firstCommit: defaultBranchRef {
+              defaultBranchRef {
                 target {
                   ... on Commit {
-                    history(author: { login: $author }, first: 1) {
-                      edges { node { committedDate } }
-                    }
-                  }
-                }
-              }
-              lastCommit: defaultBranchRef {
-                target {
-                  ... on Commit {
-                    history(author: { login: $author }, last: 1) {
+                    history(author: { id: $authorId }, first: 1) {
+                      totalCount
                       edges { node { committedDate } }
                     }
                   }
@@ -119,29 +181,83 @@ export class LongestMaintainedFetcher {
               }
             }
           }`,
-          { owner, name: repo.name, author: username },
+          { owner, name: repo.name, authorId: userId },
         );
 
-        const firstDate = data.repository?.firstCommit?.target?.history?.edges?.[0]?.node?.committedDate;
-        const lastDate = data.repository?.lastCommit?.target?.history?.edges?.[0]?.node?.committedDate;
+        const history = gqlData.repository?.defaultBranchRef?.target?.history;
+        const newestDate = history?.edges?.[0]?.node?.committedDate;
+        const totalCount = history?.totalCount ?? 0;
 
-        if (firstDate && lastDate) {
-          const spanDays = Math.round(
-            (new Date(lastDate).getTime() - new Date(firstDate).getTime()) / (1000 * 60 * 60 * 24),
-          );
-          results.push({
-            repoName: repo.name,
-            repoUrl: repo.html_url,
-            firstCommitDate: firstDate,
-            lastCommitDate: lastDate,
-            spanDays,
-          });
+        if (!newestDate || totalCount === 0) {
+          log.warn({ repo: repo.name }, 'No commits found by this user');
+          continue;
         }
-      } catch {
-        // Skip repos where commit span fetch fails
+
+        // Step 2: REST — oldest commit via page calculation
+        const lastPage = Math.ceil(totalCount / 100);
+        const oldestDate = await this.fetchOldestCommit(owner, repo.name, username, lastPage);
+
+        if (!oldestDate) {
+          log.warn({ repo: repo.name }, 'Could not determine oldest commit');
+          continue;
+        }
+
+        const spanDays = Math.round(
+          (new Date(newestDate).getTime() - new Date(oldestDate).getTime()) / (1000 * 60 * 60 * 24),
+        );
+
+        results.push({
+          repoName: repo.name,
+          repoUrl: repo.html_url,
+          firstCommitDate: oldestDate,
+          lastCommitDate: newestDate,
+          spanDays,
+        });
+      } catch (err) {
+        log.warn({ err, repo: repo.name, owner: repo.full_name.split('/')[0] }, 'Failed to fetch commit span');
       }
     }
 
     return results;
+  }
+
+  /**
+   * Fetch the oldest commit by a user in a repo using REST API.
+   *
+   * REST returns commits in reverse chronological order by default.
+   * We calculate which page has the oldest commit based on totalCount
+   * from GraphQL, then fetch just that page.
+   */
+  private async fetchOldestCommit(
+    owner: string,
+    repo: string,
+    username: string,
+    lastPage: number,
+  ): Promise<string | null> {
+    const commits = await this.restFetchJson<RestCommit[]>(
+      `https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/commits?author=${encodeURIComponent(username)}&per_page=100&page=${lastPage}`,
+    );
+
+    if (!Array.isArray(commits) || commits.length === 0) return null;
+
+    // REST returns newest-first, so last element on last page is oldest
+    return commits[commits.length - 1]?.commit.author.date ?? null;
+  }
+
+  private async fetchUserId(username: string): Promise<string | null> {
+    try {
+      const data = await this.graphql<UserIdData>(
+        `query ($login: String!) {
+          user(login: $login) {
+            id
+          }
+        }`,
+        { login: username },
+      );
+      return data.user?.id ?? null;
+    } catch (err) {
+      log.warn({ err, username }, 'Failed to resolve user ID');
+      return null;
+    }
   }
 }
