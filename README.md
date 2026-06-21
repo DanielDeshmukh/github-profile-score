@@ -477,8 +477,8 @@ Liveness check. Returns cache status, uptime, and GitHub API rate limit remainin
 
 | Status | Condition | Preview |
 |--------|-----------|---------|
-| `404` | User not found | ![Not Found](./templates-v2/14-error-user-not-found.svg) |
-| `429` | Rate limited | ![Rate Limit](./templates-v2/13-error-rate-limit.svg) |
+| `404` | User not found | ![Not Found](./templates/14-error-user-not-found.svg) |
+| `429` | Rate limited | ![Rate Limit](./templates/13-error-rate-limit.svg) |
 
 ---
 
@@ -789,7 +789,6 @@ github-profile-score/
 │       ├── commits-per-tenure*.test.ts
 │       └── insight-fetcher.test.ts
 ├── templates/                            # Working SVG templates (with placeholders)
-├── templates-v2/                         # Design reference (untouched)
 ├── .env.example
 ├── docker-compose.yml
 ├── railway.json
