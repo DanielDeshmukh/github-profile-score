@@ -46,7 +46,8 @@ export class CommitPatternFetcher {
     return this.circuitBreaker.execute(async () => {
       const response = await withRetry(async () => {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 8000);
+        const startTime = Date.now();
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
         try {
           const res = await fetch(url, {
             headers: {
@@ -79,6 +80,8 @@ export class CommitPatternFetcher {
         } catch (err) {
           clearTimeout(timeoutId);
           if (err instanceof Error && err.name === 'AbortError') {
+            const elapsed = Date.now() - startTime;
+            console.log('[TIMEOUT]', { url, elapsed });
             throw new Error(`TIMEOUT: ${url}`);
           }
           throw err;
