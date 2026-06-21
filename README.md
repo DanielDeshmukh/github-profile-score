@@ -18,7 +18,7 @@
 
 Drop a badge into any README and let your GitHub profile speak for itself.
 
-[![Job Readiness Score](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh/html)
+[![Job Readiness Score](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg?t=1)
 
 </div>
 
@@ -79,7 +79,7 @@ Previews render **real data** from the production endpoint.
 
 | Card | Preview | Dimensions |
 |------|---------|------------|
-| Score Badge | [![Score](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh/html) | 480×224 |
+| Score Badge | [![Score](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg?t=1) | 480×224 |
 | Contributions | [![Contributions](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg?t=1) | 480×210 |
 | Overview | [![Overview](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg?t=1) | 480×180 |
 | Languages | [![Languages](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg?t=1) | 480×180 |
