@@ -1,8 +1,9 @@
 <div align="center">
 
-# github-profile-score
 
-### An embeddable job-readiness scorer for GitHub profiles — powered by heuristics + AI callouts
+![github-profile-score banner](./assets/github-profile-score-banner.png)
+
+
 
 [![CI](https://github.com/DanielDeshmukh/github-profile-score/actions/workflows/ci.yml/badge.svg)](https://github.com/DanielDeshmukh/github-profile-score/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -16,11 +17,10 @@
 [![Railway](https://img.shields.io/badge/Deploy-Railway-9B59B6?logo=railway&logoColor=white)](https://railway.app)
 [![Stars](https://img.shields.io/github/stars/DanielDeshmukh/github-profile-score?style=social)](https://github.com/DanielDeshmukh/github-profile-score)
 
-![github-profile-score banner](./assets/github-profile-score-banner.png)
 
 Drop a badge into any README and let your GitHub profile speak for itself.
 
-[![Job Readiness Score](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg?t=1)
+
 
 </div>
 
