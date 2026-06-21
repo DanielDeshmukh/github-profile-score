@@ -18,7 +18,7 @@
 
 Drop a badge into any README and let your GitHub profile speak for itself.
 
-[![Job Readiness Score](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh/html)
+[![Job Readiness Score](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh/html)
 
 </div>
 
@@ -79,23 +79,23 @@ Previews render **real data** from the production endpoint.
 
 | Card | Preview | Dimensions |
 |------|---------|------------|
-| Score Badge | [![Score](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh/html) | 480×224 |
-| Contributions | [![Contributions](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg) | 480×210 |
-| Overview | [![Overview](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg) | 480×180 |
-| Languages | [![Languages](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg) | 480×180 |
+| Score Badge | [![Score](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh/html) | 480×224 |
+| Contributions | [![Contributions](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg) | 480×210 |
+| Overview | [![Overview](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg) | 480×180 |
+| Languages | [![Languages](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg) | 480×180 |
 
 ### Insight Widgets
 
 | Widget | Preview | Size |
 |--------|---------|------|
-| Most Active Repo | [![Most Active](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-active-repo.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-active-repo.svg) | 320×80 |
-| Account Age | [![Account Age](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/account-age.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/account-age.svg) | 320×80 |
-| Most Starred Repo | [![Most Starred](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-starred-repo.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-starred-repo.svg) | 320×80 |
-| Longest Maintained Repo | [![Longest Maintained](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/longest-maintained-repo.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/longest-maintained-repo.svg) | 320×80 |
-| Contribution Trend | [![Trend](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/contribution-trend.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/contribution-trend.svg) | 320×80 |
-| Avg Commits/Repo | [![Avg Commits](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/avg-commits-per-repo.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/avg-commits-per-repo.svg) | 320×80 |
-| Commit Pattern | [![Pattern](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commit-pattern.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commit-pattern.svg) | 320×100 |
-| Commits per Tenure | [![Tenure](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commits-per-tenure.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commits-per-tenure.svg) | 320×80 |
+| Most Active Repo | [![Most Active](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-active-repo.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-active-repo.svg) | 320×80 |
+| Account Age | [![Account Age](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/account-age.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/account-age.svg) | 320×80 |
+| Most Starred Repo | [![Most Starred](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-starred-repo.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-starred-repo.svg) | 320×80 |
+| Longest Maintained Repo | [![Longest Maintained](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/longest-maintained-repo.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/longest-maintained-repo.svg) | 320×80 |
+| Contribution Trend | [![Trend](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/contribution-trend.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/contribution-trend.svg) | 320×80 |
+| Avg Commits/Repo | [![Avg Commits](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/avg-commits-per-repo.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/avg-commits-per-repo.svg) | 320×80 |
+| Commit Pattern | [![Pattern](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commit-pattern.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commit-pattern.svg) | 320×100 |
+| Commits per Tenure | [![Tenure](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commits-per-tenure.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commits-per-tenure.svg) | 320×80 |
 
 ---
 
@@ -155,7 +155,7 @@ Embed the job-readiness score badge in your README:
 
 **How it looks:**
 
-![Score Badge](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg?refresh=1&t=1)
+![Score Badge](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg?t=1)
 
 The badge renders a 480×224 card with:
 - User avatar and `@username`
@@ -248,7 +248,7 @@ Stats cards use a dark theme and are **independent** from the score badge — se
 ![Contributions](https://YOUR_DOMAIN/stats/YOUR_USERNAME/contributions.svg)
 ```
 
-[![Contributions Card](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg)
+[![Contributions Card](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg)
 
 Renders a 480×210 card showing:
 - Total contributions count and date range
@@ -264,7 +264,7 @@ Renders a 480×210 card showing:
 ![GitHub Stats](https://YOUR_DOMAIN/stats/YOUR_USERNAME/overview.svg)
 ```
 
-[![Overview Card](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg)
+[![Overview Card](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg)
 
 Renders a 480×180 card showing:
 - Total stars earned
@@ -280,7 +280,7 @@ Renders a 480×180 card showing:
 ![Languages](https://YOUR_DOMAIN/stats/YOUR_USERNAME/languages.svg)
 ```
 
-[![Languages Card](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg)
+[![Languages Card](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg)
 
 Renders a 480×180 card showing:
 - Language names with proportional progress bars
@@ -302,7 +302,7 @@ All insight endpoints follow the pattern: `GET /insights/:username/:widget.svg`
 ![Most Active Repo](https://YOUR_DOMAIN/insights/YOUR_USERNAME/most-active-repo.svg)
 ```
 
-[![Most Active Repo](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-active-repo.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-active-repo.svg)
+[![Most Active Repo](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-active-repo.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-active-repo.svg)
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -318,7 +318,7 @@ All insight endpoints follow the pattern: `GET /insights/:username/:widget.svg`
 ![Account Age](https://YOUR_DOMAIN/insights/YOUR_USERNAME/account-age.svg)
 ```
 
-[![Account Age](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/account-age.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/account-age.svg)
+[![Account Age](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/account-age.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/account-age.svg)
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -334,7 +334,7 @@ All insight endpoints follow the pattern: `GET /insights/:username/:widget.svg`
 ![Most Starred Repo](https://YOUR_DOMAIN/insights/YOUR_USERNAME/most-starred-repo.svg)
 ```
 
-[![Most Starred Repo](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-starred-repo.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-starred-repo.svg)
+[![Most Starred Repo](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-starred-repo.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-starred-repo.svg)
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -350,7 +350,7 @@ All insight endpoints follow the pattern: `GET /insights/:username/:widget.svg`
 ![Contribution Trend](https://YOUR_DOMAIN/insights/YOUR_USERNAME/contribution-trend.svg)
 ```
 
-[![Contribution Trend](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/contribution-trend.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/contribution-trend.svg)
+[![Contribution Trend](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/contribution-trend.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/contribution-trend.svg)
 
 | Symbol | Meaning |
 |--------|---------|
@@ -373,7 +373,7 @@ All insight endpoints follow the pattern: `GET /insights/:username/:widget.svg`
 ![Avg Commits per Repo](https://YOUR_DOMAIN/insights/YOUR_USERNAME/avg-commits-per-repo.svg)
 ```
 
-[![Avg Commits per Repo](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/avg-commits-per-repo.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/avg-commits-per-repo.svg)
+[![Avg Commits per Repo](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/avg-commits-per-repo.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/avg-commits-per-repo.svg)
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -389,7 +389,7 @@ All insight endpoints follow the pattern: `GET /insights/:username/:widget.svg`
 ![Longest Maintained](https://YOUR_DOMAIN/insights/YOUR_USERNAME/longest-maintained-repo.svg)
 ```
 
-[![Longest Maintained](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/longest-maintained-repo.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/longest-maintained-repo.svg)
+[![Longest Maintained](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/longest-maintained-repo.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/longest-maintained-repo.svg)
 
 | Duration | Format |
 |----------|--------|
@@ -413,7 +413,7 @@ All insight endpoints follow the pattern: `GET /insights/:username/:widget.svg`
 ![Commit Pattern](https://YOUR_DOMAIN/insights/YOUR_USERNAME/commit-pattern.svg)
 ```
 
-[![Commit Pattern](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commit-pattern.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commit-pattern.svg)
+[![Commit Pattern](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commit-pattern.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commit-pattern.svg)
 
 | Daypart | Hours (UTC) |
 |---------|-------------|
@@ -440,7 +440,7 @@ All insight endpoints follow the pattern: `GET /insights/:username/:widget.svg`
 ![Commits per Tenure](https://YOUR_DOMAIN/insights/YOUR_USERNAME/commits-per-tenure.svg)
 ```
 
-[![Commits per Tenure](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commits-per-tenure.svg?refresh=1&t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commits-per-tenure.svg)
+[![Commits per Tenure](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commits-per-tenure.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commits-per-tenure.svg)
 
 Zero new API calls — pure derivation from profile age and contribution count.
 
@@ -514,11 +514,13 @@ Combine multiple cards for a complete profile view:
 
 ### Force Fresh Data
 
-Add `?refresh=1` to bypass cache (rate-limited to 1 refresh per 10 min):
+Add `?refresh=1` to bypass server cache (rate-limited to 1 refresh per 10 min):
 
 ```markdown
 [![Job Readiness Score](https://YOUR_DOMAIN/score/YOUR_USERNAME.svg?refresh=1)](https://YOUR_DOMAIN/score/YOUR_USERNAME/html)
 ```
+
+> **Note:** The `&t=1` parameter is already included in README links to bust GitHub's CDN cache — this is separate from the server-side refresh.
 
 ---
 
