@@ -97,14 +97,14 @@ async function getCachedOrCompute(
   if (refresh) {
     const cooldownKey = getInsightRefreshCooldownKey(SLUG, username);
     const onCooldown = await cache.exists(cooldownKey);
-    if (onCooldown) {
+      if (onCooldown) {
       const cached = await cache.get<{ repoName: string; commitCount: number; repoUrl: string } | null>(cacheKey);
-      if (cached !== undefined) return cached;
+      if (cached !== null) return cached;
     }
   }
 
   const cached = await cache.get<{ repoName: string; commitCount: number; repoUrl: string } | null>(cacheKey);
-  if (cached !== undefined && !refresh) {
+  if (cached !== null && !refresh) {
     return cached;
   }
 

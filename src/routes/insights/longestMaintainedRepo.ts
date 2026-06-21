@@ -90,14 +90,14 @@ async function getCachedOrCompute(
   if (refresh) {
     const cooldownKey = `${cacheKey}:refresh_cooldown`;
     const onCooldown = await cache.exists(cooldownKey);
-    if (onCooldown) {
+      if (onCooldown) {
       const cached = await cache.get<LongestMaintainedResult | null>(cacheKey);
-      if (cached !== undefined) return cached;
+      if (cached !== null) return cached;
     }
   }
 
   const cached = await cache.get<LongestMaintainedResult | null>(cacheKey);
-  if (cached !== undefined && !refresh) {
+  if (cached !== null && !refresh) {
     return cached;
   }
 

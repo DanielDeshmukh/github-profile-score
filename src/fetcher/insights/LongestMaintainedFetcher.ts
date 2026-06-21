@@ -57,35 +57,51 @@ export class LongestMaintainedFetcher {
 
     return this.graphqlCircuitBreaker.execute(async () => {
       const response = await withRetry(async () => {
-        const res = await fetch('https://api.github.com/graphql', {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${config.GITHUB_TOKEN}`,
-            'Content-Type': 'application/json',
-            'User-Agent': 'github-profile-score/1.0',
-          },
-          body: JSON.stringify({ query, variables }),
-        });
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 8000);
+        try {
+          const res = await fetch('https://api.github.com/graphql', {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${config.GITHUB_TOKEN}`,
+              'Content-Type': 'application/json',
+              'User-Agent': 'github-profile-score/1.0',
+            },
+            body: JSON.stringify({ query, variables }),
+            signal: controller.signal,
+          });
+          clearTimeout(timeoutId);
 
-        const remaining = res.headers.get('x-ratelimit-remaining');
-        const reset = res.headers.get('x-ratelimit-reset');
-        if (remaining) this.rateLimit.remaining = parseInt(remaining, 10);
-        if (reset) this.rateLimit.reset = parseInt(reset, 10);
+          const remaining = res.headers.get('x-ratelimit-remaining');
+          const reset = res.headers.get('x-ratelimit-reset');
+          if (remaining) this.rateLimit.remaining = parseInt(remaining, 10);
+          if (reset) this.rateLimit.reset = parseInt(reset, 10);
 
-        if (res.status === 404) throw new Error('NOT_FOUND');
-        if ((res.status === 403 || res.status === 429) && remaining === '0') {
-          const resetTimestamp = reset ? parseInt(reset, 10) : Math.floor(Date.now() / 1000) + 60;
-          throw new GitHubRateLimitError(new Date(resetTimestamp * 1000));
+          console.log('[API CALL]', { url: 'https://api.github.com/graphql', status: res.status, remaining, reset });
+
+          if (res.status === 404) throw new Error('NOT_FOUND');
+          if ((res.status === 403 || res.status === 429) && remaining === '0') {
+            const resetTimestamp = reset ? parseInt(reset, 10) : Math.floor(Date.now() / 1000) + 60;
+            throw new GitHubRateLimitError(new Date(resetTimestamp * 1000));
+          }
+          if (res.status === 403 || res.status === 429) {
+            const retryAfter = res.headers.get('retry-after');
+            throw new RateLimitError(retryAfter ? parseInt(retryAfter, 10) : 60);
+          }
+          if (!res.ok) throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
+          return res;
+        } catch (err) {
+          clearTimeout(timeoutId);
+          if (err instanceof Error && err.name === 'AbortError') {
+            throw new Error('TIMEOUT: https://api.github.com/graphql');
+          }
+          throw err;
         }
-        if (res.status === 403 || res.status === 429) {
-          const retryAfter = res.headers.get('retry-after');
-          throw new RateLimitError(retryAfter ? parseInt(retryAfter, 10) : 60);
-        }
-        if (!res.ok) throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
-        return res;
       });
 
       const body = (await response.json()) as GraphQLResponse<T>;
+      console.log('[API RESPONSE]', { url: 'https://api.github.com/graphql', dataLength: JSON.stringify(body).length });
+
       if (body.errors && body.errors.length > 0) {
         throw new Error(`GraphQL error: ${body.errors[0]?.message ?? 'Unknown error'}`);
       }
@@ -104,33 +120,49 @@ export class LongestMaintainedFetcher {
 
     return this.restCircuitBreaker.execute(async () => {
       const response = await withRetry(async () => {
-        const res = await fetch(url, {
-          headers: {
-            Authorization: `Bearer ${config.GITHUB_TOKEN}`,
-            Accept: 'application/vnd.github+json',
-            'User-Agent': 'github-profile-score/1.0',
-          },
-        });
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 8000);
+        try {
+          const res = await fetch(url, {
+            headers: {
+              Authorization: `Bearer ${config.GITHUB_TOKEN}`,
+              Accept: 'application/vnd.github+json',
+              'User-Agent': 'github-profile-score/1.0',
+            },
+            signal: controller.signal,
+          });
+          clearTimeout(timeoutId);
 
-        const remaining = res.headers.get('x-ratelimit-remaining');
-        const reset = res.headers.get('x-ratelimit-reset');
-        if (remaining) this.rateLimit.remaining = parseInt(remaining, 10);
-        if (reset) this.rateLimit.reset = parseInt(reset, 10);
+          const remaining = res.headers.get('x-ratelimit-remaining');
+          const reset = res.headers.get('x-ratelimit-reset');
+          if (remaining) this.rateLimit.remaining = parseInt(remaining, 10);
+          if (reset) this.rateLimit.reset = parseInt(reset, 10);
 
-        if (res.status === 404) throw new Error('NOT_FOUND');
-        if ((res.status === 403 || res.status === 429) && remaining === '0') {
-          const resetTimestamp = reset ? parseInt(reset, 10) : Math.floor(Date.now() / 1000) + 60;
-          throw new GitHubRateLimitError(new Date(resetTimestamp * 1000));
+          console.log('[API CALL]', { url, status: res.status, remaining, reset });
+
+          if (res.status === 404) throw new Error('NOT_FOUND');
+          if ((res.status === 403 || res.status === 429) && remaining === '0') {
+            const resetTimestamp = reset ? parseInt(reset, 10) : Math.floor(Date.now() / 1000) + 60;
+            throw new GitHubRateLimitError(new Date(resetTimestamp * 1000));
+          }
+          if (res.status === 403 || res.status === 429) {
+            const retryAfter = res.headers.get('retry-after');
+            throw new RateLimitError(retryAfter ? parseInt(retryAfter, 10) : 60);
+          }
+          if (!res.ok) throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
+          return res;
+        } catch (err) {
+          clearTimeout(timeoutId);
+          if (err instanceof Error && err.name === 'AbortError') {
+            throw new Error(`TIMEOUT: ${url}`);
+          }
+          throw err;
         }
-        if (res.status === 403 || res.status === 429) {
-          const retryAfter = res.headers.get('retry-after');
-          throw new RateLimitError(retryAfter ? parseInt(retryAfter, 10) : 60);
-        }
-        if (!res.ok) throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
-        return res;
       });
 
-      return (await response.json()) as T;
+      const data = (await response.json()) as T;
+      console.log('[API RESPONSE]', { url, dataLength: JSON.stringify(data).length });
+      return data;
     });
   }
 

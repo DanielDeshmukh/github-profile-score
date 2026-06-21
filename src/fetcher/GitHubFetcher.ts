@@ -42,33 +42,51 @@ export class GitHubFetcher {
 
     return this.circuitBreaker.execute(async () => {
       const response = await withRetry(async () => {
-        const res = await fetch(url, { headers: options?.headers ?? this.getHeaders() });
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 8000);
+        try {
+          const res = await fetch(url, {
+            headers: options?.headers ?? this.getHeaders(),
+            signal: controller.signal,
+          });
+          clearTimeout(timeoutId);
 
-        const remaining = res.headers.get('x-ratelimit-remaining');
-        const reset = res.headers.get('x-ratelimit-reset');
-        if (remaining) activeRateLimit.remaining = parseInt(remaining, 10);
-        if (reset) activeRateLimit.reset = parseInt(reset, 10);
+          const remaining = res.headers.get('x-ratelimit-remaining');
+          const reset = res.headers.get('x-ratelimit-reset');
+          if (remaining) activeRateLimit.remaining = parseInt(remaining, 10);
+          if (reset) activeRateLimit.reset = parseInt(reset, 10);
 
-        if (res.status === 404) {
-          throw new Error('NOT_FOUND');
-        }
-        if ((res.status === 403 || res.status === 429) && remaining === '0') {
-          const resetTimestamp = reset ? parseInt(reset, 10) : Math.floor(Date.now() / 1000) + 60;
-          throw new GitHubRateLimitError(new Date(resetTimestamp * 1000));
-        }
-        if (res.status === 403 || res.status === 429) {
-          const retryAfter = res.headers.get('retry-after');
-          throw new RateLimitError(retryAfter ? parseInt(retryAfter, 10) : 60);
-        }
-        if (!res.ok) {
-          throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
-        }
+          console.log('[API CALL]', { url, status: res.status, remaining, reset });
 
-        this.lastResponseStatus = res.status;
-        return res;
+          if (res.status === 404) {
+            throw new Error('NOT_FOUND');
+          }
+          if ((res.status === 403 || res.status === 429) && remaining === '0') {
+            const resetTimestamp = reset ? parseInt(reset, 10) : Math.floor(Date.now() / 1000) + 60;
+            throw new GitHubRateLimitError(new Date(resetTimestamp * 1000));
+          }
+          if (res.status === 403 || res.status === 429) {
+            const retryAfter = res.headers.get('retry-after');
+            throw new RateLimitError(retryAfter ? parseInt(retryAfter, 10) : 60);
+          }
+          if (!res.ok) {
+            throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
+          }
+
+          this.lastResponseStatus = res.status;
+          return res;
+        } catch (err) {
+          clearTimeout(timeoutId);
+          if (err instanceof Error && err.name === 'AbortError') {
+            throw new Error(`TIMEOUT: ${url}`);
+          }
+          throw err;
+        }
       });
 
-      return response.json() as Promise<T>;
+      const data = await response.json() as T;
+      console.log('[API RESPONSE]', { url, dataLength: JSON.stringify(data).length });
+      return data;
     });
   }
 
