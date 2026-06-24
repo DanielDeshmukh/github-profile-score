@@ -1,4 +1,5 @@
 import { createChildLogger } from '../logger.js';
+import { AppError } from './errors.js';
 
 const log = createChildLogger('retry');
 
@@ -16,6 +17,13 @@ const DEFAULT_OPTIONS: RetryOptions = {
   jitter: true,
 };
 
+function isRetryable(err: unknown): boolean {
+  if (err instanceof AppError) {
+    return err.statusCode === 429 || err.statusCode >= 500;
+  }
+  return true;
+}
+
 export async function withRetry<T>(
   fn: () => Promise<T>,
   options: Partial<RetryOptions> = {},
@@ -29,7 +37,7 @@ export async function withRetry<T>(
     } catch (err) {
       lastError = err instanceof Error ? err : new Error(String(err));
 
-      if (attempt === opts.maxRetries) break;
+      if (attempt === opts.maxRetries || !isRetryable(err)) break;
 
       const delay = calculateDelay(attempt, opts);
       log.warn({ attempt: attempt + 1, delay, error: lastError.message }, 'Retrying after failure');

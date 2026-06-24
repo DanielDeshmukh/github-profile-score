@@ -130,9 +130,15 @@ export class GitHubFetcher {
       let page = 1;
 
       while (true) {
-        const events = await this.request<GitHubEvent[]>(
-          `https://api.github.com/users/${username}/events/public?per_page=100&page=${page}`,
-        );
+        let events: GitHubEvent[];
+        try {
+          events = await this.request<GitHubEvent[]>(
+            `https://api.github.com/users/${username}/events/public?per_page=100&page=${page}`,
+          );
+        } catch (err) {
+          if (err instanceof AppError && err.statusCode === 422) break;
+          throw err;
+        }
         if (events.length === 0) break;
 
         for (const event of events) {
@@ -155,8 +161,9 @@ export class GitHubFetcher {
       since.setDate(since.getDate() - days);
       const sinceStr = since.toISOString().split('T')[0];
 
+      const query = `author:${username}+author-date:${encodeURIComponent('>')}${sinceStr}`;
       const result = await this.request<{ total_count: number }>(
-        `https://api.github.com/search/commits?q=author:${username}+author-date:>${sinceStr}&per_page=1`,
+        `https://api.github.com/search/commits?q=${query}&per_page=1`,
         { headers: this.getHeaders('application/vnd.github.cloak-preview+json') },
       );
       return result.total_count ?? 0;
