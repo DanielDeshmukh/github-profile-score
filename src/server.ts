@@ -198,12 +198,17 @@ async function getCachedOrCompute(username: string, refresh: boolean): Promise<S
     return { ...cached, cached: true, cache_age_seconds: ttl > 0 ? CACHE_TTL.SCORE - ttl : 0 };
   }
 
-  const [profile, repos, events, commitCount] = await Promise.all([
+  const [profile, repos, events, commitCountResult] = await Promise.all([
     fetcher.fetchProfile(username),
     fetcher.fetchRepos(username),
     fetcher.fetchEvents(username),
-    fetcher.fetchCommitCount(username),
+    fetcher.fetchCommitCount(username).catch((err) => {
+      log.warn({ username, error: err instanceof Error ? err.message : err }, 'fetchCommitCount failed, defaulting to 0');
+      return 0;
+    }),
   ]);
+
+  const commitCount = typeof commitCountResult === 'number' ? commitCountResult : 0;
 
   const config = getConfig();
   const result = await score(profile, repos, events, config.SCORE_THRESHOLD, commitCount);

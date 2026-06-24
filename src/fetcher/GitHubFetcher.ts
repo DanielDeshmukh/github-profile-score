@@ -2,7 +2,7 @@ import { getConfig } from '../config.js';
 import { createChildLogger } from '../logger.js';
 import { CircuitBreaker } from '../utils/circuitBreaker.js';
 import { deduplicate } from '../utils/deduplicator.js';
-import { RateLimitError } from '../utils/errors.js';
+import { RateLimitError, AppError, NotFoundError } from '../utils/errors.js';
 import { withRetry } from '../utils/retry.js';
 import type { GitHubProfile, GitHubRepo, GitHubEvent } from '../types.js';
 import { GitHubRateLimitError } from '../types.js';
@@ -59,7 +59,7 @@ export class GitHubFetcher {
           console.log('[API CALL]', { url, status: res.status, remaining, reset });
 
           if (res.status === 404) {
-            throw new Error('NOT_FOUND');
+            throw new NotFoundError(url.split('/users/')[1]?.split('/')[0] ?? 'unknown');
           }
           if ((res.status === 403 || res.status === 429) && remaining === '0') {
             const resetTimestamp = reset ? parseInt(reset, 10) : Math.floor(Date.now() / 1000) + 60;
@@ -70,7 +70,7 @@ export class GitHubFetcher {
             throw new RateLimitError(retryAfter ? parseInt(retryAfter, 10) : 60);
           }
           if (!res.ok) {
-            throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
+            throw new AppError(`GitHub API error: ${res.status} ${res.statusText}`, res.status, 'GITHUB_API_ERROR');
           }
 
           this.lastResponseStatus = res.status;
@@ -78,7 +78,7 @@ export class GitHubFetcher {
         } catch (err) {
           clearTimeout(timeoutId);
           if (err instanceof Error && err.name === 'AbortError') {
-            throw new Error(`TIMEOUT: ${url}`);
+            throw new AppError(`TIMEOUT: ${url}`, 504, 'GITHUB_TIMEOUT');
           }
           throw err;
         }

@@ -1,3 +1,5 @@
+import { CircuitOpenError } from './errors.js';
+
 export class CircuitBreaker {
   private failures = 0;
   private lastFailureTime = 0;
@@ -13,7 +15,7 @@ export class CircuitBreaker {
       if (Date.now() - this.lastFailureTime >= this.openDurationMs) {
         this.state = 'HALF_OPEN';
       } else {
-        throw new Error('Circuit breaker is open');
+        throw new CircuitOpenError();
       }
     }
 
