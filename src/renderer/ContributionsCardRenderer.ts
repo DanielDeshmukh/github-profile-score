@@ -9,27 +9,14 @@ function formatDate(dateStr: string): string {
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
-function generateWeeklyCounts(contributions: ContributionStats): number[] {
-  const total = contributions.totalContributions;
-  const weeks = 12;
-  if (total === 0) return new Array(weeks).fill(0);
-  const avg = total / weeks;
-  const counts: number[] = [];
-  for (let i = 0; i < weeks; i++) {
-    const variance = 0.5 + Math.sin(i * 0.8) * 0.3 + Math.cos(i * 1.2) * 0.2;
-    counts.push(Math.round(avg * variance));
-  }
-  return counts;
-}
-
 export function renderContributionsCard(
   _username: string,
   contributions: ContributionStats,
 ): string {
   const dateRange = `${formatDate(contributions.rangeStart)} \u2013 ${formatDate(contributions.rangeEnd)}`;
-  const weeklyCounts = generateWeeklyCounts(contributions);
+  const weeklyCounts = contributions.weeklyCounts;
 
-  const sparkline = renderSparkline({ x: 30, y: 145, totalWidth: 420, height: 20, segments: 12, weeklyCounts });
+  const sparkline = renderSparkline({ x: 30, y: 145, totalWidth: 420, height: 20, segments: weeklyCounts.length, weeklyCounts });
 
   return renderFromTemplate('02-contributions-card', {
     total_contributions: contributions.totalContributions.toLocaleString(),

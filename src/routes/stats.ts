@@ -165,8 +165,12 @@ async function getCachedOrComputeStats(username: string, refresh: boolean): Prom
 
   const totalStars = await statsFetcher.fetchTotalStars(repos);
 
-  const streaks = calculateStreaks(
-    calendar.weeks.flatMap((w) => w.contributionDays),
+  const allDays = calendar.weeks.flatMap((w) => w.contributionDays);
+  const streaks = calculateStreaks(allDays);
+
+  const last12Weeks = calendar.weeks.slice(-12);
+  const weeklyCounts = last12Weeks.map((week) =>
+    week.contributionDays.reduce((sum, day) => sum + day.count, 0),
   );
 
   const contributions: ContributionStats = {
@@ -177,6 +181,7 @@ async function getCachedOrComputeStats(username: string, refresh: boolean): Prom
     currentStreakRange: streaks.currentRange,
     longestStreak: streaks.longest,
     longestStreakRange: streaks.longestRange,
+    weeklyCounts,
   };
 
   const totalActivity = totalStars + aggregates.totalCommits + aggregates.totalPRs + aggregates.totalIssues;

@@ -20,6 +20,7 @@ export interface ContributionStats {
   currentStreakRange: { start: string; end: string };
   longestStreak: number;
   longestStreakRange: { start: string; end: string };
+  weeklyCounts: number[];
 }
 
 export interface GitHubProfileStats {

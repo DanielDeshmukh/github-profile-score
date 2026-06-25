@@ -12,6 +12,7 @@ function createMockStats(overrides: Partial<ContributionStats> = {}): Contributi
     currentStreakRange: { start: '2024-06-01', end: '2024-06-15' },
     longestStreak: 30,
     longestStreakRange: { start: '2024-01-10', end: '2024-02-08' },
+    weeklyCounts: [10, 15, 8, 20, 12, 5, 18, 25, 14, 9, 22, 16],
     ...overrides,
   };
 }
