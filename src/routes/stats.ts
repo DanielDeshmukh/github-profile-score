@@ -175,8 +175,8 @@ async function getCachedOrComputeStats(username: string, refresh: boolean): Prom
 
   const contributions: ContributionStats = {
     totalContributions: calendar.totalContributions,
-    rangeStart: calendar.weeks[0]?.firstDay ?? '',
-    rangeEnd: calendar.weeks[calendar.weeks.length - 1]?.firstDay ?? '',
+    rangeStart: last12Weeks[0]?.firstDay ?? '',
+    rangeEnd: last12Weeks[last12Weeks.length - 1]?.firstDay ?? '',
     currentStreak: streaks.current,
     currentStreakRange: streaks.currentRange,
     longestStreak: streaks.longest,
