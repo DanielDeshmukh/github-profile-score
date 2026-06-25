@@ -9,10 +9,10 @@ function computeOpacityTier(count: number, maxCount: number): number {
   return 1.0;
 }
 
-function getWeekLabel(index: number): string {
+function getWeekLabel(index: number, totalSegments: number): string {
   const now = new Date();
   const weekEnd = new Date(now);
-  weekEnd.setDate(now.getDate() - (11 - index) * 7);
+  weekEnd.setDate(now.getDate() - (totalSegments - 1 - index) * 7);
   const weekStart = new Date(weekEnd);
   weekStart.setDate(weekEnd.getDate() - 6);
 
@@ -51,7 +51,7 @@ export function renderSparkline(options: SparklineOptions): string {
     const fillOpacity = opacity === 0 ? '1' : String(opacity);
     const segX = x + i * (segWidth + gap);
     const centerX = segX + segWidth / 2;
-    const weekLabel = getWeekLabel(i);
+    const weekLabel = getWeekLabel(i, segments);
 
     bars.push(`  <g class="day-bar">
     <rect class="bar" x="${segX}" y="${y}" width="${segWidth}" height="${height}" rx="2" fill="${fill}" fill-opacity="${fillOpacity}"/>

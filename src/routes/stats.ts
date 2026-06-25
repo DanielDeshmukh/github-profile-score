@@ -168,7 +168,7 @@ async function getCachedOrComputeStats(username: string, refresh: boolean): Prom
   const allDays = calendar.weeks.flatMap((w) => w.contributionDays);
   const streaks = calculateStreaks(allDays);
 
-  const last12Weeks = calendar.weeks.slice(-12);
+  const last12Weeks = calendar.weeks.slice(-13);
   const weeklyCounts = last12Weeks.map((week) =>
     week.contributionDays.reduce((sum, day) => sum + day.count, 0),
   );

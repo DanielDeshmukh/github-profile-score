@@ -88,7 +88,7 @@ describe('ContributionsCardRenderer', () => {
     const stats = createMockStats({ currentStreak: 10, longestStreak: 20 });
     const svg = renderContributionsCard('testuser', stats);
 
-    expect(svg).toContain('Last 12 weeks');
+    expect(svg).toContain('Last 13 weeks');
     expect(svg).toContain('fill-opacity');
     expect(svg).toContain(tokens.green);
   });
