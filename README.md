@@ -137,11 +137,6 @@ Each dimension scores **0–20 points** (total: 100).
 
 ## API Reference
 
-### Base URL
-
-```
-https://github-profile-score-production-db22.up.railway.app
-```
 
 > All endpoints accept `?refresh=1` to bypass cache (rate-limited to 1 refresh per 10 min per username).
 
