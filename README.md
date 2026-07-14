@@ -10,11 +10,9 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vitest](https://img.shields.io/badge/Vitest-3.x-729B1B?logo=vitest&logoColor=white)](https://vitest.dev/)
-[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
 [![Express](https://img.shields.io/badge/Express-4.x-000000?logo=express&logoColor=white)](https://expressjs.com/)
-[![Redis](https://img.shields.io/badge/Redis-Cache-DC382D?logo=redis&logoColor=white)](https://redis.io/)
 [![Tests](https://img.shields.io/badge/Tests-210%2B-brightgreen)](https://vitest.dev/)
-[![Railway](https://img.shields.io/badge/Deploy-Railway-9B59B6?logo=railway&logoColor=white)](https://railway.app)
+[![Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com)
 [![Stars](https://img.shields.io/github/stars/DanielDeshmukh/github-profile-score?style=social)](https://github.com/DanielDeshmukh/github-profile-score)
 
 
@@ -61,7 +59,7 @@ Drop a badge into any README and let your GitHub profile speak for itself.
 | Output | Format | Endpoint |
 |--------|--------|----------|
 | **Live SVG badge** | Embeddable in README | `/score/{username}.svg` |
-| **Contributions card** | Streaks + 12-week heatmap | `/stats/{username}/contributions.svg` |
+| **Contributions card** | Streaks + 13-week heatmap | `/stats/{username}/contributions.svg` |
 | **Overview card** | Stars, PRs, languages | `/stats/{username}/overview.svg` |
 | **Languages card** | Language breakdown bars | `/stats/{username}/languages.svg` |
 | **Insight widgets** | 7 activity/repo metrics | `/insights/{username}/*.svg` |
@@ -81,23 +79,23 @@ Previews render **real data** from the production endpoint.
 
 | Card | Preview | Dimensions |
 |------|---------|------------|
-| Score Badge | [![Score](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg?t=1) | 480×224 |
-| Contributions | [![Contributions](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg?t=1) | 480×210 |
-| Overview | [![Overview](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg?t=1) | 480×180 |
-| Languages | [![Languages](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg?t=1) | 480×180 |
+| Score Badge | [![Score](https://github-profile-score-five.vercel.app/score/DanielDeshmukh.svg?t=1)](https://github-profile-score-five.vercel.app/score/DanielDeshmukh.svg?t=1) | 480×224 |
+| Contributions | [![Contributions](https://github-profile-score-five.vercel.app/stats/DanielDeshmukh/contributions.svg?t=1)](https://github-profile-score-five.vercel.app/stats/DanielDeshmukh/contributions.svg?t=1) | 480×210 |
+| Overview | [![Overview](https://github-profile-score-five.vercel.app/stats/DanielDeshmukh/overview.svg?t=1)](https://github-profile-score-five.vercel.app/stats/DanielDeshmukh/overview.svg?t=1) | 480×180 |
+| Languages | [![Languages](https://github-profile-score-five.vercel.app/stats/DanielDeshmukh/languages.svg?t=1)](https://github-profile-score-five.vercel.app/stats/DanielDeshmukh/languages.svg?t=1) | 480×180 |
 
 ### Insight Widgets
 
 | Widget | Preview | Size |
 |--------|---------|------|
-| Most Active Repo | [![Most Active](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-active-repo.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-active-repo.svg?t=1) | 320×80 |
-| Account Age | [![Account Age](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/account-age.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/account-age.svg?t=1) | 320×80 |
-| Most Starred Repo | [![Most Starred](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-starred-repo.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-starred-repo.svg?t=1) | 320×80 |
-| Longest Maintained Repo | [![Longest Maintained](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/longest-maintained-repo.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/longest-maintained-repo.svg?t=1) | 320×80 |
-| Contribution Trend | [![Trend](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/contribution-trend.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/contribution-trend.svg?t=1) | 320×80 |
-| Avg Commits/Repo | [![Avg Commits](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/avg-commits-per-repo.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/avg-commits-per-repo.svg?t=1) | 320×80 |
-| Commit Pattern | [![Pattern](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commit-pattern.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commit-pattern.svg?t=1) | 320×100 |
-| Commits per Tenure | [![Tenure](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commits-per-tenure.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commits-per-tenure.svg?t=1) | 320×80 |
+| Most Active Repo | [![Most Active](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/most-active-repo.svg?t=1)](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/most-active-repo.svg?t=1) | 320×80 |
+| Account Age | [![Account Age](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/account-age.svg?t=1)](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/account-age.svg?t=1) | 320×80 |
+| Most Starred Repo | [![Most Starred](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/most-starred-repo.svg?t=1)](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/most-starred-repo.svg?t=1) | 320×80 |
+| Longest Maintained Repo | [![Longest Maintained](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/longest-maintained-repo.svg?t=1)](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/longest-maintained-repo.svg?t=1) | 320×80 |
+| Contribution Trend | [![Trend](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/contribution-trend.svg?t=1)](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/contribution-trend.svg?t=1) | 320×80 |
+| Avg Commits/Repo | [![Avg Commits](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/avg-commits-per-repo.svg?t=1)](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/avg-commits-per-repo.svg?t=1) | 320×80 |
+| Commit Pattern | [![Pattern](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/commit-pattern.svg?t=1)](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/commit-pattern.svg?t=1) | 320×100 |
+| Commits per Tenure | [![Tenure](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/commits-per-tenure.svg?t=1)](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/commits-per-tenure.svg?t=1) | 320×80 |
 
 ---
 
@@ -112,7 +110,7 @@ Deploy in under 5 minutes — no cloning required.
 
 | Platform | Deploy Button |
 |----------|---------------|
-| **Railway** | [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new?template=https://github.com/DanielDeshmukh/github-profile-score) |
+| **Vercel** | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/DanielDeshmukh/github-profile-score) |
 | **Render** | [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/DanielDeshmukh/github-profile-score) |
 
 > **Note:** `NVIDIA_API_KEY` is optional. Without it, you'll get generic improvement suggestions instead of AI-personalized ones.
@@ -152,7 +150,7 @@ Embed the job-readiness score badge in your README:
 
 **How it looks:**
 
-![Score Badge](https://github-profile-score-production-db22.up.railway.app/score/DanielDeshmukh.svg?t=1)
+![Score Badge](https://github-profile-score-five.vercel.app/score/DanielDeshmukh.svg?t=1)
 
 The badge renders a 480×224 card with:
 - User avatar and `@username`
@@ -245,7 +243,7 @@ Stats cards use a dark theme and are **independent** from the score badge — se
 ![Contributions](https://YOUR_DOMAIN/stats/YOUR_USERNAME/contributions.svg)
 ```
 
-[![Contributions Card](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/contributions.svg?t=1)
+[![Contributions Card](https://github-profile-score-five.vercel.app/stats/DanielDeshmukh/contributions.svg?t=1)](https://github-profile-score-five.vercel.app/stats/DanielDeshmukh/contributions.svg?t=1)
 
 Renders a 480×210 card showing:
 - Total contributions count and date range
@@ -261,7 +259,7 @@ Renders a 480×210 card showing:
 ![GitHub Stats](https://YOUR_DOMAIN/stats/YOUR_USERNAME/overview.svg)
 ```
 
-[![Overview Card](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/overview.svg?t=1)
+[![Overview Card](https://github-profile-score-five.vercel.app/stats/DanielDeshmukh/overview.svg?t=1)](https://github-profile-score-five.vercel.app/stats/DanielDeshmukh/overview.svg?t=1)
 
 Renders a 480×180 card showing:
 - Total stars earned
@@ -277,7 +275,7 @@ Renders a 480×180 card showing:
 ![Languages](https://YOUR_DOMAIN/stats/YOUR_USERNAME/languages.svg)
 ```
 
-[![Languages Card](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/stats/DanielDeshmukh/languages.svg?t=1)
+[![Languages Card](https://github-profile-score-five.vercel.app/stats/DanielDeshmukh/languages.svg?t=1)](https://github-profile-score-five.vercel.app/stats/DanielDeshmukh/languages.svg?t=1)
 
 Renders a 480×180 card showing:
 - Language names with proportional progress bars
@@ -299,7 +297,7 @@ All insight endpoints follow the pattern: `GET /insights/:username/:widget.svg`
 ![Most Active Repo](https://YOUR_DOMAIN/insights/YOUR_USERNAME/most-active-repo.svg)
 ```
 
-[![Most Active Repo](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-active-repo.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-active-repo.svg?t=1)
+[![Most Active Repo](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/most-active-repo.svg?t=1)](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/most-active-repo.svg?t=1)
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -315,7 +313,7 @@ All insight endpoints follow the pattern: `GET /insights/:username/:widget.svg`
 ![Account Age](https://YOUR_DOMAIN/insights/YOUR_USERNAME/account-age.svg)
 ```
 
-[![Account Age](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/account-age.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/account-age.svg?t=1)
+[![Account Age](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/account-age.svg?t=1)](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/account-age.svg?t=1)
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -331,7 +329,7 @@ All insight endpoints follow the pattern: `GET /insights/:username/:widget.svg`
 ![Most Starred Repo](https://YOUR_DOMAIN/insights/YOUR_USERNAME/most-starred-repo.svg)
 ```
 
-[![Most Starred Repo](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-starred-repo.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/most-starred-repo.svg?t=1)
+[![Most Starred Repo](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/most-starred-repo.svg?t=1)](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/most-starred-repo.svg?t=1)
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -347,7 +345,7 @@ All insight endpoints follow the pattern: `GET /insights/:username/:widget.svg`
 ![Contribution Trend](https://YOUR_DOMAIN/insights/YOUR_USERNAME/contribution-trend.svg)
 ```
 
-[![Contribution Trend](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/contribution-trend.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/contribution-trend.svg?t=1)
+[![Contribution Trend](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/contribution-trend.svg?t=1)](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/contribution-trend.svg?t=1)
 
 | Symbol | Meaning |
 |--------|---------|
@@ -370,7 +368,7 @@ All insight endpoints follow the pattern: `GET /insights/:username/:widget.svg`
 ![Avg Commits per Repo](https://YOUR_DOMAIN/insights/YOUR_USERNAME/avg-commits-per-repo.svg)
 ```
 
-[![Avg Commits per Repo](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/avg-commits-per-repo.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/avg-commits-per-repo.svg?t=1)
+[![Avg Commits per Repo](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/avg-commits-per-repo.svg?t=1)](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/avg-commits-per-repo.svg?t=1)
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -386,7 +384,7 @@ All insight endpoints follow the pattern: `GET /insights/:username/:widget.svg`
 ![Longest Maintained](https://YOUR_DOMAIN/insights/YOUR_USERNAME/longest-maintained-repo.svg)
 ```
 
-[![Longest Maintained](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/longest-maintained-repo.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/longest-maintained-repo.svg?t=1)
+[![Longest Maintained](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/longest-maintained-repo.svg?t=1)](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/longest-maintained-repo.svg?t=1)
 
 | Duration | Format |
 |----------|--------|
@@ -410,7 +408,7 @@ All insight endpoints follow the pattern: `GET /insights/:username/:widget.svg`
 ![Commit Pattern](https://YOUR_DOMAIN/insights/YOUR_USERNAME/commit-pattern.svg)
 ```
 
-[![Commit Pattern](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commit-pattern.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commit-pattern.svg?t=1)
+[![Commit Pattern](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/commit-pattern.svg?t=1)](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/commit-pattern.svg?t=1)
 
 | Daypart | Hours (UTC) |
 |---------|-------------|
@@ -437,7 +435,7 @@ All insight endpoints follow the pattern: `GET /insights/:username/:widget.svg`
 ![Commits per Tenure](https://YOUR_DOMAIN/insights/YOUR_USERNAME/commits-per-tenure.svg)
 ```
 
-[![Commits per Tenure](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commits-per-tenure.svg?t=1)](https://github-profile-score-production-db22.up.railway.app/insights/DanielDeshmukh/commits-per-tenure.svg?t=1)
+[![Commits per Tenure](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/commits-per-tenure.svg?t=1)](https://github-profile-score-five.vercel.app/insights/DanielDeshmukh/commits-per-tenure.svg?t=1)
 
 Zero new API calls — pure derivation from profile age and contribution count.
 
@@ -621,21 +619,10 @@ All SVG cards use a GitHub-inspired dark dashboard theme. The color palette is c
 ### Prerequisites
 
 - Node.js 18+
-- Docker (recommended) OR Redis locally
 - GitHub Personal Access Token (for 5,000 req/hr vs 60 req/hr unauthenticated)
 - NVIDIA NIM API key ([free at build.nvidia.com](https://build.nvidia.com/)) — optional
 
-### Quick Start with Docker
-
-```bash
-git clone https://github.com/DanielDeshmukh/github-profile-score.git
-cd github-profile-score
-cp .env.example .env
-# Edit .env and add your GITHUB_TOKEN
-docker compose up
-```
-
-### Quick Start without Docker
+### Quick Start
 
 ```bash
 git clone https://github.com/DanielDeshmukh/github-profile-score.git
@@ -784,10 +771,11 @@ github-profile-score/
 │       ├── commits-per-tenure*.test.ts
 │       └── insight-fetcher.test.ts
 ├── templates/                            # Working SVG templates (with placeholders)
+├── api/
+│   └── index.ts                          # Vercel serverless entry point
+├── vercel.json                           # Vercel deployment config
+├── .vercelignore
 ├── .env.example
-├── docker-compose.yml
-├── railway.json
-├── render.yaml
 ├── package.json
 ├── tsconfig.json
 ├── vitest.config.ts
