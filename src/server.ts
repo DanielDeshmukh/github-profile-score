@@ -44,7 +44,8 @@ export async function buildApp(): Promise<express.Express> {
   const config = getConfig();
 
   app.set('trust proxy', 1);
-  app.use(helmet());
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  app.use((helmet as any)());
   app.use(cors());
   app.use(compression());
   app.use(requestLogger);
